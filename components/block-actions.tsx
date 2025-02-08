@@ -1,19 +1,19 @@
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { blockDefinitions, UIBlock } from './block';
-import { Dispatch, memo, SetStateAction, useState } from 'react';
-import { BlockActionContext } from './create-block';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { Button } from './ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { blockDefinitions, UIBlock } from './block'
+import { Dispatch, memo, SetStateAction, useState } from 'react'
+import { BlockActionContext } from './create-block'
+import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 
 interface BlockActionsProps {
-  block: UIBlock;
-  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
-  currentVersionIndex: number;
-  isCurrentVersion: boolean;
-  mode: 'edit' | 'diff';
-  metadata: any;
-  setMetadata: Dispatch<SetStateAction<any>>;
+  block: UIBlock
+  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void
+  currentVersionIndex: number
+  isCurrentVersion: boolean
+  mode: 'edit' | 'diff'
+  metadata: any
+  setMetadata: Dispatch<SetStateAction<any>>
 }
 
 function PureBlockActions({
@@ -25,14 +25,14 @@ function PureBlockActions({
   metadata,
   setMetadata,
 }: BlockActionsProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const blockDefinition = blockDefinitions.find(
     (definition) => definition.kind === block.kind,
-  );
+  )
 
   if (!blockDefinition) {
-    throw new Error('Block definition not found!');
+    throw new Error('Block definition not found!')
   }
 
   const actionContext: BlockActionContext = {
@@ -43,7 +43,7 @@ function PureBlockActions({
     mode,
     metadata,
     setMetadata,
-  };
+  }
 
   return (
     <div className="flex flex-row gap-1">
@@ -57,14 +57,14 @@ function PureBlockActions({
                 'py-1.5 px-2': action.label,
               })}
               onClick={async () => {
-                setIsLoading(true);
+                setIsLoading(true)
 
                 try {
-                  await Promise.resolve(action.onClick(actionContext));
-                } catch (error) {
-                  toast.error('Failed to execute action');
+                  await Promise.resolve(action.onClick(actionContext))
+                } catch {
+                  toast.error('Failed to execute action')
                 } finally {
-                  setIsLoading(false);
+                  setIsLoading(false)
                 }
               }}
               disabled={
@@ -83,15 +83,15 @@ function PureBlockActions({
         </Tooltip>
       ))}
     </div>
-  );
+  )
 }
 
 export const BlockActions = memo(PureBlockActions, (prevProps, nextProps) => {
-  if (prevProps.block.status !== nextProps.block.status) return false;
+  if (prevProps.block.status !== nextProps.block.status) return false
   if (prevProps.currentVersionIndex !== nextProps.currentVersionIndex)
-    return false;
-  if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) return false;
-  if (prevProps.block.content !== nextProps.block.content) return false;
+    return false
+  if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) return false
+  if (prevProps.block.content !== nextProps.block.content) return false
 
-  return true;
-});
+  return true
+})

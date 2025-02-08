@@ -1,13 +1,13 @@
-import { z } from 'zod';
-import { streamObject } from 'ai';
-import { myProvider } from '@/lib/ai/models';
-import { codePrompt, updateDocumentPrompt } from '@/lib/ai/prompts';
-import { createDocumentHandler } from '@/lib/blocks/server';
+import { z } from 'zod'
+import { streamObject } from 'ai'
+import { myProvider } from '@/lib/ai/models'
+import { codePrompt, updateDocumentPrompt } from '@/lib/ai/prompts'
+import { createDocumentHandler } from '@/lib/blocks/server'
 
 export const codeDocumentHandler = createDocumentHandler<'code'>({
   kind: 'code',
   onCreateDocument: async ({ title, dataStream }) => {
-    let draftContent = '';
+    let draftContent = ''
 
     const { fullStream } = streamObject({
       model: myProvider.languageModel('block-model'),
@@ -16,30 +16,30 @@ export const codeDocumentHandler = createDocumentHandler<'code'>({
       schema: z.object({
         code: z.string(),
       }),
-    });
+    })
 
     for await (const delta of fullStream) {
-      const { type } = delta;
+      const { type } = delta
 
       if (type === 'object') {
-        const { object } = delta;
-        const { code } = object;
+        const { object } = delta
+        const { code } = object
 
         if (code) {
           dataStream.writeData({
             type: 'code-delta',
             content: code ?? '',
-          });
+          })
 
-          draftContent = code;
+          draftContent = code
         }
       }
     }
 
-    return draftContent;
+    return draftContent
   },
   onUpdateDocument: async ({ document, description, dataStream }) => {
-    let draftContent = '';
+    let draftContent = ''
 
     const { fullStream } = streamObject({
       model: myProvider.languageModel('block-model'),
@@ -48,26 +48,26 @@ export const codeDocumentHandler = createDocumentHandler<'code'>({
       schema: z.object({
         code: z.string(),
       }),
-    });
+    })
 
     for await (const delta of fullStream) {
-      const { type } = delta;
+      const { type } = delta
 
       if (type === 'object') {
-        const { object } = delta;
-        const { code } = object;
+        const { object } = delta
+        const { code } = object
 
         if (code) {
           dataStream.writeData({
             type: 'code-delta',
             content: code ?? '',
-          });
+          })
 
-          draftContent = code;
+          draftContent = code
         }
       }
     }
 
-    return draftContent;
+    return draftContent
   },
-});
+})

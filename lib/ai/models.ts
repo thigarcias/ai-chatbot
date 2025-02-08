@@ -1,12 +1,12 @@
-import { openai } from '@ai-sdk/openai';
-import { fireworks } from '@ai-sdk/fireworks';
+import { openai } from '@ai-sdk/openai'
+import { fireworks } from '@ai-sdk/fireworks'
 import {
   customProvider,
   extractReasoningMiddleware,
   wrapLanguageModel,
-} from 'ai';
+} from 'ai'
 
-export const DEFAULT_CHAT_MODEL: string = 'chat-model-small';
+export const DEFAULT_CHAT_MODEL: string = 'chat-model-small'
 
 export const myProvider = customProvider({
   languageModels: {
@@ -23,12 +23,12 @@ export const myProvider = customProvider({
     'small-model': openai.image('dall-e-2'),
     'large-model': openai.image('dall-e-3'),
   },
-});
+})
 
 interface ChatModel {
-  id: string;
-  name: string;
-  description: string;
+  id: string
+  name: string
+  description: string
 }
 
 export const chatModels: Array<ChatModel> = [
@@ -47,4 +47,4 @@ export const chatModels: Array<ChatModel> = [
     name: 'Reasoning model',
     description: 'Uses advanced reasoning',
   },
-];
+]

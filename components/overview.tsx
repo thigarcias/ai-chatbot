@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
-import { MessageIcon, VercelIcon } from './icons';
+import { MessageIcon, VercelIcon } from './icons'
 
 export const Overview = () => {
   return (
@@ -48,5 +48,5 @@ export const Overview = () => {
         </p>
       </div>
     </motion.div>
-  );
-};
+  )
+}

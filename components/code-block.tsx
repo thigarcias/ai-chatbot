@@ -1,16 +1,13 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+'use client'
 
-import { useCallback, useState } from 'react';
-import { CodeIcon, LoaderIcon, PlayIcon, PythonIcon } from './icons';
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { cn } from '@/lib/utils';
+import { useState } from 'react'
 
 interface CodeBlockProps {
-  node: any;
-  inline: boolean;
-  className: string;
-  children: any;
+  node: any
+  inline: boolean
+  className: string
+  children: any
 }
 
 export function CodeBlock({
@@ -20,12 +17,9 @@ export function CodeBlock({
   children,
   ...props
 }: CodeBlockProps) {
-  const [output, setOutput] = useState<string | null>(null);
-  const [pyodide, setPyodide] = useState<any>(null);
-  const match = /language-(\w+)/.exec(className || '');
-  const isPython = match && match[1] === 'python';
-  const codeContent = String(children).replace(/\n$/, '');
-  const [tab, setTab] = useState<'code' | 'run'>('code');
+  const [output, setOutput] = useState<string | null>(null)
+  const match = /language-(\w+)/.exec(className || '')
+  const [tab, setTab] = useState<'code' | 'run'>('code')
 
   if (!inline) {
     return (
@@ -45,7 +39,7 @@ export function CodeBlock({
           </div>
         )}
       </div>
-    );
+    )
   } else {
     return (
       <code
@@ -54,6 +48,6 @@ export function CodeBlock({
       >
         {children}
       </code>
-    );
+    )
   }
 }

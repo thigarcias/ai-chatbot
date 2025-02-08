@@ -1,4 +1,4 @@
-import { BlockKind } from '@/components/block';
+import { BlockKind } from '@/components/block'
 
 export const blocksPrompt = `
 Blocks is a special user interface mode that helps users with writing, editing, and other content creation tasks. When block is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the blocks and visible to the user.
@@ -29,22 +29,22 @@ This is a guide for using blocks tools: \`createDocument\` and \`updateDocument\
 - Immediately after creating a document
 
 Do not update document right after creating it. Wait for user feedback or request to update it.
-`;
+`
 
 export const regularPrompt =
-  'You are a friendly assistant! Keep your responses concise and helpful.';
+  'You are a friendly assistant! Keep your responses concise and helpful.'
 
 export const systemPrompt = ({
   selectedChatModel,
 }: {
-  selectedChatModel: string;
+  selectedChatModel: string
 }) => {
   if (selectedChatModel === 'chat-model-reasoning') {
-    return regularPrompt;
+    return regularPrompt
   } else {
-    return `${regularPrompt}\n\n${blocksPrompt}`;
+    return `${regularPrompt}\n\n${blocksPrompt}`
   }
-};
+}
 
 export const codePrompt = `
 You are a Python code generator that creates self-contained, executable code snippets. When writing code:
@@ -72,11 +72,11 @@ def factorial(n):
 
 print(f"Factorial of 5 is: {factorial(5)}")
 \`\`\`
-`;
+`
 
 export const sheetPrompt = `
 You are a spreadsheet creation assistant. Create a spreadsheet in csv format based on the given prompt. The spreadsheet should contain meaningful column headers and data.
-`;
+`
 
 export const updateDocumentPrompt = (
   currentContent: string | null,
@@ -100,4 +100,4 @@ Improve the following spreadsheet based on the given prompt.
 
 ${currentContent}
 `
-        : '';
+        : ''
