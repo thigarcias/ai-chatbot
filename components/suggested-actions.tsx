@@ -6,11 +6,11 @@ import { ChatRequestOptions, CreateMessage, Message } from 'ai'
 import { memo } from 'react'
 
 interface SuggestedActionsProps {
-  chatId: string;
+  chatId: string
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  ) => Promise<string | null | undefined>
 }
 
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {

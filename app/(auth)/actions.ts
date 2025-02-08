@@ -12,7 +12,7 @@ const authFormSchema = z.object({
 })
 
 export interface LoginActionState {
-  status: 'idle' | 'in_progress' | 'success' | 'failed' | 'invalid_data';
+  status: 'idle' | 'in_progress' | 'success' | 'failed' | 'invalid_data'
 }
 
 export const login = async (
@@ -48,7 +48,7 @@ export interface RegisterActionState {
     | 'success'
     | 'failed'
     | 'user_exists'
-    | 'invalid_data';
+    | 'invalid_data'
 }
 
 export const register = async (

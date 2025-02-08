@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedChatModel,
-  }: { id: string; messages: Array<Message>; selectedChatModel: string } =
+  }: { id: string messages: Array<Message> selectedChatModel: string } =
     await request.json()
 
   const session = await auth()

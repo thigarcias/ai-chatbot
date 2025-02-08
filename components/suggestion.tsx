@@ -16,9 +16,9 @@ export const Suggestion = ({
   onApply,
   blockKind,
 }: {
-  suggestion: UISuggestion;
-  onApply: () => void;
-  blockKind: BlockKind;
+  suggestion: UISuggestion
+  onApply: () => void
+  blockKind: BlockKind
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const { width: windowWidth } = useWindowSize()

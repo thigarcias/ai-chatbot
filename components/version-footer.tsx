@@ -15,9 +15,9 @@ import { Button } from './ui/button'
 import { useBlock } from '@/hooks/use-block'
 
 interface VersionFooterProps {
-  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
-  documents: Array<Document> | undefined;
-  currentVersionIndex: number;
+  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void
+  documents: Array<Document> | undefined
+  currentVersionIndex: number
 }
 
 export const VersionFooter = ({

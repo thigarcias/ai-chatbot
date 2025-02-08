@@ -6,8 +6,8 @@ export const PreviewAttachment = ({
   attachment,
   isUploading = false,
 }: {
-  attachment: Attachment;
-  isUploading?: boolean;
+  attachment: Attachment
+  isUploading?: boolean
 }) => {
   const { name, url, contentType } = attachment
 

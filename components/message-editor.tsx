@@ -8,15 +8,15 @@ import { deleteTrailingMessages } from '@/app/(chat)/actions'
 import { toast } from 'sonner'
 
 export type MessageEditorProps = {
-  message: Message;
-  setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
+  message: Message
+  setMode: Dispatch<SetStateAction<'view' | 'edit'>>
   setMessages: (
     messages: Message[] | ((messages: Message[]) => Message[]),
-  ) => void;
+  ) => void
   reload: (
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-};
+  ) => Promise<string | null | undefined>
+}
 
 export function MessageEditor({
   message,

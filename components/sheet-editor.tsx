@@ -9,12 +9,12 @@ import { cn } from '@/lib/utils'
 import 'react-data-grid/lib/styles.css'
 
 type SheetEditorProps = {
-  content: string;
-  saveContent: (content: string, isCurrentVersion: boolean) => void;
-  status: string;
-  isCurrentVersion: boolean;
-  currentVersionIndex: number;
-};
+  content: string
+  saveContent: (content: string, isCurrentVersion: boolean) => void
+  status: string
+  isCurrentVersion: boolean
+  currentVersionIndex: number
+}
 
 const MIN_ROWS = 50
 const MIN_COLS = 26

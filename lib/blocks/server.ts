@@ -9,37 +9,37 @@ import { saveDocument } from '../db/queries'
 import { Session } from 'next-auth'
 
 export interface SaveDocumentProps {
-  id: string;
-  title: string;
-  kind: BlockKind;
-  content: string;
-  userId: string;
+  id: string
+  title: string
+  kind: BlockKind
+  content: string
+  userId: string
 }
 
 export interface CreateDocumentCallbackProps {
-  id: string;
-  title: string;
-  dataStream: DataStreamWriter;
-  session: Session;
+  id: string
+  title: string
+  dataStream: DataStreamWriter
+  session: Session
 }
 
 export interface UpdateDocumentCallbackProps {
-  document: Document;
-  description: string;
-  dataStream: DataStreamWriter;
-  session: Session;
+  document: Document
+  description: string
+  dataStream: DataStreamWriter
+  session: Session
 }
 
 export interface DocumentHandler<T = BlockKind> {
-  kind: T;
-  onCreateDocument: (args: CreateDocumentCallbackProps) => Promise<void>;
-  onUpdateDocument: (args: UpdateDocumentCallbackProps) => Promise<void>;
+  kind: T
+  onCreateDocument: (args: CreateDocumentCallbackProps) => Promise<void>
+  onUpdateDocument: (args: UpdateDocumentCallbackProps) => Promise<void>
 }
 
 export function createDocumentHandler<T extends BlockKind>(config: {
-  kind: T;
-  onCreateDocument: (params: CreateDocumentCallbackProps) => Promise<string>;
-  onUpdateDocument: (params: UpdateDocumentCallbackProps) => Promise<string>;
+  kind: T
+  onCreateDocument: (params: CreateDocumentCallbackProps) => Promise<string>
+  onUpdateDocument: (params: UpdateDocumentCallbackProps) => Promise<string>
 }): DocumentHandler<T> {
   return {
     kind: config.kind,

@@ -16,8 +16,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 interface ApplicationError extends Error {
-  info: string;
-  status: number;
+  info: string
+  status: number
 }
 
 export const fetcher = async (url: string) => {
@@ -58,8 +58,8 @@ function addToolMessageToChat({
   toolMessage,
   messages,
 }: {
-  toolMessage: CoreToolMessage;
-  messages: Array<Message>;
+  toolMessage: CoreToolMessage
+  messages: Array<Message>
 }): Array<Message> {
   return messages.map((message) => {
     if (message.toolInvocations) {
@@ -133,15 +133,15 @@ export function convertToUIMessages(
   }, [])
 }
 
-type ResponseMessageWithoutId = CoreToolMessage | CoreAssistantMessage;
-type ResponseMessage = ResponseMessageWithoutId & { id: string };
+type ResponseMessageWithoutId = CoreToolMessage | CoreAssistantMessage
+type ResponseMessage = ResponseMessageWithoutId & { id: string }
 
 export function sanitizeResponseMessages({
   messages,
   reasoning,
 }: {
-  messages: Array<ResponseMessage>;
-  reasoning: string | undefined;
+  messages: Array<ResponseMessage>
+  reasoning: string | undefined
 }) {
   const toolResultIds: Array<string> = []
 

@@ -25,7 +25,7 @@ export async function PATCH(request: Request) {
     chatId,
     messageId,
     type,
-  }: { chatId: string; messageId: string; type: 'up' | 'down' } =
+  }: { chatId: string messageId: string type: 'up' | 'down' } =
     await request.json()
 
   if (!chatId || !messageId || !type) {

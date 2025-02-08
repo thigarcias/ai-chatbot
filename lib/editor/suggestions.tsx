@@ -12,17 +12,17 @@ import type { Suggestion } from '@/lib/db/schema'
 import { BlockKind } from '@/components/block'
 
 export interface UISuggestion extends Suggestion {
-  selectionStart: number;
-  selectionEnd: number;
+  selectionStart: number
+  selectionEnd: number
 }
 
 interface Position {
-  start: number;
-  end: number;
+  start: number
+  end: number
 }
 
 function findPositionsInDoc(doc: Node, searchText: string): Position | null {
-  let positions: { start: number; end: number } | null = null
+  let positions: { start: number end: number } | null = null
 
   doc.nodesBetween(0, doc.content.size, (node, pos) => {
     if (node.isText && node.text) {
@@ -71,7 +71,7 @@ export function createSuggestionWidget(
   suggestion: UISuggestion,
   view: EditorView,
   blockKind: BlockKind = 'text',
-): { dom: HTMLElement; destroy: () => void } {
+): { dom: HTMLElement destroy: () => void } {
   const dom = document.createElement('span')
   const root = createRoot(dom)
 

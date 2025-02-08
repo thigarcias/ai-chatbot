@@ -42,23 +42,23 @@ import { BlockToolbarItem } from './create-block'
 import { UseChatHelpers } from 'ai/react'
 
 type ToolProps = {
-  description: string;
-  icon: ReactNode;
-  selectedTool: string | null;
-  setSelectedTool: Dispatch<SetStateAction<string | null>>;
-  isToolbarVisible?: boolean;
-  setIsToolbarVisible?: Dispatch<SetStateAction<boolean>>;
-  isAnimating: boolean;
+  description: string
+  icon: ReactNode
+  selectedTool: string | null
+  setSelectedTool: Dispatch<SetStateAction<string | null>>
+  isToolbarVisible?: boolean
+  setIsToolbarVisible?: Dispatch<SetStateAction<boolean>>
+  isAnimating: boolean
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  ) => Promise<string | null | undefined>
   onClick: ({
     appendMessage,
   }: {
-    appendMessage: UseChatHelpers['append'];
-  }) => void;
-};
+    appendMessage: UseChatHelpers['append']
+  }) => void
+}
 
 const Tool = ({
   description,
@@ -153,12 +153,12 @@ const ReadingLevelSelector = ({
   append,
   isAnimating,
 }: {
-  setSelectedTool: Dispatch<SetStateAction<string | null>>;
-  isAnimating: boolean;
+  setSelectedTool: Dispatch<SetStateAction<string | null>>
+  isAnimating: boolean
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  ) => Promise<string | null | undefined>
 }) => {
   const LEVELS = [
     'Elementary',
@@ -266,16 +266,16 @@ export const Tools = ({
   setIsToolbarVisible,
   tools,
 }: {
-  isToolbarVisible: boolean;
-  selectedTool: string | null;
-  setSelectedTool: Dispatch<SetStateAction<string | null>>;
+  isToolbarVisible: boolean
+  selectedTool: string | null
+  setSelectedTool: Dispatch<SetStateAction<string | null>>
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  isAnimating: boolean;
-  setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
-  tools: Array<BlockToolbarItem>;
+  ) => Promise<string | null | undefined>
+  isAnimating: boolean
+  setIsToolbarVisible: Dispatch<SetStateAction<boolean>>
+  tools: Array<BlockToolbarItem>
 }) => {
   const [primaryTool, ...secondaryTools] = tools
 
@@ -326,16 +326,16 @@ const PureToolbar = ({
   setMessages,
   blockKind,
 }: {
-  isToolbarVisible: boolean;
-  setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
-  isLoading: boolean;
+  isToolbarVisible: boolean
+  setIsToolbarVisible: Dispatch<SetStateAction<boolean>>
+  isLoading: boolean
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  stop: () => void;
-  setMessages: Dispatch<SetStateAction<Message[]>>;
-  blockKind: BlockKind;
+  ) => Promise<string | null | undefined>
+  stop: () => void
+  setMessages: Dispatch<SetStateAction<Message[]>>
+  blockKind: BlockKind
 }) => {
   const toolbarRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>()

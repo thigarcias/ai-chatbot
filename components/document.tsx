@@ -24,9 +24,9 @@ const getActionText = (
 }
 
 interface DocumentToolResultProps {
-  type: 'create' | 'update' | 'request-suggestions';
-  result: { id: string; title: string; kind: BlockKind };
-  isReadonly: boolean;
+  type: 'create' | 'update' | 'request-suggestions'
+  result: { id: string title: string kind: BlockKind }
+  isReadonly: boolean
 }
 
 function PureDocumentToolResult({
@@ -88,9 +88,9 @@ function PureDocumentToolResult({
 export const DocumentToolResult = memo(PureDocumentToolResult, () => true)
 
 interface DocumentToolCallProps {
-  type: 'create' | 'update' | 'request-suggestions';
-  args: { title: string };
-  isReadonly: boolean;
+  type: 'create' | 'update' | 'request-suggestions'
+  args: { title: string }
+  isReadonly: boolean
 }
 
 function PureDocumentToolCall({

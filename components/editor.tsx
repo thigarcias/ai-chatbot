@@ -24,13 +24,13 @@ import {
 } from '@/lib/editor/suggestions'
 
 type EditorProps = {
-  content: string;
-  onSaveContent: (updatedContent: string, debounce: boolean) => void;
-  status: 'streaming' | 'idle';
-  isCurrentVersion: boolean;
-  currentVersionIndex: number;
-  suggestions: Array<Suggestion>;
-};
+  content: string
+  onSaveContent: (updatedContent: string, debounce: boolean) => void
+  status: 'streaming' | 'idle'
+  isCurrentVersion: boolean
+  currentVersionIndex: number
+  suggestions: Array<Suggestion>
+}
 
 function PureEditor({
   content,
@@ -74,7 +74,7 @@ function PureEditor({
     }
     // NOTE: we only want to run this effect once
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (editorRef.current) {

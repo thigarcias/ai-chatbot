@@ -5,8 +5,8 @@ import { getDocumentById, saveDocument } from '@/lib/db/queries'
 import { documentHandlersByBlockKind } from '@/lib/blocks/server'
 
 interface UpdateDocumentProps {
-  session: Session;
-  dataStream: DataStreamWriter;
+  session: Session
+  dataStream: DataStreamWriter
 }
 
 export const updateDocument = ({ session, dataStream }: UpdateDocumentProps) =>

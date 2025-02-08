@@ -10,8 +10,8 @@ export function SubmitButton({
   children,
   isSuccessful,
 }: {
-  children: React.ReactNode;
-  isSuccessful: boolean;
+  children: React.ReactNode
+  isSuccessful: boolean
 }) {
   const { pending } = useFormStatus()
 

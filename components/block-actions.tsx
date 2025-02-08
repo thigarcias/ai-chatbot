@@ -7,13 +7,13 @@ import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
 interface BlockActionsProps {
-  block: UIBlock;
-  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
-  currentVersionIndex: number;
-  isCurrentVersion: boolean;
-  mode: 'edit' | 'diff';
-  metadata: any;
-  setMetadata: Dispatch<SetStateAction<any>>;
+  block: UIBlock
+  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void
+  currentVersionIndex: number
+  isCurrentVersion: boolean
+  mode: 'edit' | 'diff'
+  metadata: any
+  setMetadata: Dispatch<SetStateAction<any>>
 }
 
 function PureBlockActions({

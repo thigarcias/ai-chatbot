@@ -23,9 +23,9 @@ import { SpreadsheetEditor } from './sheet-editor'
 import { ImageEditor } from './image-editor'
 
 interface DocumentPreviewProps {
-  isReadonly: boolean;
-  result?: any;
-  args?: any;
+  isReadonly: boolean
+  result?: any
+  args?: any
 }
 
 export function DocumentPreview({
@@ -142,9 +142,9 @@ const PureHitboxLayer = ({
   result,
   setBlock,
 }: {
-  hitboxRef: React.RefObject<HTMLDivElement>;
-  result: any;
-  setBlock: (updaterFn: UIBlock | ((currentBlock: UIBlock) => UIBlock)) => void;
+  hitboxRef: React.RefObject<HTMLDivElement>
+  result: any
+  setBlock: (updaterFn: UIBlock | ((currentBlock: UIBlock) => UIBlock)) => void
 }) => {
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
@@ -199,9 +199,9 @@ const PureDocumentHeader = ({
   kind,
   isStreaming,
 }: {
-  title: string;
-  kind: BlockKind;
-  isStreaming: boolean;
+  title: string
+  kind: BlockKind
+  isStreaming: boolean
 }) => (
   <div className="p-4 border rounded-t-2xl flex flex-row gap-2 items-start sm:items-center justify-between dark:bg-muted border-b-0 dark:border-zinc-700">
     <div className="flex flex-row items-start sm:items-center gap-3">

@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Markdown } from './markdown'
 
 interface MessageReasoningProps {
-  isLoading: boolean;
-  reasoning: string;
+  isLoading: boolean
+  reasoning: string
 }
 
 export function MessageReasoning({

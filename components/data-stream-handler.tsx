@@ -17,9 +17,9 @@ export type DataStreamDelta = {
     | 'suggestion'
     | 'clear'
     | 'finish'
-    | 'kind';
-  content: string | Suggestion;
-};
+    | 'kind'
+  content: string | Suggestion
+}
 
 export function DataStreamHandler({ id }: { id: string }) {
   const { data: dataStream } = useChat({ id })
@@ -30,7 +30,7 @@ export function DataStreamHandler({ id }: { id: string }) {
     if (!dataStream?.length) return
 
     const newDeltas = dataStream.slice(lastProcessedIndex.current + 1)
-    lastProcessedIndex.current = dataStream.length - 1;
+    lastProcessedIndex.current = dataStream.length - 1
 
     (newDeltas as DataStreamDelta[]).forEach((delta: DataStreamDelta) => {
       const blockDefinition = blockDefinitions.find(

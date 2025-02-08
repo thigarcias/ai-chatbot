@@ -19,10 +19,10 @@ function PureChatHeader({
   selectedVisibilityType,
   isReadonly,
 }: {
-  chatId: string;
-  selectedModelId: string;
-  selectedVisibilityType: VisibilityType;
-  isReadonly: boolean;
+  chatId: string
+  selectedModelId: string
+  selectedVisibilityType: VisibilityType
+  isReadonly: boolean
 }) {
   const router = useRouter()
   const { open } = useSidebar()

@@ -48,9 +48,9 @@ function computeDiff(oldDoc: ProsemirrorNode, newDoc: ProsemirrorNode) {
 }
 
 type DiffEditorProps = {
-  oldContent: string;
-  newContent: string;
-};
+  oldContent: string
+  newContent: string
+}
 
 export const DiffView = ({ oldContent, newContent }: DiffEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null)

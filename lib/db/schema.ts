@@ -18,7 +18,7 @@ export const user = pgTable('User', {
   password: varchar('password', { length: 64 }),
 })
 
-export type User = InferSelectModel<typeof user>;
+export type User = InferSelectModel<typeof user>
 
 export const chat = pgTable('Chat', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
@@ -32,7 +32,7 @@ export const chat = pgTable('Chat', {
     .default('private'),
 })
 
-export type Chat = InferSelectModel<typeof chat>;
+export type Chat = InferSelectModel<typeof chat>
 
 export const message = pgTable('Message', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
@@ -44,7 +44,7 @@ export const message = pgTable('Message', {
   createdAt: timestamp('createdAt').notNull(),
 })
 
-export type Message = InferSelectModel<typeof message>;
+export type Message = InferSelectModel<typeof message>
 
 export const vote = pgTable(
   'Vote',
@@ -64,7 +64,7 @@ export const vote = pgTable(
   },
 )
 
-export type Vote = InferSelectModel<typeof vote>;
+export type Vote = InferSelectModel<typeof vote>
 
 export const document = pgTable(
   'Document',
@@ -87,7 +87,7 @@ export const document = pgTable(
   },
 )
 
-export type Document = InferSelectModel<typeof document>;
+export type Document = InferSelectModel<typeof document>
 
 export const suggestion = pgTable(
   'Suggestion',
@@ -113,4 +113,4 @@ export const suggestion = pgTable(
   }),
 )
 
-export type Suggestion = InferSelectModel<typeof suggestion>;
+export type Suggestion = InferSelectModel<typeof suggestion>

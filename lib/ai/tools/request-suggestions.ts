@@ -7,8 +7,8 @@ import { generateUUID } from '@/lib/utils'
 import { myProvider } from '../models'
 
 interface RequestSuggestionsProps {
-  session: Session;
-  dataStream: DataStreamWriter;
+  session: Session
+  dataStream: DataStreamWriter
 }
 
 export const requestSuggestions = ({

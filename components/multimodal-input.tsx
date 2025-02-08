@@ -44,26 +44,26 @@ function PureMultimodalInput({
   handleSubmit,
   className,
 }: {
-  chatId: string;
-  input: string;
-  setInput: (value: string) => void;
-  isLoading: boolean;
-  stop: () => void;
-  attachments: Array<Attachment>;
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  messages: Array<Message>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  chatId: string
+  input: string
+  setInput: (value: string) => void
+  isLoading: boolean
+  stop: () => void
+  attachments: Array<Attachment>
+  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>
+  messages: Array<Message>
+  setMessages: Dispatch<SetStateAction<Array<Message>>>
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  ) => Promise<string | null | undefined>
   handleSubmit: (
     event?: {
-      preventDefault?: () => void;
+      preventDefault?: () => void
     },
     chatRequestOptions?: ChatRequestOptions,
-  ) => void;
-  className?: string;
+  ) => void
+  className?: string
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { width } = useWindowSize()
@@ -288,8 +288,8 @@ function PureAttachmentsButton({
   fileInputRef,
   isLoading,
 }: {
-  fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
-  isLoading: boolean;
+  fileInputRef: React.MutableRefObject<HTMLInputElement | null>
+  isLoading: boolean
 }) {
   return (
     <Button
@@ -312,8 +312,8 @@ function PureStopButton({
   stop,
   setMessages,
 }: {
-  stop: () => void;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  stop: () => void
+  setMessages: Dispatch<SetStateAction<Array<Message>>>
 }) {
   return (
     <Button
@@ -336,9 +336,9 @@ function PureSendButton({
   input,
   uploadQueue,
 }: {
-  submitForm: () => void;
-  input: string;
-  uploadQueue: Array<string>;
+  submitForm: () => void
+  input: string
+  uploadQueue: Array<string>
 }) {
   return (
     <Button

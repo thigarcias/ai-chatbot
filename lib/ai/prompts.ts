@@ -37,7 +37,7 @@ export const regularPrompt =
 export const systemPrompt = ({
   selectedChatModel,
 }: {
-  selectedChatModel: string;
+  selectedChatModel: string
 }) => {
   if (selectedChatModel === 'chat-model-reasoning') {
     return regularPrompt

@@ -22,10 +22,10 @@ export function PureMessageActions({
   vote,
   isLoading,
 }: {
-  chatId: string;
-  message: Message;
-  vote: Vote | undefined;
-  isLoading: boolean;
+  chatId: string
+  message: Message
+  vote: Vote | undefined
+  isLoading: boolean
 }) {
   const { mutate } = useSWRConfig()
   const [_, copyToClipboard] = useCopyToClipboard()

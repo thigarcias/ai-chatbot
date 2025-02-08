@@ -12,19 +12,19 @@ import { cn } from '@/lib/utils'
 import { useBlockSelector } from '@/hooks/use-block'
 
 export interface ConsoleOutputContent {
-  type: 'text' | 'image';
-  value: string;
+  type: 'text' | 'image'
+  value: string
 }
 
 export interface ConsoleOutput {
-  id: string;
-  status: 'in_progress' | 'loading_packages' | 'completed' | 'failed';
-  contents: Array<ConsoleOutputContent>;
+  id: string
+  status: 'in_progress' | 'loading_packages' | 'completed' | 'failed'
+  contents: Array<ConsoleOutputContent>
 }
 
 interface ConsoleProps {
-  consoleOutputs: Array<ConsoleOutput>;
-  setConsoleOutputs: Dispatch<SetStateAction<Array<ConsoleOutput>>>;
+  consoleOutputs: Array<ConsoleOutput>
+  setConsoleOutputs: Dispatch<SetStateAction<Array<ConsoleOutput>>>
 }
 
 export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {

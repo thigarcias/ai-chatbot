@@ -19,7 +19,7 @@ export async function saveChatModelAsCookie(model: string) {
 export async function generateTitleFromUserMessage({
   message,
 }: {
-  message: Message;
+  message: Message
 }) {
   const { text: title } = await generateText({
     model: myProvider.languageModel('title-model'),
@@ -47,8 +47,8 @@ export async function updateChatVisibility({
   chatId,
   visibility,
 }: {
-  chatId: string;
-  visibility: VisibilityType;
+  chatId: string
+  visibility: VisibilityType
 }) {
   await updateChatVisiblityById({ chatId, visibility })
 }

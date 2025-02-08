@@ -26,9 +26,9 @@ export const myProvider = customProvider({
 })
 
 interface ChatModel {
-  id: string;
-  name: string;
-  description: string;
+  id: string
+  name: string
+  description: string
 }
 
 export const chatModels: Array<ChatModel> = [

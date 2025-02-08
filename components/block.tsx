@@ -33,21 +33,21 @@ import { textBlock } from '@/blocks/text/client'
 import equal from 'fast-deep-equal'
 
 export const blockDefinitions = [textBlock, codeBlock, imageBlock, sheetBlock]
-export type BlockKind = (typeof blockDefinitions)[number]['kind'];
+export type BlockKind = (typeof blockDefinitions)[number]['kind']
 
 export interface UIBlock {
-  title: string;
-  documentId: string;
-  kind: BlockKind;
-  content: string;
-  isVisible: boolean;
-  status: 'streaming' | 'idle';
+  title: string
+  documentId: string
+  kind: BlockKind
+  content: string
+  isVisible: boolean
+  status: 'streaming' | 'idle'
   boundingBox: {
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-  };
+    top: number
+    left: number
+    width: number
+    height: number
+  }
 }
 
 function PureBlock({
@@ -66,30 +66,30 @@ function PureBlock({
   votes,
   isReadonly,
 }: {
-  chatId: string;
-  input: string;
-  setInput: (input: string) => void;
-  isLoading: boolean;
-  stop: () => void;
-  attachments: Array<Attachment>;
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  messages: Array<Message>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
-  votes: Array<Vote> | undefined;
+  chatId: string
+  input: string
+  setInput: (input: string) => void
+  isLoading: boolean
+  stop: () => void
+  attachments: Array<Attachment>
+  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>
+  messages: Array<Message>
+  setMessages: Dispatch<SetStateAction<Array<Message>>>
+  votes: Array<Vote> | undefined
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  ) => Promise<string | null | undefined>
   handleSubmit: (
     event?: {
-      preventDefault?: () => void;
+      preventDefault?: () => void
     },
     chatRequestOptions?: ChatRequestOptions,
-  ) => void;
+  ) => void
   reload: (
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  isReadonly: boolean;
+  ) => Promise<string | null | undefined>
+  isReadonly: boolean
 }) {
   const { block, setBlock, metadata, setMetadata } = useBlock()
 

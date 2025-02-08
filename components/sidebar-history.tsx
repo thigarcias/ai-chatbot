@@ -51,12 +51,12 @@ import { fetcher } from '@/lib/utils'
 import { useChatVisibility } from '@/hooks/use-chat-visibility'
 
 type GroupedChats = {
-  today: Chat[];
-  yesterday: Chat[];
-  lastWeek: Chat[];
-  lastMonth: Chat[];
-  older: Chat[];
-};
+  today: Chat[]
+  yesterday: Chat[]
+  lastWeek: Chat[]
+  lastMonth: Chat[]
+  older: Chat[]
+}
 
 const PureChatItem = ({
   chat,
@@ -64,10 +64,10 @@ const PureChatItem = ({
   onDelete,
   setOpenMobile,
 }: {
-  chat: Chat;
-  isActive: boolean;
-  onDelete: (chatId: string) => void;
-  setOpenMobile: (open: boolean) => void;
+  chat: Chat
+  isActive: boolean
+  onDelete: (chatId: string) => void
+  setOpenMobile: (open: boolean) => void
 }) => {
   const { visibilityType, setVisibilityType } = useChatVisibility({
     chatId: chat.id,

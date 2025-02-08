@@ -9,13 +9,13 @@ import React, { memo, useEffect, useRef } from 'react'
 import { Suggestion } from '@/lib/db/schema'
 
 type EditorProps = {
-  content: string;
-  onSaveContent: (updatedContent: string, debounce: boolean) => void;
-  status: 'streaming' | 'idle';
-  isCurrentVersion: boolean;
-  currentVersionIndex: number;
-  suggestions: Array<Suggestion>;
-};
+  content: string
+  onSaveContent: (updatedContent: string, debounce: boolean) => void
+  status: 'streaming' | 'idle'
+  isCurrentVersion: boolean
+  currentVersionIndex: number
+  suggestions: Array<Suggestion>
+}
 
 function PureCodeEditor({ content, onSaveContent, status }: EditorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -42,7 +42,7 @@ function PureCodeEditor({ content, onSaveContent, status }: EditorProps) {
     }
     // NOTE: we only want to run this effect once
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (editorRef.current) {

@@ -7,10 +7,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { cn } from '@/lib/utils'
 
 interface CodeBlockProps {
-  node: any;
-  inline: boolean;
-  className: string;
-  children: any;
+  node: any
+  inline: boolean
+  className: string
+  children: any
 }
 
 export function CodeBlock({

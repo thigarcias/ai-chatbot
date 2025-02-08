@@ -2,12 +2,12 @@ import { LoaderIcon } from './icons'
 import cn from 'classnames'
 
 interface ImageEditorProps {
-  title: string;
-  content: string;
-  isCurrentVersion: boolean;
-  currentVersionIndex: number;
-  status: string;
-  isInline: boolean;
+  title: string
+  content: string
+  isCurrentVersion: boolean
+  currentVersionIndex: number
+  status: string
+  isInline: boolean
 }
 
 export function ImageEditor({
@@ -38,7 +38,7 @@ export function ImageEditor({
             className={cn('w-full h-fit max-w-[800px]', {
               'p-0 md:p-20': !isInline,
             })}
-            src={`data:image/png;base64,${content}`}
+            src={`data:image/pngbase64,${content}`}
             alt={title}
           />
         </picture>

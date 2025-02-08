@@ -5,8 +5,8 @@ import { Session } from 'next-auth'
 import { blockKinds, documentHandlersByBlockKind } from '@/lib/blocks/server'
 
 interface CreateDocumentProps {
-  session: Session;
-  dataStream: DataStreamWriter;
+  session: Session
+  dataStream: DataStreamWriter
 }
 
 export const createDocument = ({ session, dataStream }: CreateDocumentProps) =>

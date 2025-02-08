@@ -7,18 +7,18 @@ import { Vote } from '@/lib/db/schema'
 import equal from 'fast-deep-equal'
 
 interface MessagesProps {
-  chatId: string;
-  isLoading: boolean;
-  votes: Array<Vote> | undefined;
-  messages: Array<Message>;
+  chatId: string
+  isLoading: boolean
+  votes: Array<Vote> | undefined
+  messages: Array<Message>
   setMessages: (
     messages: Message[] | ((messages: Message[]) => Message[]),
-  ) => void;
+  ) => void
   reload: (
     chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  isReadonly: boolean;
-  isBlockVisible: boolean;
+  ) => Promise<string | null | undefined>
+  isReadonly: boolean
+  isBlockVisible: boolean
 }
 
 function PureMessages({

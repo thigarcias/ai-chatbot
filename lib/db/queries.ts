@@ -52,9 +52,9 @@ export async function saveChat({
   userId,
   title,
 }: {
-  id: string;
-  userId: string;
-  title: string;
+  id: string
+  userId: string
+  title: string
 }) {
   try {
     return await db.insert(chat).values({
@@ -132,9 +132,9 @@ export async function voteMessage({
   messageId,
   type,
 }: {
-  chatId: string;
-  messageId: string;
-  type: 'up' | 'down';
+  chatId: string
+  messageId: string
+  type: 'up' | 'down'
 }) {
   try {
     const [existingVote] = await db
@@ -176,11 +176,11 @@ export async function saveDocument({
   content,
   userId,
 }: {
-  id: string;
-  title: string;
-  kind: BlockKind;
-  content: string;
-  userId: string;
+  id: string
+  title: string
+  kind: BlockKind
+  content: string
+  userId: string
 }) {
   try {
     return await db.insert(document).values({
@@ -231,8 +231,8 @@ export async function deleteDocumentsByIdAfterTimestamp({
   id,
   timestamp,
 }: {
-  id: string;
-  timestamp: Date;
+  id: string
+  timestamp: Date
 }) {
   try {
     await db
@@ -258,7 +258,7 @@ export async function deleteDocumentsByIdAfterTimestamp({
 export async function saveSuggestions({
   suggestions,
 }: {
-  suggestions: Array<Suggestion>;
+  suggestions: Array<Suggestion>
 }) {
   try {
     return await db.insert(suggestion).values(suggestions)
@@ -271,7 +271,7 @@ export async function saveSuggestions({
 export async function getSuggestionsByDocumentId({
   documentId,
 }: {
-  documentId: string;
+  documentId: string
 }) {
   try {
     return await db
@@ -299,8 +299,8 @@ export async function deleteMessagesByChatIdAfterTimestamp({
   chatId,
   timestamp,
 }: {
-  chatId: string;
-  timestamp: Date;
+  chatId: string
+  timestamp: Date
 }) {
   try {
     const messagesToDelete = await db
@@ -337,8 +337,8 @@ export async function updateChatVisiblityById({
   chatId,
   visibility,
 }: {
-  chatId: string;
-  visibility: 'private' | 'public';
+  chatId: string
+  visibility: 'private' | 'public'
 }) {
   try {
     return await db.update(chat).set({ visibility }).where(eq(chat.id, chatId))
