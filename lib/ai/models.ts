@@ -1,4 +1,4 @@
-import { openai } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai'
 import { fireworks } from '@ai-sdk/fireworks'
 import {
   customProvider,
@@ -6,17 +6,19 @@ import {
   wrapLanguageModel,
 } from 'ai'
 
-export const DEFAULT_CHAT_MODEL: string = 'chat-model-small'
+export const DEFAULT_CHAT_MODEL: string = 'gpt-4o-mini-gh-models'
+const openai = createOpenAI({
+  apiKey: process.env.GITHUB_TOKEN,
+  baseURL: 'https://models.inference.ai.azure.com',
+})
 
 export const myProvider = customProvider({
   languageModels: {
-    'chat-model-small': openai('gpt-4o-mini'),
-    'chat-model-large': openai('gpt-4o'),
-    'chat-model-reasoning': wrapLanguageModel({
-      model: fireworks('accounts/fireworks/models/deepseek-r1'),
-      middleware: extractReasoningMiddleware({ tagName: 'think' }),
+    'gpt-4o-mini-gh-models': openai('gpt-4o-mini', {
     }),
-    'title-model': openai('gpt-4-turbo'),
+    'gpt-4o-gh-models': openai('gpt-4o'),
+    'o3-mini-gh-models': openai('o3-mini', { reasoningEffort: 'medium' }),
+    'title-model': openai('gpt-4o-mini'),
     'block-model': openai('gpt-4o-mini'),
   },
   imageModels: {
@@ -33,18 +35,18 @@ interface ChatModel {
 
 export const chatModels: Array<ChatModel> = [
   {
-    id: 'chat-model-small',
-    name: 'Small model',
+    id: 'gpt-4o-mini-gh-models',
+    name: 'GPT 4o-mini GH-Models',
     description: 'Small model for fast, lightweight tasks',
   },
   {
-    id: 'chat-model-large',
-    name: 'Large model',
+    id: 'gpt-4o-gh-models',
+    name: 'GPT 4o GH-Models',
     description: 'Large model for complex, multi-step tasks',
   },
   {
-    id: 'chat-model-reasoning',
-    name: 'Reasoning model',
+    id: 'o3-mini-gh-models',
+    name: 'o3 Mini GH-Models',
     description: 'Uses advanced reasoning',
   },
 ]

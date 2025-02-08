@@ -3,10 +3,10 @@ import { imageDocumentHandler } from '@/blocks/image/server'
 import { sheetDocumentHandler } from '@/blocks/sheet/server'
 import { textDocumentHandler } from '@/blocks/text/server'
 import { BlockKind } from '@/components/block'
+import { saveDocument } from '@/prisma/queries'
 import { DataStreamWriter } from 'ai'
-import { Document } from '../db/schema'
-import { saveDocument } from '../db/queries'
 import { Session } from 'next-auth'
+import { Document } from '@prisma/client'
 
 export interface SaveDocumentProps {
   id: string
@@ -56,7 +56,7 @@ export function createDocumentHandler<T extends BlockKind>(config: {
           id: args.id,
           title: args.title,
           content: draftContent,
-          kind: config.kind,
+          kind: config.kind as 'text' | 'code',
           userId: args.session.user.id,
         })
       }
@@ -76,7 +76,7 @@ export function createDocumentHandler<T extends BlockKind>(config: {
           id: args.document.id,
           title: args.document.title,
           content: draftContent,
-          kind: config.kind,
+          kind: config.kind as 'text' | 'code',
           userId: args.session.user.id,
         })
       }
