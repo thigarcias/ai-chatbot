@@ -5,7 +5,6 @@ import { genSaltSync, hashSync } from 'bcrypt-ts'
 const prisma = new PrismaClient()
 
 export async function getUser(email: string): Promise<User | null> {
-
   const data = await prisma.user.findUnique({
     where: { email }
   })
@@ -14,6 +13,9 @@ export async function getUser(email: string): Promise<User | null> {
 }
 
 export async function createUser(email: string, password: string) {
+  if(email !== 'gurib2005@gmail.com') {
+    return
+  }
   const salt = genSaltSync(10)
   const hash = hashSync(password, salt)
 
