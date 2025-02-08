@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm'
 import { CodeBlock } from './code-block'
 
 const components: Partial<Components> = {
-  // @ts-expect-error
+  // @ts-expect-error Reason: Allow non-standard prop signature for CodeBlock.
   code: CodeBlock,
   pre: ({ children }) => <>{children}</>,
   ol: ({ node, children, ...props }) => {

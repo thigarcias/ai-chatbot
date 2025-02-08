@@ -1,3 +1,4 @@
+/* eslint-disable no-loss-of-precision */
 'use client'
 
 import cx from 'classnames'

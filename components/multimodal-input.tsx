@@ -7,7 +7,6 @@ import type {
   Message,
 } from 'ai'
 import cx from 'classnames'
-import type React from 'react'
 import {
   useRef,
   useEffect,
@@ -109,7 +108,7 @@ function PureMultimodalInput({
     setLocalStorageInput(input)
   }, [input, setLocalStorageInput])
 
-  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
     adjustHeight()
   }
@@ -162,7 +161,8 @@ function PureMultimodalInput({
       }
       const error = await response.json()
       toast.error(error)
-    } catch (error) {
+    } catch (e) {
+      console.log(e)
       toast.error('Failed to upload file, please try again!')
     }
   }
@@ -185,7 +185,7 @@ function PureMultimodalInput({
           ...successfullyUploadedAttachments,
         ])
       } catch (error) {
-        toast.error('Failed to upload file, please try again!')
+        toast.error('Failed to upload file, please try again!' + error)
       } finally {
         setUploadQueue([])
       }
