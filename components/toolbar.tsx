@@ -29,11 +29,6 @@ import { sanitizeUIMessages } from '@/lib/utils'
 
 import {
   ArrowUpIcon,
-  CodeIcon,
-  LogsIcon,
-  MessageIcon,
-  PenIcon,
-  SparklesIcon,
   StopIcon,
   SummarizeIcon,
 } from './icons'
@@ -146,7 +141,7 @@ const Tool = ({
   )
 }
 
-const randomArr = [...Array(6)].map((x) => nanoid(5))
+const randomArr = [...Array(6)].map(() => nanoid(5))
 
 const ReadingLevelSelector = ({
   setSelectedTool,

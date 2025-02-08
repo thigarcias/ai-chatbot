@@ -1,9 +1,10 @@
+
 import type { Message } from 'ai'
 import { toast } from 'sonner'
 import { useSWRConfig } from 'swr'
 import { useCopyToClipboard } from 'usehooks-ts'
 
-import type { Vote } from '@/lib/db/schema'
+import type { Vote } from '@prisma/client'
 
 import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from './icons'
 import { Button } from './ui/button'
@@ -28,7 +29,7 @@ export function PureMessageActions({
   isLoading: boolean
 }) {
   const { mutate } = useSWRConfig()
-  const [_, copyToClipboard] = useCopyToClipboard()
+  const [, copyToClipboard] = useCopyToClipboard()
 
   if (isLoading) return null
   if (message.role === 'user') return null

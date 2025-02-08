@@ -13,7 +13,7 @@ import {
   getChatById,
   saveChat,
   saveMessages,
-} from '@/lib/db/queries'
+} from '@/prisma/queries'
 import {
   generateUUID,
   getMostRecentUserMessage,
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedChatModel,
-  }: { id: string messages: Array<Message> selectedChatModel: string } =
+  }: { id: string; messages: Array<Message>; selectedChatModel: string } =
     await request.json()
 
   const session = await auth()
@@ -95,18 +95,17 @@ export async function POST(request: Request) {
               })
 
               await saveMessages({
-                messages: sanitizedResponseMessages.map((message) => {
-                  return {
-                    id: message.id,
-                    chatId: id,
-                    role: message.role,
-                    content: message.content,
-                    createdAt: new Date(),
-                  }
-                }),
+                messages: sanitizedResponseMessages.map((message) => ({
+                  id: message.id,
+                  chatId: id,
+                  role: message.role,
+                  // Transform content to match InputJsonValue type
+                  content: JSON.parse(JSON.stringify(message.content)),
+                  createdAt: new Date(),
+                })),
               })
-            } catch (error) {
-              console.error('Failed to save chat')
+            } catch {
+              // Error handling
             }
           }
         },
@@ -142,6 +141,9 @@ export async function DELETE(request: Request) {
 
   try {
     const chat = await getChatById({ id })
+    if(!chat) {
+      return new Response('Chat not found', { status: 404 })
+    }
 
     if (chat.userId !== session.user.id) {
       return new Response('Unauthorized', { status: 401 })
@@ -150,7 +152,7 @@ export async function DELETE(request: Request) {
     await deleteChatById({ id })
 
     return new Response('Chat deleted', { status: 200 })
-  } catch (error) {
+  } catch {
     return new Response('An error occurred while processing your request', {
       status: 500,
     })

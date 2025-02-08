@@ -160,7 +160,7 @@ function PureMultimodalInput({
           contentType: contentType,
         }
       }
-      const { error } = await response.json()
+      const error = await response.json()
       toast.error(error)
     } catch (error) {
       toast.error('Failed to upload file, please try again!')
@@ -185,7 +185,7 @@ function PureMultimodalInput({
           ...successfullyUploadedAttachments,
         ])
       } catch (error) {
-        console.error('Error uploading files!', error)
+        toast.error('Failed to upload file, please try again!')
       } finally {
         setUploadQueue([])
       }

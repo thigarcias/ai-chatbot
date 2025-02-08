@@ -1,5 +1,5 @@
-
-import { PrismaClient, type User, type Chat, type Message, type Document, type Suggestion, Prisma } from '@prisma/client'
+/* eslint-disable no-console */
+import { PrismaClient, type User, type Suggestion, Prisma } from '@prisma/client'
 import { genSaltSync, hashSync } from 'bcrypt-ts'
 
 const prisma = new PrismaClient()

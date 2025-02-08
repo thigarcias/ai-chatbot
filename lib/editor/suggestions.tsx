@@ -8,8 +8,8 @@ import {
 import { createRoot } from 'react-dom/client'
 
 import { Suggestion as PreviewSuggestion } from '@/components/suggestion'
-import type { Suggestion } from '@/lib/db/schema'
 import { BlockKind } from '@/components/block'
+import { Suggestion } from '@prisma/client'
 
 export interface UISuggestion extends Suggestion {
   selectionStart: number
@@ -22,7 +22,7 @@ interface Position {
 }
 
 function findPositionsInDoc(doc: Node, searchText: string): Position | null {
-  let positions: { start: number end: number } | null = null
+  let positions: { start: number; end: number } | null = null
 
   doc.nodesBetween(0, doc.content.size, (node, pos) => {
     if (node.isText && node.text) {
@@ -71,7 +71,7 @@ export function createSuggestionWidget(
   suggestion: UISuggestion,
   view: EditorView,
   blockKind: BlockKind = 'text',
-): { dom: HTMLElement destroy: () => void } {
+): { dom: HTMLElement; destroy: () => void } {
   const dom = document.createElement('span')
   const root = createRoot(dom)
 

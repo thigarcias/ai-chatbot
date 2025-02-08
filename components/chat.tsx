@@ -6,7 +6,6 @@ import { useState } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 
 import { ChatHeader } from '@/components/chat-header'
-import type { Vote } from '@/lib/db/schema'
 import { fetcher, generateUUID } from '@/lib/utils'
 
 import { Block } from './block'
@@ -15,6 +14,7 @@ import { Messages } from './messages'
 import { VisibilityType } from './visibility-selector'
 import { useBlockSelector } from '@/hooks/use-block'
 import { toast } from 'sonner'
+import { Vote } from '@prisma/client'
 
 export function Chat({
   id,
@@ -51,7 +51,7 @@ export function Chat({
     onFinish: () => {
       mutate('/api/history')
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('An error occured, please try again!')
     },
   })

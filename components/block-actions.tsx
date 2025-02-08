@@ -61,7 +61,7 @@ function PureBlockActions({
 
                 try {
                   await Promise.resolve(action.onClick(actionContext))
-                } catch (error) {
+                } catch {
                   toast.error('Failed to execute action')
                 } finally {
                   setIsLoading(false)

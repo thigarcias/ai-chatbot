@@ -25,7 +25,7 @@ const getActionText = (
 
 interface DocumentToolResultProps {
   type: 'create' | 'update' | 'request-suggestions'
-  result: { id: string title: string kind: BlockKind }
+  result: { id: string; title: string; kind: BlockKind }
   isReadonly: boolean
 }
 

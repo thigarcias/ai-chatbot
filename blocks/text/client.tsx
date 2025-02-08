@@ -10,9 +10,9 @@ import {
   RedoIcon,
   UndoIcon,
 } from '@/components/icons'
-import { Suggestion } from '@/lib/db/schema'
 import { toast } from 'sonner'
 import { getSuggestions } from '../actions'
+import { Suggestion } from '@prisma/client'
 
 interface TextBlockMetadata {
   suggestions: Array<Suggestion>
@@ -106,7 +106,7 @@ export const textBlock = new Block<'text', TextBlockMetadata>({
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('toggle')
       },
-      isDisabled: ({ currentVersionIndex, setMetadata }) => {
+      isDisabled: ({ currentVersionIndex }) => {
         if (currentVersionIndex === 0) {
           return true
         }

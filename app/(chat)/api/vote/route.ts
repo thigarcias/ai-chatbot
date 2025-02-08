@@ -1,5 +1,5 @@
 import { auth } from '@/app/(auth)/auth'
-import { getVotesByChatId, voteMessage } from '@/lib/db/queries'
+import { getVotesByChatId, voteMessage } from '@/prisma/queries'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -25,7 +25,7 @@ export async function PATCH(request: Request) {
     chatId,
     messageId,
     type,
-  }: { chatId: string messageId: string type: 'up' | 'down' } =
+  }: { chatId: string; messageId: string; type: 'up' | 'down' } =
     await request.json()
 
   if (!chatId || !messageId || !type) {

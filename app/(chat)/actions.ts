@@ -7,7 +7,7 @@ import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
   updateChatVisiblityById,
-} from '@/lib/db/queries'
+} from '@/prisma/queries'
 import { VisibilityType } from '@/components/visibility-selector'
 import { myProvider } from '@/lib/ai/models'
 

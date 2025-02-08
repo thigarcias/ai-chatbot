@@ -2,14 +2,12 @@ import type {
   CoreAssistantMessage,
   CoreToolMessage,
   Message,
-  TextStreamPart,
   ToolInvocation,
-  ToolSet,
 } from 'ai'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-import type { Message as DBMessage, Document } from '@/lib/db/schema'
+import type { Message as DBMessage, Document } from '@prisma/client'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -93,7 +91,7 @@ export function convertToUIMessages(
   return messages.reduce((chatMessages: Array<Message>, message) => {
     if (message.role === 'tool') {
       return addToolMessageToChat({
-        toolMessage: message as CoreToolMessage,
+        toolMessage: message as unknown as CoreToolMessage,
         messages: chatMessages,
       })
     }
@@ -105,7 +103,8 @@ export function convertToUIMessages(
     if (typeof message.content === 'string') {
       textContent = message.content
     } else if (Array.isArray(message.content)) {
-      for (const content of message.content) {
+      const contentArray = message.content as unknown as Array<{ type: string; [key: string]: any }>
+      for (const content of contentArray) {
         if (content.type === 'text') {
           textContent += content.text
         } else if (content.type === 'tool-call') {

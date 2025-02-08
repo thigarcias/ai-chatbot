@@ -6,10 +6,9 @@ import { useState } from 'react'
 import { useSWRConfig } from 'swr'
 import { useWindowSize } from 'usehooks-ts'
 
-import type { Document } from '@/lib/db/schema'
+import type { Document } from '@prisma/client'
 import { getDocumentTimestampByIndex } from '@/lib/utils'
 
-import type { UIBlock } from './block'
 import { LoaderIcon } from './icons'
 import { Button } from './ui/button'
 import { useBlock } from '@/hooks/use-block'

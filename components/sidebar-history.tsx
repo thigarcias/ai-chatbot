@@ -31,7 +31,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuPortal,
-  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -46,9 +45,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import type { Chat } from '@/lib/db/schema'
 import { fetcher } from '@/lib/utils'
 import { useChatVisibility } from '@/hooks/use-chat-visibility'
+import { Chat } from '@prisma/client'
 
 type GroupedChats = {
   today: Chat[]

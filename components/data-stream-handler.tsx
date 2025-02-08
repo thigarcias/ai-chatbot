@@ -3,8 +3,8 @@
 import { useChat } from 'ai/react'
 import { useEffect, useRef } from 'react'
 import { blockDefinitions, BlockKind } from './block'
-import { Suggestion } from '@/lib/db/schema'
 import { initialBlockData, useBlock } from '@/hooks/use-block'
+import { Suggestion } from '@prisma/client'
 
 export type DataStreamDelta = {
   type:
@@ -30,7 +30,7 @@ export function DataStreamHandler({ id }: { id: string }) {
     if (!dataStream?.length) return
 
     const newDeltas = dataStream.slice(lastProcessedIndex.current + 1)
-    lastProcessedIndex.current = dataStream.length - 1
+    lastProcessedIndex.current = dataStream.length - 1;
 
     (newDeltas as DataStreamDelta[]).forEach((delta: DataStreamDelta) => {
       const blockDefinition = blockDefinitions.find(
