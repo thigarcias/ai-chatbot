@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 export async function getUser(email: string): Promise<User | null> {
 
-  const data =  await prisma.user.findUnique({
+  const data = await prisma.user.findUnique({
     where: { email }
   })
 
@@ -18,8 +18,8 @@ export async function createUser(email: string, password: string) {
   const hash = hashSync(password, salt)
 
   return await prisma.user.create({
-      data: { email, password: hash }
-    })
+    data: { email, password: hash }
+  })
   
 }
 
@@ -56,6 +56,7 @@ export async function deleteChatById({ id }: { id: string }) {
     await prisma.message.deleteMany({
       where: { chatId: id }
     })
+
     return await prisma.chat.delete({
       where: { id }
     })
@@ -142,6 +143,7 @@ export async function voteMessage({
         data: { isUpvoted: type === 'up' }
       })
     }
+
     return await prisma.vote.create({
       data: {
         chatId,

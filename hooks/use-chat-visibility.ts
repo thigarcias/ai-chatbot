@@ -28,6 +28,7 @@ export function useChatVisibility({
     if (!history) return localVisibility
     const chat = history.find((chat) => chat.id === chatId)
     if (!chat) return 'private'
+
     return chat.visibility
   }, [history, chatId, localVisibility])
 
@@ -39,14 +40,15 @@ export function useChatVisibility({
       (history) => {
         return history
           ? history.map((chat) => {
-              if (chat.id === chatId) {
-                return {
-                  ...chat,
-                  visibility: updatedVisibilityType,
-                }
+            if (chat.id === chatId) {
+              return {
+                ...chat,
+                visibility: updatedVisibilityType,
               }
-              return chat
-            })
+            }
+
+            return chat
+          })
           : []
       },
       { revalidate: false },

@@ -28,6 +28,7 @@ export function useBlockSelector<Selected>(selector: Selector<Selected>) {
 
   const selectedValue = useMemo(() => {
     if (!localBlock) return selector(initialBlockData)
+
     return selector(localBlock)
   }, [localBlock, selector])
 
@@ -45,6 +46,7 @@ export function useBlock() {
 
   const block = useMemo(() => {
     if (!localBlock) return initialBlockData
+
     return localBlock
   }, [localBlock])
 

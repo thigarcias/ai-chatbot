@@ -94,7 +94,7 @@ export const textBlock = new Block<'text', TextBlockMetadata>({
           metadata.suggestions &&
           metadata.suggestions.length > 0 ? (
             <div className="md:hidden h-dvh w-12 shrink-0" />
-          ) : null}
+            ) : null}
         </div>
       </>
     )
