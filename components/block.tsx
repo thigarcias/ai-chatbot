@@ -16,7 +16,6 @@ import {
 } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 import { useDebounceCallback, useWindowSize } from 'usehooks-ts'
-import type { Document, Vote } from '@/lib/db/schema'
 import { fetcher } from '@/lib/utils'
 import { MultimodalInput } from './multimodal-input'
 import { Toolbar } from './toolbar'
@@ -31,6 +30,7 @@ import { codeBlock } from '@/blocks/code/client'
 import { sheetBlock } from '@/blocks/sheet/client'
 import { textBlock } from '@/blocks/text/client'
 import equal from 'fast-deep-equal'
+import { Vote, Document } from '@prisma/client'
 
 export const blockDefinitions = [textBlock, codeBlock, imageBlock, sheetBlock]
 export type BlockKind = (typeof blockDefinitions)[number]['kind']

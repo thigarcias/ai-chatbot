@@ -1,10 +1,10 @@
 import { PreviewMessage } from './message'
 import { useScrollToBottom } from './use-scroll-to-bottom'
-import { Vote } from '@/lib/db/schema'
 import { ChatRequestOptions, Message } from 'ai'
 import { memo } from 'react'
 import equal from 'fast-deep-equal'
 import { UIBlock } from './block'
+import { Vote } from '@prisma/client'
 
 interface BlockMessagesProps {
   chatId: string

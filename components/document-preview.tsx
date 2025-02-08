@@ -11,7 +11,7 @@ import {
 import { BlockKind, UIBlock } from './block'
 import { FileIcon, FullscreenIcon, ImageIcon, LoaderIcon } from './icons'
 import { cn, fetcher } from '@/lib/utils'
-import { Document } from '@/lib/db/schema'
+import { Document } from '@prisma/client'
 import { InlineDocumentSkeleton } from './document-skeleton'
 import useSWR from 'swr'
 import { Editor } from './editor'
@@ -89,7 +89,7 @@ export function DocumentPreview({
     : block.status === 'streaming'
       ? {
         title: block.title,
-        kind: block.kind,
+        kind: block.kind as 'text' | 'code',
         content: block.content,
         id: block.documentId,
         createdAt: new Date(),

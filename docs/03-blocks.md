@@ -222,7 +222,7 @@ export const documentHandlersByBlockKind: Array<DocumentHandler> = [
 export const blockKinds = [..., "custom"] as const;
 ```
 
-Specify it in document schema at `lib/db/schema.ts`.
+Specify it in document schema at `@prisma/client.ts`.
 
 ```ts
 export const document = pgTable(

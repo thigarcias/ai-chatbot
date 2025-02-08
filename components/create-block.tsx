@@ -1,8 +1,8 @@
-import { Suggestion } from '@/lib/db/schema'
 import { UseChatHelpers } from 'ai/react'
 import { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react'
 import { DataStreamDelta } from './data-stream-handler'
 import { UIBlock } from './block'
+import { Suggestion } from '@prisma/client'
 
 export type BlockActionContext<M = any> = {
   content: string
