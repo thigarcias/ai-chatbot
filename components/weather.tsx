@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import cx from 'classnames';
-import { format, isWithinInterval } from 'date-fns';
-import { useEffect, useState } from 'react';
+import cx from 'classnames'
+import { format, isWithinInterval } from 'date-fns'
+import { useEffect, useState } from 'react'
 
 interface WeatherAtLocation {
   latitude: number;
@@ -195,10 +195,10 @@ const SAMPLE = {
       '2024-10-11T18:54',
     ],
   },
-};
+}
 
 function n(num: number): number {
-  return Math.ceil(num);
+  return Math.ceil(num)
 }
 
 export function Weather({
@@ -208,45 +208,45 @@ export function Weather({
 }) {
   const currentHigh = Math.max(
     ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
-  );
+  )
   const currentLow = Math.min(
     ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
-  );
+  )
 
   const isDay = isWithinInterval(new Date(weatherAtLocation.current.time), {
     start: new Date(weatherAtLocation.daily.sunrise[0]),
     end: new Date(weatherAtLocation.daily.sunset[0]),
-  });
+  })
 
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+      setIsMobile(window.innerWidth < 768)
+    }
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
+    handleResize()
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-  const hoursToShow = isMobile ? 5 : 6;
+  const hoursToShow = isMobile ? 5 : 6
 
   // Find the index of the current time or the next closest time
   const currentTimeIndex = weatherAtLocation.hourly.time.findIndex(
     (time) => new Date(time) >= new Date(weatherAtLocation.current.time),
-  );
+  )
 
   // Slice the arrays to get the desired number of items
   const displayTimes = weatherAtLocation.hourly.time.slice(
     currentTimeIndex,
     currentTimeIndex + hoursToShow,
-  );
+  )
   const displayTemperatures = weatherAtLocation.hourly.temperature_2m.slice(
     currentTimeIndex,
     currentTimeIndex + hoursToShow,
-  );
+  )
 
   return (
     <div
@@ -307,5 +307,5 @@ export function Weather({
         ))}
       </div>
     </div>
-  );
+  )
 }

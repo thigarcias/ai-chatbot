@@ -1,4 +1,4 @@
-import type { InferSelectModel } from 'drizzle-orm';
+import type { InferSelectModel } from 'drizzle-orm'
 import {
   pgTable,
   varchar,
@@ -9,14 +9,14 @@ import {
   primaryKey,
   foreignKey,
   boolean,
-} from 'drizzle-orm/pg-core';
-import { blockKinds } from '../blocks/server';
+} from 'drizzle-orm/pg-core'
+import { blockKinds } from '../blocks/server'
 
 export const user = pgTable('User', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
   email: varchar('email', { length: 64 }).notNull(),
   password: varchar('password', { length: 64 }),
-});
+})
 
 export type User = InferSelectModel<typeof user>;
 
@@ -30,7 +30,7 @@ export const chat = pgTable('Chat', {
   visibility: varchar('visibility', { enum: ['public', 'private'] })
     .notNull()
     .default('private'),
-});
+})
 
 export type Chat = InferSelectModel<typeof chat>;
 
@@ -42,7 +42,7 @@ export const message = pgTable('Message', {
   role: varchar('role').notNull(),
   content: json('content').notNull(),
   createdAt: timestamp('createdAt').notNull(),
-});
+})
 
 export type Message = InferSelectModel<typeof message>;
 
@@ -60,9 +60,9 @@ export const vote = pgTable(
   (table) => {
     return {
       pk: primaryKey({ columns: [table.chatId, table.messageId] }),
-    };
+    }
   },
-);
+)
 
 export type Vote = InferSelectModel<typeof vote>;
 
@@ -83,9 +83,9 @@ export const document = pgTable(
   (table) => {
     return {
       pk: primaryKey({ columns: [table.id, table.createdAt] }),
-    };
+    }
   },
-);
+)
 
 export type Document = InferSelectModel<typeof document>;
 
@@ -111,6 +111,6 @@ export const suggestion = pgTable(
       foreignColumns: [document.id, document.createdAt],
     }),
   }),
-);
+)
 
 export type Suggestion = InferSelectModel<typeof suggestion>;

@@ -1,10 +1,10 @@
-import { PreviewMessage } from './message';
-import { useScrollToBottom } from './use-scroll-to-bottom';
-import { Vote } from '@/lib/db/schema';
-import { ChatRequestOptions, Message } from 'ai';
-import { memo } from 'react';
-import equal from 'fast-deep-equal';
-import { UIBlock } from './block';
+import { PreviewMessage } from './message'
+import { useScrollToBottom } from './use-scroll-to-bottom'
+import { Vote } from '@/lib/db/schema'
+import { ChatRequestOptions, Message } from 'ai'
+import { memo } from 'react'
+import equal from 'fast-deep-equal'
+import { UIBlock } from './block'
 
 interface BlockMessagesProps {
   chatId: string;
@@ -31,7 +31,7 @@ function PureBlockMessages({
   isReadonly,
 }: BlockMessagesProps) {
   const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+    useScrollToBottom<HTMLDivElement>()
 
   return (
     <div
@@ -60,7 +60,7 @@ function PureBlockMessages({
         className="shrink-0 min-w-[24px] min-h-[24px]"
       />
     </div>
-  );
+  )
 }
 
 function areEqual(
@@ -71,14 +71,14 @@ function areEqual(
     prevProps.blockStatus === 'streaming' &&
     nextProps.blockStatus === 'streaming'
   )
-    return true;
+    return true
 
-  if (prevProps.isLoading !== nextProps.isLoading) return false;
-  if (prevProps.isLoading && nextProps.isLoading) return false;
-  if (prevProps.messages.length !== nextProps.messages.length) return false;
-  if (!equal(prevProps.votes, nextProps.votes)) return false;
+  if (prevProps.isLoading !== nextProps.isLoading) return false
+  if (prevProps.isLoading && nextProps.isLoading) return false
+  if (prevProps.messages.length !== nextProps.messages.length) return false
+  if (!equal(prevProps.votes, nextProps.votes)) return false
 
-  return true;
+  return true
 }
 
-export const BlockMessages = memo(PureBlockMessages, areEqual);
+export const BlockMessages = memo(PureBlockMessages, areEqual)

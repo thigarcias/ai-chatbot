@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import React, { memo, useEffect, useMemo, useState } from 'react';
-import DataGrid, { textEditor } from 'react-data-grid';
-import { parse, unparse } from 'papaparse';
-import { useTheme } from 'next-themes';
-import { cn } from '@/lib/utils';
+import React, { memo, useEffect, useMemo, useState } from 'react'
+import DataGrid, { textEditor } from 'react-data-grid'
+import { parse, unparse } from 'papaparse'
+import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
 
-import 'react-data-grid/lib/styles.css';
+import 'react-data-grid/lib/styles.css'
 
 type SheetEditorProps = {
   content: string;
@@ -16,8 +16,8 @@ type SheetEditorProps = {
   currentVersionIndex: number;
 };
 
-const MIN_ROWS = 50;
-const MIN_COLS = 26;
+const MIN_ROWS = 50
+const MIN_COLS = 26
 
 const PureSpreadsheetEditor = ({
   content,
@@ -25,26 +25,27 @@ const PureSpreadsheetEditor = ({
   status,
   isCurrentVersion,
 }: SheetEditorProps) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   const parseData = useMemo(() => {
-    if (!content) return Array(MIN_ROWS).fill(Array(MIN_COLS).fill(''));
-    const result = parse<string[]>(content, { skipEmptyLines: true });
+    if (!content) return Array(MIN_ROWS).fill(Array(MIN_COLS).fill(''))
+    const result = parse<string[]>(content, { skipEmptyLines: true })
 
     const paddedData = result.data.map((row) => {
-      const paddedRow = [...row];
+      const paddedRow = [...row]
       while (paddedRow.length < MIN_COLS) {
-        paddedRow.push('');
+        paddedRow.push('')
       }
-      return paddedRow;
-    });
+
+      return paddedRow
+    })
 
     while (paddedData.length < MIN_ROWS) {
-      paddedData.push(Array(MIN_COLS).fill(''));
+      paddedData.push(Array(MIN_COLS).fill(''))
     }
 
-    return paddedData;
-  }, [content]);
+    return paddedData
+  }, [content])
 
   const columns = useMemo(() => {
     const rowNumberColumn = {
@@ -55,7 +56,7 @@ const PureSpreadsheetEditor = ({
       renderCell: ({ rowIdx }: { rowIdx: number }) => rowIdx + 1,
       cellClass: 'border-t border-r dark:bg-zinc-950 dark:text-zinc-50',
       headerCellClass: 'border-t border-r dark:bg-zinc-900 dark:text-zinc-50',
-    };
+    }
 
     const dataColumns = Array.from({ length: MIN_COLS }, (_, i) => ({
       key: i.toString(),
@@ -68,46 +69,46 @@ const PureSpreadsheetEditor = ({
       headerCellClass: cn(`border-t dark:bg-zinc-900 dark:text-zinc-50`, {
         'border-l': i !== 0,
       }),
-    }));
+    }))
 
-    return [rowNumberColumn, ...dataColumns];
-  }, []);
+    return [rowNumberColumn, ...dataColumns]
+  }, [])
 
   const initialRows = useMemo(() => {
     return parseData.map((row, rowIndex) => {
       const rowData: any = {
         id: rowIndex,
         rowNumber: rowIndex + 1,
-      };
+      }
 
       columns.slice(1).forEach((col, colIndex) => {
-        rowData[col.key] = row[colIndex] || '';
-      });
+        rowData[col.key] = row[colIndex] || ''
+      })
 
-      return rowData;
-    });
-  }, [parseData, columns]);
+      return rowData
+    })
+  }, [parseData, columns])
 
-  const [localRows, setLocalRows] = useState(initialRows);
+  const [localRows, setLocalRows] = useState(initialRows)
 
   useEffect(() => {
-    setLocalRows(initialRows);
-  }, [initialRows]);
+    setLocalRows(initialRows)
+  }, [initialRows])
 
   const generateCsv = (data: any[][]) => {
-    return unparse(data);
-  };
+    return unparse(data)
+  }
 
   const handleRowsChange = (newRows: any[]) => {
-    setLocalRows(newRows);
+    setLocalRows(newRows)
 
     const updatedData = newRows.map((row) => {
-      return columns.slice(1).map((col) => row[col.key] || '');
-    });
+      return columns.slice(1).map((col) => row[col.key] || '')
+    })
 
-    const newCsvContent = generateCsv(updatedData);
-    saveContent(newCsvContent, true);
-  };
+    const newCsvContent = generateCsv(updatedData)
+    saveContent(newCsvContent, true)
+  }
 
   return (
     <DataGrid
@@ -118,7 +119,7 @@ const PureSpreadsheetEditor = ({
       onRowsChange={handleRowsChange}
       onCellClick={(args) => {
         if (args.column.key !== 'rowNumber') {
-          args.selectCell(true);
+          args.selectCell(true)
         }
       }}
       style={{ height: '100%' }}
@@ -127,8 +128,8 @@ const PureSpreadsheetEditor = ({
         sortable: true,
       }}
     />
-  );
-};
+  )
+}
 
 function areEqual(prevProps: SheetEditorProps, nextProps: SheetEditorProps) {
   return (
@@ -137,7 +138,7 @@ function areEqual(prevProps: SheetEditorProps, nextProps: SheetEditorProps) {
     !(prevProps.status === 'streaming' && nextProps.status === 'streaming') &&
     prevProps.content === nextProps.content &&
     prevProps.saveContent === nextProps.saveContent
-  );
+  )
 }
 
-export const SpreadsheetEditor = memo(PureSpreadsheetEditor, areEqual);
+export const SpreadsheetEditor = memo(PureSpreadsheetEditor, areEqual)

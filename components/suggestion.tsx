@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
-import { useWindowSize } from 'usehooks-ts';
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { useWindowSize } from 'usehooks-ts'
 
-import type { UISuggestion } from '@/lib/editor/suggestions';
+import type { UISuggestion } from '@/lib/editor/suggestions'
 
-import { CrossIcon, MessageIcon } from './icons';
-import { Button } from './ui/button';
-import { cn } from '@/lib/utils';
-import { BlockKind } from './block';
+import { CrossIcon, MessageIcon } from './icons'
+import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
+import { BlockKind } from './block'
 
 export const Suggestion = ({
   suggestion,
@@ -20,8 +20,8 @@ export const Suggestion = ({
   onApply: () => void;
   blockKind: BlockKind;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { width: windowWidth } = useWindowSize();
+  const [isExpanded, setIsExpanded] = useState(false)
+  const { width: windowWidth } = useWindowSize()
 
   return (
     <AnimatePresence>
@@ -32,7 +32,7 @@ export const Suggestion = ({
             'sticky top-0 right-4': blockKind === 'code',
           })}
           onClick={() => {
-            setIsExpanded(true);
+            setIsExpanded(true)
           }}
           whileHover={{ scale: 1.1 }}
         >
@@ -57,7 +57,7 @@ export const Suggestion = ({
               type="button"
               className="text-xs text-gray-500 cursor-pointer"
               onClick={() => {
-                setIsExpanded(false);
+                setIsExpanded(false)
               }}
             >
               <CrossIcon size={12} />
@@ -74,5 +74,5 @@ export const Suggestion = ({
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}

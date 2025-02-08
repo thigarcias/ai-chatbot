@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import { startTransition, useMemo, useOptimistic, useState } from 'react';
+import { startTransition, useMemo, useOptimistic, useState } from 'react'
 
-import { saveChatModelAsCookie } from '@/app/(chat)/actions';
-import { Button } from '@/components/ui/button';
+import { saveChatModelAsCookie } from '@/app/(chat)/actions'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { chatModels } from '@/lib/ai/models';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/dropdown-menu'
+import { chatModels } from '@/lib/ai/models'
+import { cn } from '@/lib/utils'
 
-import { CheckCircleFillIcon, ChevronDownIcon } from './icons';
+import { CheckCircleFillIcon, ChevronDownIcon } from './icons'
 
 export function ModelSelector({
   selectedModelId,
@@ -21,14 +21,14 @@ export function ModelSelector({
 }: {
   selectedModelId: string;
 } & React.ComponentProps<typeof Button>) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const [optimisticModelId, setOptimisticModelId] =
-    useOptimistic(selectedModelId);
+    useOptimistic(selectedModelId)
 
   const selectedChatModel = useMemo(
     () => chatModels.find((chatModel) => chatModel.id === optimisticModelId),
     [optimisticModelId],
-  );
+  )
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -46,18 +46,18 @@ export function ModelSelector({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-[300px]">
         {chatModels.map((chatModel) => {
-          const { id } = chatModel;
+          const { id } = chatModel
 
           return (
             <DropdownMenuItem
               key={id}
               onSelect={() => {
-                setOpen(false);
+                setOpen(false)
 
                 startTransition(() => {
-                  setOptimisticModelId(id);
-                  saveChatModelAsCookie(id);
-                });
+                  setOptimisticModelId(id)
+                  saveChatModelAsCookie(id)
+                })
               }}
               className="gap-4 group/item flex flex-row justify-between items-center"
               data-active={id === optimisticModelId}
@@ -73,9 +73,9 @@ export function ModelSelector({
                 <CheckCircleFillIcon />
               </div>
             </DropdownMenuItem>
-          );
+          )
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

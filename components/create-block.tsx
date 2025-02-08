@@ -1,8 +1,8 @@
-import { Suggestion } from '@/lib/db/schema';
-import { UseChatHelpers } from 'ai/react';
-import { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react';
-import { DataStreamDelta } from './data-stream-handler';
-import { UIBlock } from './block';
+import { Suggestion } from '@/lib/db/schema'
+import { UseChatHelpers } from 'ai/react'
+import { ComponentType, Dispatch, ReactNode, SetStateAction } from 'react'
+import { DataStreamDelta } from './data-stream-handler'
+import { UIBlock } from './block'
 
 export type BlockActionContext<M = any> = {
   content: string;
@@ -68,25 +68,25 @@ type BlockConfig<T extends string, M = any> = {
 };
 
 export class Block<T extends string, M = any> {
-  readonly kind: T;
-  readonly description: string;
-  readonly content: ComponentType<BlockContent<M>>;
-  readonly actions: Array<BlockAction<M>>;
-  readonly toolbar: BlockToolbarItem[];
-  readonly initialize?: (parameters: InitializeParameters) => void;
+  readonly kind: T
+  readonly description: string
+  readonly content: ComponentType<BlockContent<M>>
+  readonly actions: Array<BlockAction<M>>
+  readonly toolbar: BlockToolbarItem[]
+  readonly initialize?: (parameters: InitializeParameters) => void
   readonly onStreamPart: (args: {
     setMetadata: Dispatch<SetStateAction<M>>;
     setBlock: Dispatch<SetStateAction<UIBlock>>;
     streamPart: DataStreamDelta;
-  }) => void;
+  }) => void
 
   constructor(config: BlockConfig<T, M>) {
-    this.kind = config.kind;
-    this.description = config.description;
-    this.content = config.content;
-    this.actions = config.actions || [];
-    this.toolbar = config.toolbar || [];
-    this.initialize = config.initialize || (async () => ({}));
-    this.onStreamPart = config.onStreamPart;
+    this.kind = config.kind
+    this.description = config.description
+    this.content = config.content
+    this.actions = config.actions || []
+    this.toolbar = config.toolbar || []
+    this.initialize = config.initialize || (async () => ({}))
+    this.onStreamPart = config.onStreamPart
   }
 }

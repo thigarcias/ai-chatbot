@@ -1,5 +1,5 @@
-import { TerminalWindowIcon, LoaderIcon, CrossSmallIcon } from './icons';
-import { Button } from './ui/button';
+import { TerminalWindowIcon, LoaderIcon, CrossSmallIcon } from './icons'
+import { Button } from './ui/button'
 import {
   Dispatch,
   SetStateAction,
@@ -7,9 +7,9 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import { cn } from '@/lib/utils';
-import { useBlockSelector } from '@/hooks/use-block';
+} from 'react'
+import { cn } from '@/lib/utils'
+import { useBlockSelector } from '@/hooks/use-block'
 
 export interface ConsoleOutputContent {
   type: 'text' | 'image';
@@ -28,53 +28,54 @@ interface ConsoleProps {
 }
 
 export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
-  const [height, setHeight] = useState<number>(300);
-  const [isResizing, setIsResizing] = useState(false);
-  const consoleEndRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(300)
+  const [isResizing, setIsResizing] = useState(false)
+  const consoleEndRef = useRef<HTMLDivElement>(null)
 
-  const isBlockVisible = useBlockSelector((state) => state.isVisible);
+  const isBlockVisible = useBlockSelector((state) => state.isVisible)
 
-  const minHeight = 100;
-  const maxHeight = 800;
+  const minHeight = 100
+  const maxHeight = 800
 
   const startResizing = useCallback(() => {
-    setIsResizing(true);
-  }, []);
+    setIsResizing(true)
+  }, [])
 
   const stopResizing = useCallback(() => {
-    setIsResizing(false);
-  }, []);
+    setIsResizing(false)
+  }, [])
 
   const resize = useCallback(
     (e: MouseEvent) => {
       if (isResizing) {
-        const newHeight = window.innerHeight - e.clientY;
+        const newHeight = window.innerHeight - e.clientY
         if (newHeight >= minHeight && newHeight <= maxHeight) {
-          setHeight(newHeight);
+          setHeight(newHeight)
         }
       }
     },
     [isResizing],
-  );
+  )
 
   useEffect(() => {
-    window.addEventListener('mousemove', resize);
-    window.addEventListener('mouseup', stopResizing);
+    window.addEventListener('mousemove', resize)
+    window.addEventListener('mouseup', stopResizing)
+
     return () => {
-      window.removeEventListener('mousemove', resize);
-      window.removeEventListener('mouseup', stopResizing);
-    };
-  }, [resize, stopResizing]);
+      window.removeEventListener('mousemove', resize)
+      window.removeEventListener('mouseup', stopResizing)
+    }
+  }, [resize, stopResizing])
 
   useEffect(() => {
-    consoleEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [consoleOutputs]);
+    consoleEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [consoleOutputs])
 
   useEffect(() => {
     if (!isBlockVisible) {
-      setConsoleOutputs([]);
+      setConsoleOutputs([])
     }
-  }, [isBlockVisible, setConsoleOutputs]);
+  }, [isBlockVisible, setConsoleOutputs])
 
   return consoleOutputs.length > 0 ? (
     <>
@@ -134,46 +135,46 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
                 consoleOutput.status,
               ) ? (
                 <div className="flex flex-row gap-2">
-                  <div className="animate-spin size-fit self-center mb-auto mt-0.5">
+                    <div className="animate-spin size-fit self-center mb-auto mt-0.5">
                     <LoaderIcon />
                   </div>
-                  <div className="text-muted-foreground">
+                    <div className="text-muted-foreground">
                     {consoleOutput.status === 'in_progress'
-                      ? 'Initializing...'
-                      : consoleOutput.status === 'loading_packages'
-                        ? consoleOutput.contents.map((content) =>
+                        ? 'Initializing...'
+                        : consoleOutput.status === 'loading_packages'
+                          ? consoleOutput.contents.map((content) =>
                             content.type === 'text' ? content.value : null,
                           )
-                        : null}
+                          : null}
                   </div>
-                </div>
-              ) : (
-                <div className="dark:text-zinc-50 text-zinc-900 w-full flex flex-col gap-2 overflow-x-scroll">
-                  {consoleOutput.contents.map((content, index) =>
-                    content.type === 'image' ? (
-                      <picture key={`${consoleOutput.id}-${index}`}>
-                        <img
-                          src={content.value}
-                          alt="output"
-                          className="rounded-md max-w-[600px] w-full"
-                        />
-                      </picture>
-                    ) : (
-                      <div
-                        key={`${consoleOutput.id}-${index}`}
-                        className="whitespace-pre-line break-words w-full"
-                      >
-                        {content.value}
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div className="dark:text-zinc-50 text-zinc-900 w-full flex flex-col gap-2 overflow-x-scroll">
+                    {consoleOutput.contents.map((content, index) =>
+                      content.type === 'image' ? (
+                        <picture key={`${consoleOutput.id}-${index}`}>
+                          <img
+                            src={content.value}
+                            alt="output"
+                            className="rounded-md max-w-[600px] w-full"
+                          />
+                        </picture>
+                      ) : (
+                        <div
+                          key={`${consoleOutput.id}-${index}`}
+                          className="whitespace-pre-line break-words w-full"
+                        >
+                          {content.value}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
             </div>
           ))}
           <div ref={consoleEndRef} />
         </div>
       </div>
     </>
-  ) : null;
+  ) : null
 }

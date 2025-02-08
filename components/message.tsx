@@ -1,30 +1,30 @@
-'use client';
+'use client'
 
-import type { ChatRequestOptions, Message } from 'ai';
-import cx from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useMemo, useState } from 'react';
+import type { ChatRequestOptions, Message } from 'ai'
+import cx from 'classnames'
+import { AnimatePresence, motion } from 'framer-motion'
+import { memo, useMemo, useState } from 'react'
 
-import type { Vote } from '@/lib/db/schema';
+import type { Vote } from '@/lib/db/schema'
 
-import { DocumentToolCall, DocumentToolResult } from './document';
+import { DocumentToolCall, DocumentToolResult } from './document'
 import {
   ChevronDownIcon,
   LoaderIcon,
   PencilEditIcon,
   SparklesIcon,
-} from './icons';
-import { Markdown } from './markdown';
-import { MessageActions } from './message-actions';
-import { PreviewAttachment } from './preview-attachment';
-import { Weather } from './weather';
-import equal from 'fast-deep-equal';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { MessageEditor } from './message-editor';
-import { DocumentPreview } from './document-preview';
-import { MessageReasoning } from './message-reasoning';
+} from './icons'
+import { Markdown } from './markdown'
+import { MessageActions } from './message-actions'
+import { PreviewAttachment } from './preview-attachment'
+import { Weather } from './weather'
+import equal from 'fast-deep-equal'
+import { cn } from '@/lib/utils'
+import { Button } from './ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { MessageEditor } from './message-editor'
+import { DocumentPreview } from './document-preview'
+import { MessageReasoning } from './message-reasoning'
 
 const PurePreviewMessage = ({
   chatId,
@@ -47,7 +47,7 @@ const PurePreviewMessage = ({
   ) => Promise<string | null | undefined>;
   isReadonly: boolean;
 }) => {
-  const [mode, setMode] = useState<'view' | 'edit'>('view');
+  const [mode, setMode] = useState<'view' | 'edit'>('view')
 
   return (
     <AnimatePresence>
@@ -102,7 +102,7 @@ const PurePreviewMessage = ({
                         variant="ghost"
                         className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
                         onClick={() => {
-                          setMode('edit');
+                          setMode('edit')
                         }}
                       >
                         <PencilEditIcon />
@@ -140,10 +140,10 @@ const PurePreviewMessage = ({
             {message.toolInvocations && message.toolInvocations.length > 0 && (
               <div className="flex flex-col gap-4">
                 {message.toolInvocations.map((toolInvocation) => {
-                  const { toolName, toolCallId, state, args } = toolInvocation;
+                  const { toolName, toolCallId, state, args } = toolInvocation
 
                   if (state === 'result') {
-                    const { result } = toolInvocation;
+                    const { result } = toolInvocation
 
                     return (
                       <div key={toolCallId}>
@@ -170,8 +170,9 @@ const PurePreviewMessage = ({
                           <pre>{JSON.stringify(result, null, 2)}</pre>
                         )}
                       </div>
-                    );
+                    )
                   }
+
                   return (
                     <div
                       key={toolCallId}
@@ -197,7 +198,7 @@ const PurePreviewMessage = ({
                         />
                       ) : null}
                     </div>
-                  );
+                  )
                 })}
               </div>
             )}
@@ -215,31 +216,31 @@ const PurePreviewMessage = ({
         </div>
       </motion.div>
     </AnimatePresence>
-  );
-};
+  )
+}
 
 export const PreviewMessage = memo(
   PurePreviewMessage,
   (prevProps, nextProps) => {
-    if (prevProps.isLoading !== nextProps.isLoading) return false;
+    if (prevProps.isLoading !== nextProps.isLoading) return false
     if (prevProps.message.reasoning !== nextProps.message.reasoning)
-      return false;
-    if (prevProps.message.content !== nextProps.message.content) return false;
+      return false
+    if (prevProps.message.content !== nextProps.message.content) return false
     if (
       !equal(
         prevProps.message.toolInvocations,
         nextProps.message.toolInvocations,
       )
     )
-      return false;
-    if (!equal(prevProps.vote, nextProps.vote)) return false;
+      return false
+    if (!equal(prevProps.vote, nextProps.vote)) return false
 
-    return true;
+    return true
   },
-);
+)
 
 export const ThinkingMessage = () => {
-  const role = 'assistant';
+  const role = 'assistant'
 
   return (
     <motion.div
@@ -267,5 +268,5 @@ export const ThinkingMessage = () => {
         </div>
       </div>
     </motion.div>
-  );
-};
+  )
+}

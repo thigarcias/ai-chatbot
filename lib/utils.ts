@@ -5,14 +5,14 @@ import type {
   TextStreamPart,
   ToolInvocation,
   ToolSet,
-} from 'ai';
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+} from 'ai'
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
-import type { Message as DBMessage, Document } from '@/lib/db/schema';
+import type { Message as DBMessage, Document } from '@/lib/db/schema'
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 
 interface ApplicationError extends Error {
@@ -21,35 +21,37 @@ interface ApplicationError extends Error {
 }
 
 export const fetcher = async (url: string) => {
-  const res = await fetch(url);
+  const res = await fetch(url)
 
   if (!res.ok) {
     const error = new Error(
       'An error occurred while fetching the data.',
-    ) as ApplicationError;
+    ) as ApplicationError
 
-    error.info = await res.json();
-    error.status = res.status;
+    error.info = await res.json()
+    error.status = res.status
 
-    throw error;
+    throw error
   }
 
-  return res.json();
-};
+  return res.json()
+}
 
 export function getLocalStorage(key: string) {
   if (typeof window !== 'undefined') {
-    return JSON.parse(localStorage.getItem(key) || '[]');
+    return JSON.parse(localStorage.getItem(key) || '[]')
   }
-  return [];
+
+  return []
 }
 
 export function generateUUID(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+    const r = (Math.random() * 16) | 0
+    const v = c === 'x' ? r : (r & 0x3) | 0x8
+
+    return v.toString(16)
+  })
 }
 
 function addToolMessageToChat({
@@ -66,23 +68,23 @@ function addToolMessageToChat({
         toolInvocations: message.toolInvocations.map((toolInvocation) => {
           const toolResult = toolMessage.content.find(
             (tool) => tool.toolCallId === toolInvocation.toolCallId,
-          );
+          )
 
           if (toolResult) {
             return {
               ...toolInvocation,
               state: 'result',
               result: toolResult.result,
-            };
+            }
           }
 
-          return toolInvocation;
+          return toolInvocation
         }),
-      };
+      }
     }
 
-    return message;
-  });
+    return message
+  })
 }
 
 export function convertToUIMessages(
@@ -93,28 +95,28 @@ export function convertToUIMessages(
       return addToolMessageToChat({
         toolMessage: message as CoreToolMessage,
         messages: chatMessages,
-      });
+      })
     }
 
-    let textContent = '';
-    let reasoning: string | undefined = undefined;
-    const toolInvocations: Array<ToolInvocation> = [];
+    let textContent = ''
+    let reasoning: string | undefined = undefined
+    const toolInvocations: Array<ToolInvocation> = []
 
     if (typeof message.content === 'string') {
-      textContent = message.content;
+      textContent = message.content
     } else if (Array.isArray(message.content)) {
       for (const content of message.content) {
         if (content.type === 'text') {
-          textContent += content.text;
+          textContent += content.text
         } else if (content.type === 'tool-call') {
           toolInvocations.push({
             state: 'call',
             toolCallId: content.toolCallId,
             toolName: content.toolName,
             args: content.args,
-          });
+          })
         } else if (content.type === 'reasoning') {
-          reasoning = content.reasoning;
+          reasoning = content.reasoning
         }
       }
     }
@@ -125,10 +127,10 @@ export function convertToUIMessages(
       content: textContent,
       reasoning,
       toolInvocations,
-    });
+    })
 
-    return chatMessages;
-  }, []);
+    return chatMessages
+  }, [])
 }
 
 type ResponseMessageWithoutId = CoreToolMessage | CoreAssistantMessage;
@@ -141,22 +143,22 @@ export function sanitizeResponseMessages({
   messages: Array<ResponseMessage>;
   reasoning: string | undefined;
 }) {
-  const toolResultIds: Array<string> = [];
+  const toolResultIds: Array<string> = []
 
   for (const message of messages) {
     if (message.role === 'tool') {
       for (const content of message.content) {
         if (content.type === 'tool-result') {
-          toolResultIds.push(content.toolCallId);
+          toolResultIds.push(content.toolCallId)
         }
       }
     }
   }
 
   const messagesBySanitizedContent = messages.map((message) => {
-    if (message.role !== 'assistant') return message;
+    if (message.role !== 'assistant') return message
 
-    if (typeof message.content === 'string') return message;
+    if (typeof message.content === 'string') return message
 
     const sanitizedContent = message.content.filter((content) =>
       content.type === 'tool-call'
@@ -164,35 +166,35 @@ export function sanitizeResponseMessages({
         : content.type === 'text'
           ? content.text.length > 0
           : true,
-    );
+    )
 
     if (reasoning) {
       // @ts-expect-error: reasoning message parts in sdk is wip
-      sanitizedContent.push({ type: 'reasoning', reasoning });
+      sanitizedContent.push({ type: 'reasoning', reasoning })
     }
 
     return {
       ...message,
       content: sanitizedContent,
-    };
-  });
+    }
+  })
 
   return messagesBySanitizedContent.filter(
     (message) => message.content.length > 0,
-  );
+  )
 }
 
 export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
   const messagesBySanitizedToolInvocations = messages.map((message) => {
-    if (message.role !== 'assistant') return message;
+    if (message.role !== 'assistant') return message
 
-    if (!message.toolInvocations) return message;
+    if (!message.toolInvocations) return message
 
-    const toolResultIds: Array<string> = [];
+    const toolResultIds: Array<string> = []
 
     for (const toolInvocation of message.toolInvocations) {
       if (toolInvocation.state === 'result') {
-        toolResultIds.push(toolInvocation.toolCallId);
+        toolResultIds.push(toolInvocation.toolCallId)
       }
     }
 
@@ -200,32 +202,33 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
       (toolInvocation) =>
         toolInvocation.state === 'result' ||
         toolResultIds.includes(toolInvocation.toolCallId),
-    );
+    )
 
     return {
       ...message,
       toolInvocations: sanitizedToolInvocations,
-    };
-  });
+    }
+  })
 
   return messagesBySanitizedToolInvocations.filter(
     (message) =>
       message.content.length > 0 ||
       (message.toolInvocations && message.toolInvocations.length > 0),
-  );
+  )
 }
 
 export function getMostRecentUserMessage(messages: Array<Message>) {
-  const userMessages = messages.filter((message) => message.role === 'user');
-  return userMessages.at(-1);
+  const userMessages = messages.filter((message) => message.role === 'user')
+
+  return userMessages.at(-1)
 }
 
 export function getDocumentTimestampByIndex(
   documents: Array<Document>,
   index: number,
 ) {
-  if (!documents) return new Date();
-  if (index > documents.length) return new Date();
+  if (!documents) return new Date()
+  if (index > documents.length) return new Date()
 
-  return documents[index].createdAt;
+  return documents[index].createdAt
 }

@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import { isToday, isYesterday, subMonths, subWeeks } from 'date-fns';
-import Link from 'next/link';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import type { User } from 'next-auth';
-import { memo, useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import useSWR from 'swr';
+import { isToday, isYesterday, subMonths, subWeeks } from 'date-fns'
+import Link from 'next/link'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import type { User } from 'next-auth'
+import { memo, useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import useSWR from 'swr'
 
 import {
   CheckCircleFillIcon,
@@ -15,7 +15,7 @@ import {
   MoreHorizontalIcon,
   ShareIcon,
   TrashIcon,
-} from '@/components/icons';
+} from '@/components/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +25,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,7 +36,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -45,10 +45,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import type { Chat } from '@/lib/db/schema';
-import { fetcher } from '@/lib/utils';
-import { useChatVisibility } from '@/hooks/use-chat-visibility';
+} from '@/components/ui/sidebar'
+import type { Chat } from '@/lib/db/schema'
+import { fetcher } from '@/lib/utils'
+import { useChatVisibility } from '@/hooks/use-chat-visibility'
 
 type GroupedChats = {
   today: Chat[];
@@ -72,7 +72,7 @@ const PureChatItem = ({
   const { visibilityType, setVisibilityType } = useChatVisibility({
     chatId: chat.id,
     initialVisibility: chat.visibility,
-  });
+  })
 
   return (
     <SidebarMenuItem>
@@ -104,7 +104,7 @@ const PureChatItem = ({
                 <DropdownMenuItem
                   className="cursor-pointer flex-row justify-between"
                   onClick={() => {
-                    setVisibilityType('private');
+                    setVisibilityType('private')
                   }}
                 >
                   <div className="flex flex-row gap-2 items-center">
@@ -118,7 +118,7 @@ const PureChatItem = ({
                 <DropdownMenuItem
                   className="cursor-pointer flex-row justify-between"
                   onClick={() => {
-                    setVisibilityType('public');
+                    setVisibilityType('public')
                   }}
                 >
                   <div className="flex flex-row gap-2 items-center">
@@ -141,57 +141,59 @@ const PureChatItem = ({
         </DropdownMenuContent>
       </DropdownMenu>
     </SidebarMenuItem>
-  );
-};
+  )
+}
 
 export const ChatItem = memo(PureChatItem, (prevProps, nextProps) => {
-  if (prevProps.isActive !== nextProps.isActive) return false;
-  return true;
-});
+  if (prevProps.isActive !== nextProps.isActive) return false
+
+  return true
+})
 
 export function SidebarHistory({ user }: { user: User | undefined }) {
-  const { setOpenMobile } = useSidebar();
-  const { id } = useParams();
-  const pathname = usePathname();
+  const { setOpenMobile } = useSidebar()
+  const { id } = useParams()
+  const pathname = usePathname()
   const {
     data: history,
     isLoading,
     mutate,
   } = useSWR<Array<Chat>>(user ? '/api/history' : null, fetcher, {
     fallbackData: [],
-  });
+  })
 
   useEffect(() => {
-    mutate();
-  }, [pathname, mutate]);
+    mutate()
+  }, [pathname, mutate])
 
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const router = useRouter();
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const router = useRouter()
   const handleDelete = async () => {
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
       method: 'DELETE',
-    });
+    })
 
     toast.promise(deletePromise, {
       loading: 'Deleting chat...',
       success: () => {
         mutate((history) => {
           if (history) {
-            return history.filter((h) => h.id !== id);
+            return history.filter((h) => h.id !== id)
           }
-        });
-        return 'Chat deleted successfully';
+        })
+
+        return 'Chat deleted successfully'
       },
       error: 'Failed to delete chat',
-    });
+    })
 
-    setShowDeleteDialog(false);
+    setShowDeleteDialog(false)
 
     if (deleteId === id) {
-      router.push('/');
+      router.push('/')
     }
-  };
+  }
 
   if (!user) {
     return (
@@ -202,7 +204,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
-    );
+    )
   }
 
   if (isLoading) {
@@ -231,7 +233,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
-    );
+    )
   }
 
   if (history?.length === 0) {
@@ -243,31 +245,31 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
-    );
+    )
   }
 
   const groupChatsByDate = (chats: Chat[]): GroupedChats => {
-    const now = new Date();
-    const oneWeekAgo = subWeeks(now, 1);
-    const oneMonthAgo = subMonths(now, 1);
+    const now = new Date()
+    const oneWeekAgo = subWeeks(now, 1)
+    const oneMonthAgo = subMonths(now, 1)
 
     return chats.reduce(
       (groups, chat) => {
-        const chatDate = new Date(chat.createdAt);
+        const chatDate = new Date(chat.createdAt)
 
         if (isToday(chatDate)) {
-          groups.today.push(chat);
+          groups.today.push(chat)
         } else if (isYesterday(chatDate)) {
-          groups.yesterday.push(chat);
+          groups.yesterday.push(chat)
         } else if (chatDate > oneWeekAgo) {
-          groups.lastWeek.push(chat);
+          groups.lastWeek.push(chat)
         } else if (chatDate > oneMonthAgo) {
-          groups.lastMonth.push(chat);
+          groups.lastMonth.push(chat)
         } else {
-          groups.older.push(chat);
+          groups.older.push(chat)
         }
 
-        return groups;
+        return groups
       },
       {
         today: [],
@@ -276,8 +278,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
         lastMonth: [],
         older: [],
       } as GroupedChats,
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -286,7 +288,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           <SidebarMenu>
             {history &&
               (() => {
-                const groupedChats = groupChatsByDate(history);
+                const groupedChats = groupChatsByDate(history)
 
                 return (
                   <>
@@ -301,8 +303,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                             chat={chat}
                             isActive={chat.id === id}
                             onDelete={(chatId) => {
-                              setDeleteId(chatId);
-                              setShowDeleteDialog(true);
+                              setDeleteId(chatId)
+                              setShowDeleteDialog(true)
                             }}
                             setOpenMobile={setOpenMobile}
                           />
@@ -321,8 +323,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                             chat={chat}
                             isActive={chat.id === id}
                             onDelete={(chatId) => {
-                              setDeleteId(chatId);
-                              setShowDeleteDialog(true);
+                              setDeleteId(chatId)
+                              setShowDeleteDialog(true)
                             }}
                             setOpenMobile={setOpenMobile}
                           />
@@ -341,8 +343,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                             chat={chat}
                             isActive={chat.id === id}
                             onDelete={(chatId) => {
-                              setDeleteId(chatId);
-                              setShowDeleteDialog(true);
+                              setDeleteId(chatId)
+                              setShowDeleteDialog(true)
                             }}
                             setOpenMobile={setOpenMobile}
                           />
@@ -361,8 +363,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                             chat={chat}
                             isActive={chat.id === id}
                             onDelete={(chatId) => {
-                              setDeleteId(chatId);
-                              setShowDeleteDialog(true);
+                              setDeleteId(chatId)
+                              setShowDeleteDialog(true)
                             }}
                             setOpenMobile={setOpenMobile}
                           />
@@ -381,8 +383,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                             chat={chat}
                             isActive={chat.id === id}
                             onDelete={(chatId) => {
-                              setDeleteId(chatId);
-                              setShowDeleteDialog(true);
+                              setDeleteId(chatId)
+                              setShowDeleteDialog(true)
                             }}
                             setOpenMobile={setOpenMobile}
                           />
@@ -390,7 +392,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                       </>
                     )}
                   </>
-                );
+                )
               })()}
           </SidebarMenu>
         </SidebarGroupContent>
@@ -413,5 +415,5 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
         </AlertDialogContent>
       </AlertDialog>
     </>
-  );
+  )
 }

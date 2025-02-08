@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
-import cx from 'classnames';
+import type { ChatRequestOptions, CreateMessage, Message } from 'ai'
+import cx from 'classnames'
 import {
   AnimatePresence,
   motion,
   useMotionValue,
   useTransform,
-} from 'framer-motion';
+} from 'framer-motion'
 import {
   type Dispatch,
   memo,
@@ -16,16 +16,16 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
-import { nanoid } from 'nanoid';
+} from 'react'
+import { useOnClickOutside } from 'usehooks-ts'
+import { nanoid } from 'nanoid'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { sanitizeUIMessages } from '@/lib/utils';
+} from '@/components/ui/tooltip'
+import { sanitizeUIMessages } from '@/lib/utils'
 
 import {
   ArrowUpIcon,
@@ -36,10 +36,10 @@ import {
   SparklesIcon,
   StopIcon,
   SummarizeIcon,
-} from './icons';
-import { blockDefinitions, BlockKind } from './block';
-import { BlockToolbarItem } from './create-block';
-import { UseChatHelpers } from 'ai/react';
+} from './icons'
+import { blockDefinitions, BlockKind } from './block'
+import { BlockToolbarItem } from './create-block'
+import { UseChatHelpers } from 'ai/react'
 
 type ToolProps = {
   description: string;
@@ -71,33 +71,35 @@ const Tool = ({
   append,
   onClick,
 }: ToolProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     if (selectedTool !== description) {
-      setIsHovered(false);
+      setIsHovered(false)
     }
-  }, [selectedTool, description]);
+  }, [selectedTool, description])
 
   const handleSelect = () => {
     if (!isToolbarVisible && setIsToolbarVisible) {
-      setIsToolbarVisible(true);
-      return;
+      setIsToolbarVisible(true)
+
+      return
     }
 
     if (!selectedTool) {
-      setIsHovered(true);
-      setSelectedTool(description);
-      return;
+      setIsHovered(true)
+      setSelectedTool(description)
+
+      return
     }
 
     if (selectedTool !== description) {
-      setSelectedTool(description);
+      setSelectedTool(description)
     } else {
-      setSelectedTool(null);
-      onClick({ appendMessage: append });
+      setSelectedTool(null)
+      onClick({ appendMessage: append })
     }
-  };
+  }
 
   return (
     <Tooltip open={isHovered && !isAnimating}>
@@ -107,14 +109,14 @@ const Tool = ({
             'bg-primary !text-primary-foreground': selectedTool === description,
           })}
           onHoverStart={() => {
-            setIsHovered(true);
+            setIsHovered(true)
           }}
           onHoverEnd={() => {
-            if (selectedTool !== description) setIsHovered(false);
+            if (selectedTool !== description) setIsHovered(false)
           }}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
-              handleSelect();
+              handleSelect()
             }
           }}
           initial={{ scale: 1, opacity: 0 }}
@@ -127,7 +129,7 @@ const Tool = ({
             transition: { duration: 0.1 },
           }}
           onClick={() => {
-            handleSelect();
+            handleSelect()
           }}
         >
           {selectedTool === description ? <ArrowUpIcon /> : icon}
@@ -141,10 +143,10 @@ const Tool = ({
         {description}
       </TooltipContent>
     </Tooltip>
-  );
-};
+  )
+}
 
-const randomArr = [...Array(6)].map((x) => nanoid(5));
+const randomArr = [...Array(6)].map((x) => nanoid(5))
 
 const ReadingLevelSelector = ({
   setSelectedTool,
@@ -165,24 +167,24 @@ const ReadingLevelSelector = ({
     'High School',
     'College',
     'Graduate',
-  ];
+  ]
 
-  const y = useMotionValue(-40 * 2);
-  const dragConstraints = 5 * 40 + 2;
-  const yToLevel = useTransform(y, [0, -dragConstraints], [0, 5]);
+  const y = useMotionValue(-40 * 2)
+  const dragConstraints = 5 * 40 + 2
+  const yToLevel = useTransform(y, [0, -dragConstraints], [0, 5])
 
-  const [currentLevel, setCurrentLevel] = useState(2);
+  const [currentLevel, setCurrentLevel] = useState(2)
   const [hasUserSelectedLevel, setHasUserSelectedLevel] =
-    useState<boolean>(false);
+    useState<boolean>(false)
 
   useEffect(() => {
     const unsubscribe = yToLevel.on('change', (latest) => {
-      const level = Math.min(5, Math.max(0, Math.round(Math.abs(latest))));
-      setCurrentLevel(level);
-    });
+      const level = Math.min(5, Math.max(0, Math.round(Math.abs(latest))))
+      setCurrentLevel(level)
+    })
 
-    return () => unsubscribe();
-  }, [yToLevel]);
+    return () => unsubscribe()
+  }, [yToLevel])
 
   return (
     <div className="relative flex flex-col justify-end items-center">
@@ -219,13 +221,13 @@ const ReadingLevelSelector = ({
               transition={{ duration: 0.1 }}
               dragConstraints={{ top: -dragConstraints, bottom: 0 }}
               onDragStart={() => {
-                setHasUserSelectedLevel(false);
+                setHasUserSelectedLevel(false)
               }}
               onDragEnd={() => {
                 if (currentLevel === 2) {
-                  setSelectedTool(null);
+                  setSelectedTool(null)
                 } else {
-                  setHasUserSelectedLevel(true);
+                  setHasUserSelectedLevel(true)
                 }
               }}
               onClick={() => {
@@ -233,9 +235,9 @@ const ReadingLevelSelector = ({
                   append({
                     role: 'user',
                     content: `Please adjust the reading level to ${LEVELS[currentLevel]} level.`,
-                  });
+                  })
 
-                  setSelectedTool(null);
+                  setSelectedTool(null)
                 }
               }}
             >
@@ -252,8 +254,8 @@ const ReadingLevelSelector = ({
         </Tooltip>
       </TooltipProvider>
     </div>
-  );
-};
+  )
+}
 
 export const Tools = ({
   isToolbarVisible,
@@ -275,7 +277,7 @@ export const Tools = ({
   setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
   tools: Array<BlockToolbarItem>;
 }) => {
-  const [primaryTool, ...secondaryTools] = tools;
+  const [primaryTool, ...secondaryTools] = tools
 
   return (
     <motion.div
@@ -312,8 +314,8 @@ export const Tools = ({
         onClick={primaryTool.onClick}
       />
     </motion.div>
-  );
-};
+  )
+}
 
 const PureToolbar = ({
   isToolbarVisible,
@@ -335,60 +337,60 @@ const PureToolbar = ({
   setMessages: Dispatch<SetStateAction<Message[]>>;
   blockKind: BlockKind;
 }) => {
-  const toolbarRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedTool, setSelectedTool] = useState<string | null>(null)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useOnClickOutside(toolbarRef, () => {
-    setIsToolbarVisible(false);
-    setSelectedTool(null);
-  });
+    setIsToolbarVisible(false)
+    setSelectedTool(null)
+  })
 
   const startCloseTimer = () => {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+      clearTimeout(timeoutRef.current)
     }
 
     timeoutRef.current = setTimeout(() => {
-      setSelectedTool(null);
-      setIsToolbarVisible(false);
-    }, 2000);
-  };
+      setSelectedTool(null)
+      setIsToolbarVisible(false)
+    }, 2000)
+  }
 
   const cancelCloseTimer = () => {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+      clearTimeout(timeoutRef.current)
     }
-  };
+  }
 
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+        clearTimeout(timeoutRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
     if (isLoading) {
-      setIsToolbarVisible(false);
+      setIsToolbarVisible(false)
     }
-  }, [isLoading, setIsToolbarVisible]);
+  }, [isLoading, setIsToolbarVisible])
 
   const blockDefinition = blockDefinitions.find(
     (definition) => definition.kind === blockKind,
-  );
+  )
 
   if (!blockDefinition) {
-    throw new Error('Block definition not found!');
+    throw new Error('Block definition not found!')
   }
 
-  const toolsByBlockKind = blockDefinition.toolbar;
+  const toolsByBlockKind = blockDefinition.toolbar
 
   if (toolsByBlockKind.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -400,39 +402,39 @@ const PureToolbar = ({
           isToolbarVisible
             ? selectedTool === 'adjust-reading-level'
               ? {
-                  opacity: 1,
-                  y: 0,
-                  height: 6 * 43,
-                  transition: { delay: 0 },
-                  scale: 0.95,
-                }
+                opacity: 1,
+                y: 0,
+                height: 6 * 43,
+                transition: { delay: 0 },
+                scale: 0.95,
+              }
               : {
-                  opacity: 1,
-                  y: 0,
-                  height: toolsByBlockKind.length * 50,
-                  transition: { delay: 0 },
-                  scale: 1,
-                }
+                opacity: 1,
+                y: 0,
+                height: toolsByBlockKind.length * 50,
+                transition: { delay: 0 },
+                scale: 1,
+              }
             : { opacity: 1, y: 0, height: 54, transition: { delay: 0 } }
         }
         exit={{ opacity: 0, y: -20, transition: { duration: 0.1 } }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         onHoverStart={() => {
-          if (isLoading) return;
+          if (isLoading) return
 
-          cancelCloseTimer();
-          setIsToolbarVisible(true);
+          cancelCloseTimer()
+          setIsToolbarVisible(true)
         }}
         onHoverEnd={() => {
-          if (isLoading) return;
+          if (isLoading) return
 
-          startCloseTimer();
+          startCloseTimer()
         }}
         onAnimationStart={() => {
-          setIsAnimating(true);
+          setIsAnimating(true)
         }}
         onAnimationComplete={() => {
-          setIsAnimating(false);
+          setIsAnimating(false)
         }}
         ref={toolbarRef}
       >
@@ -444,8 +446,8 @@ const PureToolbar = ({
             exit={{ scale: 1 }}
             className="p-3"
             onClick={() => {
-              stop();
-              setMessages((messages) => sanitizeUIMessages(messages));
+              stop()
+              setMessages((messages) => sanitizeUIMessages(messages))
             }}
           >
             <StopIcon />
@@ -471,13 +473,13 @@ const PureToolbar = ({
         )}
       </motion.div>
     </TooltipProvider>
-  );
-};
+  )
+}
 
 export const Toolbar = memo(PureToolbar, (prevProps, nextProps) => {
-  if (prevProps.isLoading !== nextProps.isLoading) return false;
-  if (prevProps.isToolbarVisible !== nextProps.isToolbarVisible) return false;
-  if (prevProps.blockKind !== nextProps.blockKind) return false;
+  if (prevProps.isLoading !== nextProps.isLoading) return false
+  if (prevProps.isToolbarVisible !== nextProps.isToolbarVisible) return false
+  if (prevProps.blockKind !== nextProps.blockKind) return false
 
-  return true;
-});
+  return true
+})

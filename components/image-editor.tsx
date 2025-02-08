@@ -1,5 +1,5 @@
-import { LoaderIcon } from './icons';
-import cn from 'classnames';
+import { LoaderIcon } from './icons'
+import cn from 'classnames'
 
 interface ImageEditorProps {
   title: string;
@@ -44,5 +44,5 @@ export function ImageEditor({
         </picture>
       )}
     </div>
-  );
+  )
 }

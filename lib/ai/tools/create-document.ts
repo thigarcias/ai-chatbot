@@ -1,8 +1,8 @@
-import { generateUUID } from '@/lib/utils';
-import { DataStreamWriter, tool } from 'ai';
-import { z } from 'zod';
-import { Session } from 'next-auth';
-import { blockKinds, documentHandlersByBlockKind } from '@/lib/blocks/server';
+import { generateUUID } from '@/lib/utils'
+import { DataStreamWriter, tool } from 'ai'
+import { z } from 'zod'
+import { Session } from 'next-auth'
+import { blockKinds, documentHandlersByBlockKind } from '@/lib/blocks/server'
 
 interface CreateDocumentProps {
   session: Session;
@@ -18,35 +18,35 @@ export const createDocument = ({ session, dataStream }: CreateDocumentProps) =>
       kind: z.enum(blockKinds),
     }),
     execute: async ({ title, kind }) => {
-      const id = generateUUID();
+      const id = generateUUID()
 
       dataStream.writeData({
         type: 'kind',
         content: kind,
-      });
+      })
 
       dataStream.writeData({
         type: 'id',
         content: id,
-      });
+      })
 
       dataStream.writeData({
         type: 'title',
         content: title,
-      });
+      })
 
       dataStream.writeData({
         type: 'clear',
         content: '',
-      });
+      })
 
       const documentHandler = documentHandlersByBlockKind.find(
         (documentHandlerByBlockKind) =>
           documentHandlerByBlockKind.kind === kind,
-      );
+      )
 
       if (!documentHandler) {
-        throw new Error(`No document handler found for kind: ${kind}`);
+        throw new Error(`No document handler found for kind: ${kind}`)
       }
 
       await documentHandler.onCreateDocument({
@@ -54,15 +54,15 @@ export const createDocument = ({ session, dataStream }: CreateDocumentProps) =>
         title,
         dataStream,
         session,
-      });
+      })
 
-      dataStream.writeData({ type: 'finish', content: '' });
+      dataStream.writeData({ type: 'finish', content: '' })
 
       return {
         id,
         title,
         kind,
         content: 'A document was created and is now visible to the user.',
-      };
+      }
     },
-  });
+  })
