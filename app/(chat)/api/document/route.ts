@@ -4,6 +4,7 @@ import {
   getDocumentsById,
   saveDocument,
 } from '@/prisma/queries'
+import { DocumentKind } from '@prisma/client'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
     content,
     title,
     kind,
-  }: { content: string; title: string; kind: 'text' | 'code' } = await request.json()
+  }: { content: string; title: string; kind: DocumentKind } = await request.json()
 
   if (session.user?.id) {
     const document = await saveDocument({

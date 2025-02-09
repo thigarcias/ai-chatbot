@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { PrismaClient, type User, type Suggestion, Prisma } from '@prisma/client'
+import { PrismaClient, type User, type Suggestion, Prisma, DocumentKind } from '@prisma/client'
 import { genSaltSync, hashSync } from 'bcrypt-ts'
 
 const prisma = new PrismaClient()
@@ -179,7 +179,7 @@ export async function saveDocument({
 }: {
   id: string
   title: string
-  kind: 'text' | 'code'
+  kind: DocumentKind
   content: string
   userId: string
 }) {

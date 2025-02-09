@@ -89,7 +89,7 @@ export function DocumentPreview({
     : block.status === 'streaming'
       ? {
         title: block.title,
-        kind: block.kind as 'text' | 'code',
+        kind: block.kind,
         content: block.content,
         id: block.documentId,
         createdAt: new Date(),
