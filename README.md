@@ -1,5 +1,5 @@
 
-How to run the app:
+## How to run the app:
 
 ```bash
 pnpm install
