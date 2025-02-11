@@ -2,6 +2,7 @@ import {
   customProvider,
 } from 'ai'
 import { openai } from './providers/openai'
+import { copilot } from './providers/copilot'
 
 interface ChatModel {
   id: string
@@ -15,6 +16,7 @@ export const myProvider = customProvider({
   languageModels: {
     'gpt-4o-mini-gh-models': openai('gpt-4o-mini'),
     'gpt-4o-gh-models': openai('gpt-4o'),
+    'gpt-4o-copilot': copilot('gpt-4o'),
     'o3-mini-gh-models': openai('o3-mini', { reasoningEffort: 'medium' }),
     'title-model': openai('gpt-4o-mini'),
     'block-model': openai('gpt-4o-mini'),
@@ -37,4 +39,9 @@ export const chatModels: Array<ChatModel> = [
     name: 'o3 Mini GH-Models',
     description: 'Uses advanced reasoning',
   },
+  {
+    id: 'gpt-4o-copilot',
+    name: 'GPT 4o Copilot',
+    description: 'Uses Copilot for code completion',
+  }
 ]
