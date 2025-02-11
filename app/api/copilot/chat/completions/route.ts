@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listModels, proxyChatCompletions } from '../../../lib/ai/copilot/service';
-import { initializeProxy } from '../../../lib/ai/copilot/proxy';
+import { listModels, proxyChatCompletions } from '../../../../../lib/ai/copilot/service';
+import { initializeProxy } from '../../../../../lib/ai/copilot/proxy';
 
 // Inicializa o proxy se necessário
 initializeProxy();
