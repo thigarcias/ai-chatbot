@@ -46,6 +46,18 @@ export const systemPrompt = ({
   }
 }
 
+export const systemPromptClaudeFrontend = ({
+  selectedChatModel,
+}: {
+  selectedChatModel: string
+}) => {
+  if (selectedChatModel === 'claude-frontend') {
+    return `${regularPrompt}\n\n${blocksPrompt}\n\nYou are a senior front-end engineer with skills in Next.js.`
+  } else {
+    return systemPrompt({ selectedChatModel })
+  }
+}
+
 export const codePrompt = `
 You are a Python code generator that creates self-contained, executable code snippets. When writing code:
 

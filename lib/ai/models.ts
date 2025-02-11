@@ -25,6 +25,7 @@ export const myProvider = customProvider({
     'gemini-2.0-flash-copilot': copilot('gemini-2.0-flash-001'),
     'title-model': openai('gpt-4o-mini'),
     'block-model': openai('gpt-4o-mini'),
+    'claude-frontend': copilot('claude-3.5-sonnet'),
   },
 })
 
@@ -73,5 +74,10 @@ export const chatModels: Array<ChatModel> = [
     id: 'gemini-2.0-flash-copilot',
     name: 'Gemini 2.0 Flash (Copilot)',
     description: 'High-speed model optimized for coding tasks',
+  },
+  {
+    id: 'claude-frontend',
+    name: 'Claude Frontend',
+    description: 'Senior front-end engineer with skills in Next.js',
   }
 ]
