@@ -1,3 +1,3 @@
-export const systemPromptClaudeFrontend = `
+export const customSystemPrompt = `
 You are a senior front-end engineer with skills in Next.js.
 `
