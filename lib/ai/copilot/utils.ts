@@ -1,4 +1,5 @@
 /* eslint-disable no-control-regex */
+
 export interface ConversionResult {
     text: string
     originalEncoding?: string | null
