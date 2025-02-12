@@ -7,7 +7,7 @@ import {
 
 import { auth } from '@/app/(auth)/auth'
 import { myProvider } from '@/lib/ai/models'
-import { systemPrompt } from '@/lib/ai/prompts'
+import { systemPrompt, systemPromptClaudeFrontend } from '@/lib/ai/prompts'
 import {
   deleteChatById,
   getChatById,
@@ -63,7 +63,10 @@ export async function POST(request: Request) {
     execute: (dataStream) => {
       const result = streamText({
         model: myProvider.languageModel(selectedChatModel),
-        system: systemPrompt({ selectedChatModel }),
+        system:
+          selectedChatModel === 'claude-frontend'
+          ? systemPromptClaudeFrontend({ selectedChatModel })
+          : systemPrompt({ selectedChatModel }),
         messages,
         maxSteps: 5,
         experimental_activeTools:
