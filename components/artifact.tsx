@@ -50,7 +50,7 @@ export interface UIArtifact {
   }
 }
 
-function PureBlock({
+function PureArtifact({
   chatId,
   input,
   setInput,
@@ -487,7 +487,7 @@ function PureBlock({
                     isLoading={isLoading}
                     stop={stop}
                     setMessages={setMessages}
-                    blockKind={artifact.kind}
+                    artifactKind={artifact.kind}
                   />
                 )}
               </AnimatePresence>
@@ -509,7 +509,7 @@ function PureBlock({
   )
 }
 
-export const artifact = memo(PureBlock, (prevProps, nextProps) => {
+export const Artifact = memo(PureArtifact, (prevProps, nextProps) => {
   if (prevProps.isLoading !== nextProps.isLoading) return false
   if (!equal(prevProps.votes, nextProps.votes)) return false
   if (prevProps.input !== nextProps.input) return false
