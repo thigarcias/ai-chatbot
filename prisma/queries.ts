@@ -184,8 +184,15 @@ export async function saveDocument({
   userId: string
 }) {
   try {
-    return await prisma.document.create({
-      data: {
+    return await prisma.document.upsert({
+      where: { id },
+      update: {
+        title,
+        content,
+        userId,
+        kind
+      },
+      create: {
         id,
         title,
         content,
@@ -195,7 +202,7 @@ export async function saveDocument({
       }
     })
   } catch (error) {
-    console.error('Failed to save document in database')
+    console.error('Failed to save document in database', error)
     throw error
   }
 }
