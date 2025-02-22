@@ -16,7 +16,7 @@ import ReactMarkdown from 'react-markdown'
 import { diffEditor, DiffType } from '@/lib/editor/diff'
 
 const diffSchema = new Schema({
-  nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+  nodes: addListNodes(schema.spec.nodes, 'paragraph artifact*', 'artifact'),
   marks: OrderedMap.from({
     ...schema.spec.marks.toObject(),
     diffMark: {

@@ -1,9 +1,9 @@
 import { memo } from 'react'
 
-import type { BlockKind } from './block'
+import type { BlockKind } from './artifact'
 import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons'
 import { toast } from 'sonner'
-import { useBlock } from '@/hooks/use-block'
+import { useBlock } from '@/hooks/use-artifact'
 
 const getActionText = (
   type: 'create' | 'update' | 'request-suggestions',

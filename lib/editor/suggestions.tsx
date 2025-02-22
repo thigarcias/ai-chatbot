@@ -8,7 +8,7 @@ import {
 import { createRoot } from 'react-dom/client'
 
 import { Suggestion as PreviewSuggestion } from '@/components/suggestion'
-import { BlockKind } from '@/components/block'
+import { BlockKind } from '@/components/artifact'
 import { Suggestion } from '@prisma/client'
 
 export interface UISuggestion extends Suggestion {

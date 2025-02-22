@@ -1,6 +1,6 @@
 'use client'
 
-import { BlockKind } from './block'
+import { BlockKind } from './artifact'
 
 export const DocumentSkeleton = ({ blockKind }: { blockKind: BlockKind }) => {
   return blockKind === 'image' ? (

@@ -2,16 +2,16 @@
 
 Blocks is a special user interface mode that allows you to have a workspace like interface along with the chat interface. This is similar to [ChatGPT's Canvas](https://openai.com/index/introducing-canvas) and [Claude's Artifacts](https://www.anthropic.com/news/artifacts).
 
-The template already ships with the following blocks:
+The template already ships with the following artifacts:
 
-- **Text Block**: A block that allows you to work with text content like drafting essays and emails.
-- **Code Block**: A block that allows you to write and execute code (Python).
-- **Image Block**: A block that allows you to work with images like editing, annotating, and processing images.
-- **Sheet Block**: A block that allows you to work with tabular data like creating, editing, and analyzing data.
+- **Text Artifact**: A block that allows you to work with text content like drafting essays and emails.
+- **Code Artifact**: A block that allows you to write and execute code (Python).
+- **Image Artifact**: A block that allows you to work with images like editing, annotating, and processing images.
+- **Sheet Artifact**: A block that allows you to work with tabular data like creating, editing, and analyzing data.
 
-## Adding a Custom Block
+## Adding a Custom Artifact
 
-To add a custom block, you will need to create a folder in the `blocks` directory with the block name. The folder should contain the following files:
+To add a custom block, you will need to create a folder in the `artifacts` directory with the block name. The folder should contain the following files:
 
 - `client.tsx`: The client-side code for the block.
 - `server.ts`: The server-side code for the block.
@@ -19,7 +19,7 @@ To add a custom block, you will need to create a folder in the `blocks` director
 Here is an example of a custom block called `CustomBlock`:
 
 ```bash
-blocks/
+artifacts/
   custom/
     client.tsx
     server.ts
@@ -30,7 +30,7 @@ blocks/
 This file is responsible for rendering your custom block. You might replace the inner UI with your own components, but the overall pattern (initialization, handling streamed data, and rendering content) remains the same. For instance:
 
 ```tsx
-import { Block } from "@/components/create-block";
+import { Artifact } from "@/components/create-block";
 import { ExampleComponent } from "@/components/example-component";
 import { toast } from "sonner";
 
@@ -39,7 +39,7 @@ interface CustomBlockMetadata {
   info: string;
 }
 
-export const customBlock = new Block<"custom", CustomBlockMetadata>({
+export const customBlock = new Artifact<"custom", CustomBlockMetadata>({
   kind: "custom",
   description: "A custom block for demonstrating custom functionality.",
   // Initialization can fetch any extra data or perform side effects
@@ -148,7 +148,7 @@ The server file processes the document for the block. It streams updates (if app
 ```ts
 import { smoothStream, streamText } from "ai";
 import { myProvider } from "@/lib/ai/models";
-import { createDocumentHandler } from "@/lib/blocks/server";
+import { createDocumentHandler } from "@/lib/artifacts/server";
 import { updateDocumentPrompt } from "@/lib/ai/prompts";
 
 export const customDocumentHandler = createDocumentHandler<"custom">({
@@ -211,7 +211,7 @@ export const customDocumentHandler = createDocumentHandler<"custom">({
 });
 ```
 
-Once you have created the client and server files, you can import the block in the `lib/blocks/server.ts` file and add it to the `documentHandlersByBlockKind` array.
+Once you have created the client and server files, you can import the block in the `lib/artifacts/server.ts` file and add it to the `documentHandlersByBlockKind` array.
 
 ```ts
 export const documentHandlersByBlockKind: Array<DocumentHandler> = [
@@ -250,7 +250,7 @@ export const document = pgTable(
 And also add the client-side block to the `blockDefinitions` array in the `components/block.tsx` file.
 
 ```ts
-import { customBlock } from "@/blocks/custom/client";
+import { customBlock } from "@/artifacts/custom/client";
 
 export const blockDefinitions = [..., customBlock];
 ```

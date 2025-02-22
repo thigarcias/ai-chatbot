@@ -8,11 +8,11 @@ import useSWR, { useSWRConfig } from 'swr'
 import { ChatHeader } from '@/components/chat-header'
 import { fetcher, generateUUID } from '@/lib/utils'
 
-import { Block } from './block'
+import { Artifact } from './artifact'
 import { MultimodalInput } from './multimodal-input'
 import { Messages } from './messages'
 import { VisibilityType } from './visibility-selector'
-import { useBlockSelector } from '@/hooks/use-block'
+import { useBlockSelector } from '@/hooks/use-artifact'
 import { toast } from 'sonner'
 import { Vote } from '@prisma/client'
 
@@ -104,7 +104,7 @@ export function Chat({
         </form>
       </div>
 
-      <Block
+      <Artifact
         chatId={id}
         input={input}
         setInput={setInput}

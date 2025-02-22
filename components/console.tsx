@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 import { cn } from '@/lib/utils'
-import { useBlockSelector } from '@/hooks/use-block'
+import { useBlockSelector } from '@/hooks/use-artifact'
 
 export interface ConsoleOutputContent {
   type: 'text' | 'image'

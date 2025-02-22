@@ -32,8 +32,8 @@ import {
   StopIcon,
   SummarizeIcon,
 } from './icons'
-import { blockDefinitions, BlockKind } from './block'
-import { BlockToolbarItem } from './create-block'
+import { blockDefinitions, BlockKind } from './artifact'
+import { BlockToolbarItem } from './create-artifact'
 import { UseChatHelpers } from 'ai/react'
 
 type ToolProps = {
@@ -379,7 +379,7 @@ const PureToolbar = ({
   )
 
   if (!blockDefinition) {
-    throw new Error('Block definition not found!')
+    throw new Error('Artifact definition not found!')
   }
 
   const toolsByBlockKind = blockDefinition.toolbar

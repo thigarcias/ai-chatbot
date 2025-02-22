@@ -11,7 +11,7 @@ import { getDocumentTimestampByIndex } from '@/lib/utils'
 
 import { LoaderIcon } from './icons'
 import { Button } from './ui/button'
-import { useBlock } from '@/hooks/use-block'
+import { useArtifact } from '@/hooks/use-artifact'
 
 interface VersionFooterProps {
   handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void
@@ -24,7 +24,7 @@ export const VersionFooter = ({
   documents,
   currentVersionIndex,
 }: VersionFooterProps) => {
-  const { block } = useBlock()
+  const { artifact } = useArtifact()
 
   const { width } = useWindowSize()
   const isMobile = width < 768
@@ -56,8 +56,8 @@ export const VersionFooter = ({
             setIsMutating(true)
 
             mutate(
-              `/api/document?id=${block.documentId}`,
-              await fetch(`/api/document?id=${block.documentId}`, {
+              `/api/document?id=${artifact.documentId}`,
+              await fetch(`/api/document?id=${artifact.documentId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                   timestamp: getDocumentTimestampByIndex(

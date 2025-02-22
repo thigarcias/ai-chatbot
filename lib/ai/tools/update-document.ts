@@ -2,7 +2,7 @@ import { DataStreamWriter, tool } from 'ai'
 import { Session } from 'next-auth'
 import { z } from 'zod'
 import { getDocumentById } from '@/prisma/queries'
-import { documentHandlersByBlockKind } from '@/lib/blocks/server'
+import { documentHandlersByBlockKind } from '@/lib/artifacts/server'
 
 interface UpdateDocumentProps {
   session: Session

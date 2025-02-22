@@ -2,7 +2,7 @@ import { generateUUID } from '@/lib/utils'
 import { DataStreamWriter, tool } from 'ai'
 import { z } from 'zod'
 import { Session } from 'next-auth'
-import { blockKinds, documentHandlersByBlockKind } from '@/lib/blocks/server'
+import { blockKinds, documentHandlersByBlockKind } from '@/lib/artifacts/server'
 
 interface CreateDocumentProps {
   session: Session
