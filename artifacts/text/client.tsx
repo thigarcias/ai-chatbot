@@ -14,11 +14,11 @@ import { toast } from 'sonner'
 import { getSuggestions } from '../actions'
 import { Suggestion } from '@prisma/client'
 
-interface TextBlockMetadata {
+interface TextArtifactMetadata {
   suggestions: Array<Suggestion>
 }
 
-export const textArtifact = new Artifact<'text', TextBlockMetadata>({
+export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
   kind: 'text',
   description: 'Useful for text content, like drafting essays and emails.',
   initialize: async ({ documentId, setMetadata }) => {
@@ -68,7 +68,7 @@ export const textArtifact = new Artifact<'text', TextBlockMetadata>({
     metadata,
   }) => {
     if (isLoading) {
-      return <DocumentSkeleton blockKind="text" />
+      return <DocumentSkeleton artifactKind="text" />
     }
 
     if (mode === 'diff') {
