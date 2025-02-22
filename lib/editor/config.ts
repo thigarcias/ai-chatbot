@@ -9,7 +9,7 @@ import type { MutableRefObject } from 'react'
 import { buildContentFromDocument } from './functions'
 
 export const documentSchema = new Schema({
-  nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+  nodes: addListNodes(schema.spec.nodes, 'paragraph artifact*', 'artifact'),
   marks: schema.spec.marks,
 })
 

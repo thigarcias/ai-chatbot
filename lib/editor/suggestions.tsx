@@ -8,7 +8,7 @@ import {
 import { createRoot } from 'react-dom/client'
 
 import { Suggestion as PreviewSuggestion } from '@/components/suggestion'
-import { BlockKind } from '@/components/block'
+import { ArtifactKind } from '@/components/artifact'
 import { Suggestion } from '@prisma/client'
 
 export interface UISuggestion extends Suggestion {
@@ -70,7 +70,7 @@ export function projectWithPositions(
 export function createSuggestionWidget(
   suggestion: UISuggestion,
   view: EditorView,
-  blockKind: BlockKind = 'text',
+  artifactKind: ArtifactKind = 'text',
 ): { dom: HTMLElement; destroy: () => void } {
   const dom = document.createElement('span')
   const root = createRoot(dom)
@@ -117,7 +117,7 @@ export function createSuggestionWidget(
     <PreviewSuggestion
       suggestion={suggestion}
       onApply={onApply}
-      blockKind={blockKind}
+      artifactKind={artifactKind}
     />,
   )
 

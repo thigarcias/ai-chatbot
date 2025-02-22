@@ -24,7 +24,7 @@ export const myProvider = customProvider({
     'claude-3.5-sonnet-copilot': copilot('claude-3.5-sonnet'),
     'gemini-2.0-flash-copilot': copilot('gemini-2.0-flash-001'),
     'title-model': openai('gpt-4o-mini'),
-    'block-model': openai('gpt-4o-mini'),
+    'artifact-model': openai('gpt-4o-mini'),
     'claude-frontend': copilot('claude-3.5-sonnet'),
   },
 })
