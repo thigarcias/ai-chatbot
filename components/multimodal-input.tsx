@@ -22,7 +22,7 @@ import { useLocalStorage, useWindowSize } from 'usehooks-ts'
 
 import { sanitizeUIMessages } from '@/lib/utils'
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons'
+import { ArrowUpIcon, PaperclipIcon, StopIcon, WebSearchIcon } from './icons'
 import { PreviewAttachment } from './preview-attachment'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
@@ -256,6 +256,7 @@ function PureMultimodalInput({
 
       <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
+        <WebSearchButton />
       </div>
 
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
@@ -361,3 +362,20 @@ const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
 
   return true
 })
+
+function WebSearchButton() {
+  return (
+    <Button
+      className="rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
+      onClick={(event) => {
+        event.preventDefault()
+        console.log('web search habilitado')
+      }}
+      variant="ghost"
+    >
+      <WebSearchIcon 
+        size={20}
+      />
+    </Button>
+  )
+}
