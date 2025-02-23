@@ -27,7 +27,7 @@ export const search = tool({
     })
 
     const parsedData = JSON.parse(JSON.stringify(response.data))
-    const results = parsedData.web.results.map(async (result: any) => ({
+    const results = parsedData.web.results.slice(0, 4).map(async (result: any) => ({
       url: result.url,
       title: result.title,
       description: result.description,
@@ -39,6 +39,6 @@ export const search = tool({
       throw new Error('Error searching the web')
     }
 
-    return results[0]
+    return results
   },
 })
