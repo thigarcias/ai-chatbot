@@ -31,6 +31,7 @@ export const search = tool({
       url: result.url,
       title: result.title,
       description: result.description,
+      flaticon: result.flaticon,
       content: await getSiteContent(result.url),
     }))
 
