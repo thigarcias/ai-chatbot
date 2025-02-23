@@ -1,5 +1,6 @@
 import { tool } from 'ai'
 import { z } from 'zod'
+import axios from 'axios'
 
 export const search = tool({
   description: 'Search the web for information',
@@ -7,20 +8,19 @@ export const search = tool({
     query: z.string(),
   }),
   execute: async ({ query }) => {
-    const response = await fetch(`https://s.jina.ai/${query}`, {
-      method: 'GET',
+    const response = await axios.get(`https://api.search.brave.com/res/v1/web/search?q=${query}`, {
       headers: {
-        'Authorization': 'Bearer jina_359925822258467696153bdfdd6d03b09-e3ERQ8zp0XnBSl4vrEtR1J_G-g',
-        'X-Engine': 'direct',
-        'X-Retain-Images': 'none',
+        'Accept': 'application/json',
+        'Accept-Encoding': 'gzip',
+        'X-Subscription-Token': process.env.BRAVE_SEARCH_API_KEY,
       },
     })
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('Error searching the web')
     }
 
-    const searchData = await response.text()
+    const searchData = response.data
 
     return searchData
   },
