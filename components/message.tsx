@@ -23,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { MessageEditor } from './message-editor'
 import { DocumentPreview } from './document-preview'
 import { MessageReasoning } from './message-reasoning'
+import { SourcesView } from './fonts-view'
 
 const PurePreviewMessage = ({
   chatId,
@@ -146,7 +147,7 @@ const PurePreviewMessage = ({
                     return (
                       <div key={toolCallId}>
                         {toolName === 'search' ? (
-                          <Markdown>{JSON.stringify(result, null, 2)}</Markdown>
+                          <SourcesView sources={result} />
                         ) : toolName === 'getWeather' ? (
                           <Weather weatherAtLocation={result} />
                         ) : toolName === 'createDocument' ? (

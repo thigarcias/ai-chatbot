@@ -32,13 +32,13 @@ export const search = tool({
       title: result.title,
       description: result.description,
       flaticon: result.flaticon,
-      content: await getSiteContent(result.url),
     }))
 
     if (response.status !== 200) {
-      throw new Error('Error searching the web')
+      throw new Error('Error searching the web')  
     }
 
+    console.log(results, 'results search.ts')
     return results
   },
 })
