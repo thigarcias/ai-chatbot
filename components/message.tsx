@@ -146,7 +146,7 @@ const PurePreviewMessage = ({
                     return (
                       <div key={toolCallId}>
                         {toolName === 'search' ? (
-                          <Markdown>{result}</Markdown>
+                          <Markdown>{JSON.stringify(result, null, 2)}</Markdown>
                         ) : toolName === 'getWeather' ? (
                           <Weather weatherAtLocation={result} />
                         ) : toolName === 'createDocument' ? (
