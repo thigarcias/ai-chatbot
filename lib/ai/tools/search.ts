@@ -6,8 +6,7 @@ const getSiteContent = async (url: string) => {
   const completeUrl = `https://r.jina.ai/${url}`
   const response = await axios.get(completeUrl, {
     headers: {
-      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-      'Accept': 'text/html',
+      'Authorization': `Bearer ${process.env.JINA_API_KEY}`
     },
   })
   return response.data
@@ -28,11 +27,11 @@ export const search = tool({
     })
 
     const parsedData = JSON.parse(JSON.stringify(response.data))
-    const results = parsedData.web.results.map((result: any) => ({
+    const results = parsedData.web.results.map(async (result: any) => ({
       url: result.url,
       title: result.title,
       description: result.description,
-      content: getSiteContent(result.url),
+      content: await getSiteContent(result.url),
     }))
 
     if (response.status !== 200) {
