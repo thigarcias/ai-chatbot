@@ -23,7 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { MessageEditor } from './message-editor'
 import { DocumentPreview } from './document-preview'
 import { MessageReasoning } from './message-reasoning'
-import { SourcesView } from './fonts-view'
+import { SourcesView } from './sources-view'
 
 const PurePreviewMessage = ({
   chatId,
