@@ -48,6 +48,7 @@ export interface RegisterActionState {
     | 'failed'
     | 'user_exists'
     | 'invalid_data'
+    | 'not_allowed'
 }
 
 export const register = async (
@@ -65,14 +66,22 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState
     }
-    await createUser(validatedData.email, validatedData.password)
-    await signIn('credentials', {
-      email: validatedData.email,
-      password: validatedData.password,
-      redirect: false,
-    })
-
-    return { status: 'success' }
+    
+    try {
+      await createUser(validatedData.email, validatedData.password)
+      await signIn('credentials', {
+        email: validatedData.email,
+        password: validatedData.password,
+        redirect: false,
+      })
+      
+      return { status: 'success' }
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Registration not allowed for this email') {
+        return { status: 'not_allowed' }
+      }
+      throw error
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { status: 'invalid_data' }
