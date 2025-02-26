@@ -34,12 +34,13 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedChatModel,
-    experimental_searchParams,
+    data,
   }: { 
     id: string 
     messages: Array<Message> 
     selectedChatModel: string
-    experimental_searchParams?: {
+    data?: {
+      useSearch: boolean
       useScrape: boolean
       numberOfResults: number
     }
@@ -59,16 +60,25 @@ export async function POST(request: Request) {
 
   const modifiedMessages = [...messages]
   
-  if (experimental_searchParams) {
+  if (data?.useSearch) {
     const searchSystemMessage: Message = {
       id: generateUUID(),
       role: 'system',
       content: 
             `IMPORTANT: Use the search tool to answer the user's question. ${
-            experimental_searchParams.useScrape 
+            data.useScrape
               ? 'Use deep search with content scraping to analyze complete webpage content.' 
               : 'Use basic search to find relevant information.'
-          } Search for ${experimental_searchParams.numberOfResults} sources.`,
+          } Search for ${data.useSearch} sources.`,
+      createdAt: new Date()
+    }
+    
+    modifiedMessages.splice(modifiedMessages.length - 1, 0, searchSystemMessage)
+  } else {
+    const searchSystemMessage: Message = {
+      id: generateUUID(),
+      role: 'system',
+      content: 'do not use search',
       createdAt: new Date()
     }
     

@@ -140,16 +140,13 @@ function PureMultimodalInput({
     // Include search options in request if search is enabled
     const chatOptions: ChatRequestOptions = {
       experimental_attachments: attachments,
-    };
-    
-    // If search is enabled, include search parameters
-    if (searchOptions.enabled) {
-      // Use type assertion to avoid TypeScript errors
-      (chatOptions as any).experimental_searchParams = {
+      data: searchOptions.enabled ? {
+        useSearch: searchOptions.enabled,
         useScrape: searchOptions.deepResearch,
         numberOfResults: searchOptions.numberOfSources
-      }
+      } : undefined
     }
+    
 
     handleSubmit(undefined, chatOptions);
 
