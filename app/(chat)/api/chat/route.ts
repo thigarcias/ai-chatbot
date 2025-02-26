@@ -36,12 +36,12 @@ export async function POST(request: Request) {
     selectedChatModel,
     experimental_searchParams,
   }: { 
-    id: string; 
-    messages: Array<Message>; 
-    selectedChatModel: string;
+    id: string 
+    messages: Array<Message> 
+    selectedChatModel: string
     experimental_searchParams?: {
-      useScrape: boolean;
-      numberOfResults: number;
+      useScrape: boolean
+      numberOfResults: number
     }
   } = await request.json()
 
@@ -57,19 +57,22 @@ export async function POST(request: Request) {
     return new Response('No user message found', { status: 400 })
   }
 
-  // Add search instructions if search params are included
   const modifiedMessages = [...messages]
+  
   if (experimental_searchParams) {
-    const lastUserMessage = modifiedMessages[modifiedMessages.length - 1];
-    if (lastUserMessage.role === 'user') {
-      // Add instructions about using search with the specific parameters
-      const searchInstruction = experimental_searchParams.useScrape
-        ? `Please use web search with Deep Research with scraper on this query. Analyze content from ${experimental_searchParams.numberOfResults} sources.`
-        : `Please use web search to answer this query with ${experimental_searchParams.numberOfResults} sources.`
-      
-      // Modify the last user message to include search instructions
-      lastUserMessage.content = `${searchInstruction}\n\n${lastUserMessage.content}`
+    const searchSystemMessage: Message = {
+      id: generateUUID(),
+      role: 'system',
+      content: 
+            `IMPORTANT: Use the search tool to answer the user's question. ${
+            experimental_searchParams.useScrape 
+              ? 'Use deep search with content scraping to analyze complete webpage content.' 
+              : 'Use basic search to find relevant information.'
+          } Search for ${experimental_searchParams.numberOfResults} sources.`,
+      createdAt: new Date()
     }
+    
+    modifiedMessages.splice(modifiedMessages.length - 1, 0, searchSystemMessage)
   }
 
   const chat = await getChatById({ id })

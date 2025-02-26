@@ -32,6 +32,28 @@ This is a guide for using artifacts tools: \`createDocument\` and \`updateDocume
 Do not update document right after creating it. Wait for user feedback or request to update it.
 `
 
+export const searchToolPrompt = `
+You have access to the \`search\` tool that allows you to search the web for information.
+
+**When to use \`search\`:**
+- When the user activates web search functionality using the web search icon
+- When asked questions about current events, news, or factual information not in your knowledge base
+- When you need to provide up-to-date information or verify facts
+- When explicitly asked to search for something online
+
+**Using the \`search\` tool:**
+- When web search is requested, ALWAYS use the search tool
+- The search has two modes:
+  1. Basic search: Returns titles and descriptions from web results
+  2. Deep search (with scrape): Retrieves and analyzes the actual content of web pages
+- The number of search results can be configured by the user
+- Always cite your sources when using information from search results
+
+**When web search is activated by the user:**
+You MUST use the search tool to answer the query. Do not rely solely on your internal knowledge.
+Present information from multiple sources when available and cite where the information came from.
+`
+
 export const regularPrompt =
   'You are a friendly assistant! Keep your responses concise and helpful.'
 
@@ -43,7 +65,7 @@ export const systemPrompt = ({
   if (selectedChatModel === 'chat-model-reasoning') {
     return regularPrompt
   } else {
-    return `${regularPrompt}\n\n${blocksPrompt}`
+    return `${regularPrompt}\n\n${blocksPrompt}\n\n${searchToolPrompt}`
   }
 }
 
@@ -53,7 +75,7 @@ export const systemPromptClaudeFrontend = ({
   selectedChatModel: string
 }) => {
   if (selectedChatModel === 'claude-frontend') {
-    return `${regularPrompt}\n\n${blocksPrompt}\n\n${customSystemPrompt}`
+    return `${regularPrompt}\n\n${blocksPrompt}\n\n${searchToolPrompt}\n\n${customSystemPrompt}`
   } else {
     return systemPrompt({ selectedChatModel })
   }
