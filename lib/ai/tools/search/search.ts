@@ -96,8 +96,6 @@ export const search = tool({
       })
     )
 
-    console.log('Search results:', results)
-
     if (response.status !== 200) {
       throw new Error('Error searching the web')  
     }
