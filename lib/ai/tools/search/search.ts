@@ -69,7 +69,7 @@ export const search = tool({
   parameters: z.object({
     query: z.string().describe('The query to search for'),
     useScrape: z.boolean().default(false).describe('Scrape the content of the website, use to deep search'),
-    numberOfResults: z.number().min(1).max(10).default(5).describe('The number of results to return, max 10'),
+    numberOfResults: z.number().min(1).max(10).describe('The number of results to return, max 10')
   }),
   execute: async ({ query, useScrape, numberOfResults }) => {
     const response = await axios.get<SearchResponse>(`https://api.search.brave.com/res/v1/web/search?q=${query}`, {
