@@ -34,8 +34,16 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedChatModel,
-  }: { id: string; messages: Array<Message>; selectedChatModel: string } =
-    await request.json()
+    experimental_searchParams,
+  }: { 
+    id: string; 
+    messages: Array<Message>; 
+    selectedChatModel: string;
+    experimental_searchParams?: {
+      useScrape: boolean;
+      numberOfResults: number;
+    }
+  } = await request.json()
 
   const session = await auth()
 
@@ -47,6 +55,21 @@ export async function POST(request: Request) {
 
   if (!userMessage) {
     return new Response('No user message found', { status: 400 })
+  }
+
+  // Add search instructions if search params are included
+  const modifiedMessages = [...messages]
+  if (experimental_searchParams) {
+    const lastUserMessage = modifiedMessages[modifiedMessages.length - 1];
+    if (lastUserMessage.role === 'user') {
+      // Add instructions about using search with the specific parameters
+      const searchInstruction = experimental_searchParams.useScrape
+        ? `Please use web search with Deep Research with scraper on this query. Analyze content from ${experimental_searchParams.numberOfResults} sources.`
+        : `Please use web search to answer this query with ${experimental_searchParams.numberOfResults} sources.`
+      
+      // Modify the last user message to include search instructions
+      lastUserMessage.content = `${searchInstruction}\n\n${lastUserMessage.content}`
+    }
   }
 
   const chat = await getChatById({ id })
@@ -68,7 +91,7 @@ export async function POST(request: Request) {
           selectedChatModel === 'claude-frontend'
           ? systemPromptClaudeFrontend({ selectedChatModel })
           : systemPrompt({ selectedChatModel }),
-        messages,
+        messages: modifiedMessages,
         maxSteps: 5,
         experimental_activeTools:
           selectedChatModel === 'chat-model-reasoning'

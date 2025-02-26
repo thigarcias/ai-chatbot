@@ -28,6 +28,17 @@ import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { SuggestedActions } from './suggested-actions'
 import equal from 'fast-deep-equal'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Label } from './ui/label'
+import { Switch } from './ui/switch'
+import { Input } from './ui/input' // Add Input import
+
+// Search option types
+interface SearchOptions {
+  enabled: boolean;
+  deepResearch: boolean;
+  numberOfSources: number;
+}
 
 function PureMultimodalInput({
   chatId,
@@ -66,6 +77,13 @@ function PureMultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { width } = useWindowSize()
+  
+  // Search options state
+  const [searchOptions, setSearchOptions] = useState<SearchOptions>({
+    enabled: false,
+    deepResearch: false,
+    numberOfSources: 3
+  });
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -119,9 +137,21 @@ function PureMultimodalInput({
   const submitForm = useCallback(() => {
     window.history.replaceState({}, '', `/chat/${chatId}`)
 
-    handleSubmit(undefined, {
+    // Include search options in request if search is enabled
+    const chatOptions: ChatRequestOptions = {
       experimental_attachments: attachments,
-    })
+    };
+    
+    // If search is enabled, include search parameters
+    if (searchOptions.enabled) {
+      // Use type assertion to avoid TypeScript errors
+      (chatOptions as any).experimental_searchParams = {
+        useScrape: searchOptions.deepResearch,
+        numberOfResults: searchOptions.numberOfSources
+      }
+    }
+
+    handleSubmit(undefined, chatOptions);
 
     setAttachments([])
     setLocalStorageInput('')
@@ -137,6 +167,7 @@ function PureMultimodalInput({
     setLocalStorageInput,
     width,
     chatId,
+    searchOptions
   ])
 
   const uploadFile = async (file: File) => {
@@ -256,7 +287,11 @@ function PureMultimodalInput({
 
       <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
-        <WebSearchButton />
+        <WebSearchButton 
+          searchOptions={searchOptions} 
+          setSearchOptions={setSearchOptions} 
+          isLoading={isLoading} 
+        />
       </div>
 
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
@@ -363,19 +398,96 @@ const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
   return true
 })
 
-function WebSearchButton() {
+function WebSearchButton({ 
+  searchOptions, 
+  setSearchOptions, 
+  isLoading 
+}: { 
+  searchOptions: SearchOptions, 
+  setSearchOptions: Dispatch<SetStateAction<SearchOptions>>, 
+  isLoading: boolean 
+}) {
   return (
-    <Button
-      className="rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
-      onClick={(event) => {
-        event.preventDefault()
-        console.log('web search habilitado')
-      }}
-      variant="ghost"
-    >
-      <WebSearchIcon 
-        size={20}
-      />
-    </Button>
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          className={cx(
+            "rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200",
+            searchOptions.enabled && "bg-blue-100 dark:bg-blue-900"
+          )}
+          variant="ghost"
+          disabled={isLoading}
+        >
+          <WebSearchIcon size={20} />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 p-3">
+        <div className="space-y-3">
+          <h4 className="font-medium leading-none mb-2">Web Search</h4>
+          
+          <div className="flex items-center justify-between">
+            <Label htmlFor="search-enabled" className="text-sm">Enable Search</Label>
+            <Switch 
+              id="search-enabled" 
+              checked={searchOptions.enabled}
+              onCheckedChange={(checked) => 
+                setSearchOptions(prev => ({ ...prev, enabled: checked }))
+              }
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <Label 
+              htmlFor="deep-research" 
+              className={cx("text-sm", !searchOptions.enabled && "text-gray-400")}
+            >
+              Deep Research
+            </Label>
+            <Switch 
+              id="deep-research" 
+              disabled={!searchOptions.enabled}
+              checked={searchOptions.deepResearch}
+              onCheckedChange={(checked) => 
+                setSearchOptions(prev => ({ ...prev, deepResearch: checked }))
+              }
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <Label 
+              htmlFor="sources-count" 
+              className={cx("text-sm", !searchOptions.enabled && "text-gray-400")}
+            >
+              Number of Sources
+            </Label>
+            <Input 
+              id="sources-count"
+              type="number"
+              min={1}
+              max={10}
+              disabled={!searchOptions.enabled}
+              value={searchOptions.numberOfSources}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (isNaN(value)) return;
+                
+                // Clamp value between 1 and 10
+                const clampedValue = Math.min(Math.max(value, 1), 10);
+                setSearchOptions(prev => ({ ...prev, numberOfSources: clampedValue }));
+              }}
+              className="w-16 h-8 text-center"
+            />
+          </div>
+          
+          {searchOptions.enabled && (
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {searchOptions.deepResearch 
+                ? `Deep research analyzes ${searchOptions.numberOfSources} sources.` 
+                : `Basic search from ${searchOptions.numberOfSources} sources.`}
+            </div>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }
