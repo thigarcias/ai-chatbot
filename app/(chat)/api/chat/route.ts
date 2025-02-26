@@ -25,7 +25,7 @@ import { createDocument } from '@/lib/ai/tools/create-document'
 import { updateDocument } from '@/lib/ai/tools/update-document'
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions'
 import { getWeather } from '@/lib/ai/tools/get-weather'
-import { search } from '@/lib/ai/tools/search'
+import { search } from '@/lib/ai/tools/search/search'
 
 export const maxDuration = 60
 
