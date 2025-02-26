@@ -25,6 +25,7 @@ import { createDocument } from '@/lib/ai/tools/create-document'
 import { updateDocument } from '@/lib/ai/tools/update-document'
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions'
 import { getWeather } from '@/lib/ai/tools/get-weather'
+import { search } from '@/lib/ai/tools/search/search'
 
 export const maxDuration = 60
 
@@ -33,8 +34,17 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedChatModel,
-  }: { id: string; messages: Array<Message>; selectedChatModel: string } =
-    await request.json()
+    data,
+  }: { 
+    id: string 
+    messages: Array<Message> 
+    selectedChatModel: string
+    data?: {
+      useSearch: boolean
+      useScrape: boolean
+      numberOfResults: number
+    }
+  } = await request.json()
 
   const session = await auth()
 
@@ -46,6 +56,33 @@ export async function POST(request: Request) {
 
   if (!userMessage) {
     return new Response('No user message found', { status: 400 })
+  }
+
+  const modifiedMessages = [...messages]
+  
+  if (data?.useSearch) {
+    const searchSystemMessage: Message = {
+      id: generateUUID(),
+      role: 'system',
+      content: 
+            `IMPORTANT: Use the search tool to answer the user's question. ${
+            data.useScrape
+              ? 'Use deep search with content scraping to analyze complete webpage content.' 
+              : 'Use basic search to find relevant information.'
+          } Search for ${data.useSearch} sources.`,
+      createdAt: new Date()
+    }
+    
+    modifiedMessages.splice(modifiedMessages.length - 1, 0, searchSystemMessage)
+  } else {
+    const searchSystemMessage: Message = {
+      id: generateUUID(),
+      role: 'system',
+      content: 'do not use search',
+      createdAt: new Date()
+    }
+    
+    modifiedMessages.splice(modifiedMessages.length - 1, 0, searchSystemMessage)
   }
 
   const chat = await getChatById({ id })
@@ -67,13 +104,14 @@ export async function POST(request: Request) {
           selectedChatModel === 'claude-frontend'
           ? systemPromptClaudeFrontend({ selectedChatModel })
           : systemPrompt({ selectedChatModel }),
-        messages,
+        messages: modifiedMessages,
         maxSteps: 5,
         experimental_activeTools:
           selectedChatModel === 'chat-model-reasoning'
             ? []
             : [
               'getWeather',
+              'search',
               'createDocument',
               'updateDocument',
               'requestSuggestions',
@@ -82,6 +120,7 @@ export async function POST(request: Request) {
         experimental_generateMessageId: generateUUID,
         tools: {
           getWeather,
+          search,
           createDocument: createDocument({ session, dataStream }),
           updateDocument: updateDocument({ session, dataStream }),
           requestSuggestions: requestSuggestions({
