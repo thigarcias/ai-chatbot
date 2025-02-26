@@ -86,15 +86,34 @@ export const SourcesView: React.FC<SourcesViewProps> = ({
       return (
         <Image 
           src={source.favicon} 
-          alt={`${source.name} favicon`} 
+          alt={`${source.name || 'Source'} icon`} 
           width={16} 
           height={16} 
           className="rounded-sm"
+          onError={(e) => {
+            // If image fails to load, replace with Globe icon
+            e.currentTarget.style.display = 'none';
+            e.currentTarget.parentElement?.querySelector('.fallback-icon')?.classList.remove('hidden');
+          }}
         />
       )
     }
     
-    return <Globe className="h-4 w-4" />
+    if (source.name) {
+      const initial = source.name.charAt(0).toUpperCase()
+      return (
+        <div className="flex items-center justify-center w-full h-full bg-blue-100 dark:bg-blue-900 rounded-sm text-blue-700 dark:text-blue-300 text-xs font-medium">
+          {initial}
+        </div>
+      )
+    }
+    
+    return (
+      <>
+        <Globe className="h-4 w-4 fallback-icon" />
+        {source.favicon && <span className="hidden fallback-icon"><Globe className="h-4 w-4" /></span>}
+      </>
+    )
   }
   
   // Show empty or loading state
