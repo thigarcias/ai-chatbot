@@ -1,3 +1,7 @@
+import { FC } from 'react'
+import { Github, Sparkles } from 'lucide-react'
+import { BrandGithubCopilot } from '@/components/icons'
+
 /**
  * Provider information for the model selector UI
  */
@@ -6,7 +10,7 @@ export interface ProviderInfo {
   id: string
   name: string
   description: string
-  iconUrl: string
+  icon: FC
 }
 
 export const providers: ProviderInfo[] = [
@@ -14,19 +18,19 @@ export const providers: ProviderInfo[] = [
     id: 'github',
     name: 'GitHub Models',
     description: 'Models powered by GitHub',
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/25/25231.png'
+    icon: Github
   },
   {
     id: 'copilot',
     name: 'Copilot',
     description: 'Models optimized for code generation',
-    iconUrl: 'https://files.svgcdn.io/tabler/brand-github-copilot.svg'
+    icon: BrandGithubCopilot
   },
   {
     id: 'custom',
     name: 'Custom',
     description: 'Specialized models with custom system prompts',
-    iconUrl: 'https://api.iconify.design/mdi:shield-key.svg?color=%236E56CF'
+    icon: Sparkles
   }
 ]
 

@@ -58,63 +58,58 @@ export function ModelSelector({
     return providers.find(p => p.id === selectedProviderId) || providers[0]
   }, [selectedProviderId])
 
+  const SelectedProviderIcon = selectedProvider.icon
+
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       {/* Provider Selector */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
-            {selectedProvider.iconUrl && (
-              <div className="w-5 h-5 relative flex items-center justify-center">
-                <img 
-                  src={selectedProvider.iconUrl} 
-                  alt={selectedProvider.name}
-                  className="max-w-full max-h-full"
-                />
-              </div>
-            )}
+            <div className="w-5 h-5 relative flex items-center justify-center">
+              <SelectedProviderIcon />
+            </div>
             <span>{selectedProvider.name}</span>
             <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="min-w-[200px]">
-          {providers.map((provider) => (
-            <DropdownMenuItem
-              key={provider.id}
-              className="flex items-center gap-2 cursor-pointer"
-              onClick={() => {
-                setSelectedProviderId(provider.id)
-                // Select the first model from this provider if the current selected model
-                // is not from this provider
-                const providerModels = modelsByProvider[provider.id]
-                if (providerModels.length > 0) {
-                  const currentModelIsFromProvider = providerModels.some(
-                    model => model.id === optimisticModelId
-                  )
-                  
-                  if (!currentModelIsFromProvider) {
-                    const firstModel = providerModels[0]
-                    startTransition(() => {
-                      setOptimisticModelId(firstModel.id)
-                      saveChatModelAsCookie(firstModel.id)
-                    })
+          {providers.map((provider) => {
+            const ProviderIcon = provider.icon
+            return (
+              <DropdownMenuItem
+                key={provider.id}
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => {
+                  setSelectedProviderId(provider.id)
+                  // Select the first model from this provider if the current selected model
+                  // is not from this provider
+                  const providerModels = modelsByProvider[provider.id]
+                  if (providerModels.length > 0) {
+                    const currentModelIsFromProvider = providerModels.some(
+                      model => model.id === optimisticModelId
+                    )
+                    
+                    if (!currentModelIsFromProvider) {
+                      const firstModel = providerModels[0]
+                      startTransition(() => {
+                        setOptimisticModelId(firstModel.id)
+                        saveChatModelAsCookie(firstModel.id)
+                      })
+                    }
                   }
-                }
-              }}
-            >
-              <div className="w-5 h-5 relative flex items-center justify-center">
-                <img 
-                  src={provider.iconUrl} 
-                  alt={provider.name}
-                  className="max-w-full max-h-full"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span>{provider.name}</span>
-                <span className="text-xs text-muted-foreground">{provider.description}</span>
-              </div>
-            </DropdownMenuItem>
-          ))}
+                }}
+              >
+                <div className="w-5 h-5 relative flex items-center justify-center">
+                  <ProviderIcon />
+                </div>
+                <div className="flex flex-col">
+                  <span>{provider.name}</span>
+                  <span className="text-xs text-muted-foreground">{provider.description}</span>
+                </div>
+              </DropdownMenuItem>
+            )
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
 
