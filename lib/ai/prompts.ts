@@ -1,5 +1,6 @@
 import { ArtifactKind } from '@/components/artifact'
 import { customSystemPrompt } from './custom-prompts'
+import { chatModels } from './models'
 
 export const blocksPrompt = `
 Blocos é um modo especial de interface de usuário que ajuda os usuários com tarefas de escrita, edição e outras tarefas de criação de conteúdo. Quando um artefato está aberto, ele fica do lado direito da tela, enquanto a conversa fica do lado esquerdo. Ao criar ou atualizar documentos, as alterações são refletidas em tempo real nos artefatos e visíveis para o usuário.
@@ -74,7 +75,11 @@ export const systemPromptClaudeFrontend = ({
 }: {
   selectedChatModel: string
 }) => {
-  if (selectedChatModel === 'claude-frontend') {
+  // Find the model in the chatModels array to check its category
+  const model = chatModels.find(model => model.id === selectedChatModel)
+  
+  // Apply custom system prompt for models in the Custom category
+  if (model && model.category === 'Custom') {
     return `${regularPrompt}\n\n${blocksPrompt}\n\n${searchToolPrompt}\n\n${customSystemPrompt}`
   } else {
     return systemPrompt({ selectedChatModel })
