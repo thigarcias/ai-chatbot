@@ -31,6 +31,7 @@ export const myProvider = customProvider({
     'claude-3.5-sonnet-copilot': copilotModels.copilot('claude-3.5-sonnet'),
     'gemini-2.0-flash-copilot': copilotModels.copilot('gemini-2.0-flash-001'),
     'claude-3.7-sonnet': copilotModels.copilot('claude-3.7-sonnet'),
+    'claude-3.7-sonnet-thought': copilotModels.copilot('claude-3.7-sonnet-thought'),
     
     // Utility Models
     'title-model': githubModels.openai('gpt-4o-mini'),
