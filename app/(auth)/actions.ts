@@ -3,7 +3,7 @@
 import { z } from 'zod'
 
 import { signIn } from './auth'
-import { createUser, getUser } from '@/prisma/queries'
+import { createUser, getUser } from '@/prisma/queries/user'
 
 const authFormSchema = z.object({
   email: z.string().email(),
@@ -66,7 +66,7 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState
     }
-    
+
     try {
       await createUser(validatedData.email, validatedData.password)
       await signIn('credentials', {
@@ -74,7 +74,7 @@ export const register = async (
         password: validatedData.password,
         redirect: false,
       })
-      
+
       return { status: 'success' }
     } catch (error) {
       if (error instanceof Error && error.message === 'Registration not allowed for this email') {
