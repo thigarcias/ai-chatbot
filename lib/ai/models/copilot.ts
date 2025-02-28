@@ -47,6 +47,20 @@ export const models: Array<ChatModel> = [
     description: 'High-speed model optimized for coding tasks',
     provider: 'copilot' as ModelProvider,
     category: 'Copilot' as ModelCategory
+  },
+  {
+    id: 'claude-3.7-sonnet',
+    name: 'Claude 3.7 Sonnet',
+    description: 'Advanced model for creative and technical code suggestions',
+    provider: 'copilot' as ModelProvider,
+    category: 'Copilot' as ModelCategory
+  },
+  {
+    id: 'claude-3.7-sonnet-thought',
+    name: 'Claude 3.7 Sonnet Thought',
+    description: 'Advanced model for creative and technical code suggestions with thought process',
+    provider: 'copilot' as ModelProvider,
+    category: 'Copilot' as ModelCategory
   }
 ]
 
