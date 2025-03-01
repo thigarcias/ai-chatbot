@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation'
 
 import { auth } from '@/app/(auth)/auth'
 import { Chat } from '@/components/chat'
-import { getChatById, getMessagesByChatId } from '@/prisma/queries'
 import { convertToUIMessages } from '@/lib/utils'
 import { DataStreamHandler } from '@/components/data-stream-handler'
 import { DEFAULT_CHAT_MODEL } from '@/lib/ai/models'
+import { getChatById, getMessagesByChatId } from '@/prisma/queries/chat'
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params

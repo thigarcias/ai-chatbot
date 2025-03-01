@@ -1,8 +1,8 @@
 import { DataStreamWriter, tool } from 'ai'
 import { Session } from 'next-auth'
 import { z } from 'zod'
-import { getDocumentById } from '@/prisma/queries'
 import { documentHandlersByArtifactKind } from '@/lib/artifacts/server'
+import { getDocumentById } from '@/prisma/queries/chat'
 
 interface UpdateDocumentProps {
   session: Session

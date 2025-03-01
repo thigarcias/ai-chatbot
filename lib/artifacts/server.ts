@@ -2,11 +2,11 @@ import { codeDocumentHandler } from '@/artifacts/code/server'
 import { imageDocumentHandler } from '@/artifacts/image/server'
 import { sheetDocumentHandler } from '@/artifacts/sheet/server'
 import { textDocumentHandler } from '@/artifacts/text/server'
-import { saveDocument } from '@/prisma/queries'
 import { ArtifactKind } from '@/components/artifact'
 import { DataStreamWriter } from 'ai'
 import { Session } from 'next-auth'
 import { Document } from '@prisma/client'
+import { saveDocument } from '@/prisma/queries/chat'
 
 export interface SaveDocumentProps {
   id: string

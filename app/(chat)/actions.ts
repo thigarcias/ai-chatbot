@@ -3,13 +3,9 @@
 import { generateText, Message } from 'ai'
 import { cookies } from 'next/headers'
 
-import {
-  deleteMessagesByChatIdAfterTimestamp,
-  getMessageById,
-  updateChatVisiblityById,
-} from '@/prisma/queries'
 import { VisibilityType } from '@/components/visibility-selector'
 import { myProvider } from '@/lib/ai/models'
+import { deleteMessagesByChatIdAfterTimestamp, getMessageById, updateChatVisiblityById } from '@/prisma/queries/chat'
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies()
