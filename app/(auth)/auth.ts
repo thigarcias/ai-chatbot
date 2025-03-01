@@ -2,9 +2,8 @@ import { compare } from 'bcrypt-ts'
 import NextAuth, { type User, type Session } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
-import { getUser } from '@/prisma/queries'
-
 import { authConfig } from './auth.config'
+import { getUser } from '@/prisma/queries/user'
 
 interface ExtendedSession extends Session {
   user: User

@@ -1,5 +1,5 @@
 import { auth } from '@/app/(auth)/auth'
-import { getChatsByUserId } from '@/prisma/queries'
+import { getChatsByUserId } from '@/prisma/queries/chat'
 
 export async function GET() {
   const session = await auth()

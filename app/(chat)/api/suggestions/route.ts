@@ -1,5 +1,5 @@
 import { auth } from '@/app/(auth)/auth'
-import { getSuggestionsByDocumentId } from '@/prisma/queries'
+import { getSuggestionsByDocumentId } from '@/prisma/queries/chat'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)

@@ -1,9 +1,5 @@
 import { auth } from '@/app/(auth)/auth'
-import {
-  deleteDocumentsByIdAfterTimestamp,
-  getDocumentsById,
-  saveDocument,
-} from '@/prisma/queries'
+import { deleteDocumentsByIdAfterTimestamp, getDocumentsById, saveDocument } from '@/prisma/queries/chat'
 import { DocumentKind } from '@prisma/client'
 
 export async function GET(request: Request) {

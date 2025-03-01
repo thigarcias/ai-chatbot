@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { Session } from 'next-auth'
 import { DataStreamWriter, streamObject, tool } from 'ai'
-import { getDocumentById, saveSuggestions } from '@/prisma/queries'
 import { Suggestion } from '@prisma/client'
 import { generateUUID } from '@/lib/utils'
 import { myProvider } from '../models'
+import { getDocumentById, saveSuggestions } from '@/prisma/queries/chat'
 
 interface RequestSuggestionsProps {
   session: Session
