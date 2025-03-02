@@ -61,15 +61,15 @@ export function ModelSelector({
   const SelectedProviderIcon = selectedProvider.icon
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+    <div className="flex flex-row items-center gap-2">
       {/* Provider Selector */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="flex items-center gap-1 flex-shrink-0">
             <div className="w-5 h-5 relative flex items-center justify-center">
               <SelectedProviderIcon />
             </div>
-            <span>{selectedProvider.name}</span>
+            <span className="truncate max-w-[80px] sm:max-w-full">{selectedProvider.name}</span>
             <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
@@ -118,12 +118,12 @@ export function ModelSelector({
         <DropdownMenuTrigger
           asChild
           className={cn(
-            'w-full sm:w-auto data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
+            'flex-1 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
             className,
           )}
         >
-          <Button variant="outline" className="md:px-2 md:h-[34px]">
-            {selectedChatModel?.name}
+          <Button variant="outline" className="truncate md:px-2 md:h-[34px]">
+            <span className="truncate">{selectedChatModel?.name}</span>
             <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
