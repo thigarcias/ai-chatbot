@@ -22,7 +22,6 @@ export const {
       async authorize({ email, password }: any) {
         const users = await getUser(email)
         if (!users) return null
-        // biome-ignore lint: Forbidden non-null assertion.
         const passwordsMatch = await compare(password, users.password!)
         if (!passwordsMatch) return null
 
@@ -46,6 +45,8 @@ export const {
       token: any
     }) {
       if (session.user) {
+        const user = await getUser(session.user.email ?? '')
+        session.user.name = user?.name
         session.user.id = token.id as string
       }
 

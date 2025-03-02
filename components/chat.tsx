@@ -22,12 +22,14 @@ export function Chat({
   selectedChatModel,
   selectedVisibilityType,
   isReadonly,
+  userName
 }: {
   id: string
   initialMessages: Array<Message>
   selectedChatModel: string
   selectedVisibilityType: VisibilityType
   isReadonly: boolean
+  userName?: string
 }) {
   const { mutate } = useSWRConfig()
 
@@ -63,6 +65,9 @@ export function Chat({
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([])
   const isArtifactVisible = useArtifactSelector((state) => state.isVisible)
+  
+  // Verifica se não há mensagens para decidir o posicionamento do input
+  const isEmptyChat = messages.length === 0
 
   return (
     <>
@@ -74,34 +79,65 @@ export function Chat({
           isReadonly={isReadonly}
         />
 
-        <Messages
-          chatId={id}
-          isLoading={isLoading}
-          votes={votes}
-          messages={messages}
-          setMessages={setMessages}
-          reload={reload}
-          isReadonly={isReadonly}
-          isArtifactVisible={isArtifactVisible}
-        />
-
-        <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
-          {!isReadonly && (
-            <MultimodalInput
+        {isEmptyChat ? (
+          <div className="flex-grow flex flex-col items-center justify-center -mt-16">
+            <div className="w-full max-w-3xl px-4 flex flex-col items-center">
+              <h2 className="text-xl font-medium text-center mb-8 text-muted-foreground">
+                {userName ? `Olá, ${userName}! Como posso te ajudar hoje?` : 'Como posso te ajudar hoje?'}
+              </h2>
+              
+              {!isReadonly && (
+                <form className="w-full">
+                  <MultimodalInput
+                    chatId={id}
+                    input={input}
+                    setInput={setInput}
+                    handleSubmit={handleSubmit}
+                    isLoading={isLoading}
+                    stop={stop}
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    messages={messages}
+                    setMessages={setMessages}
+                    append={append}
+                    className="shadow-sm"
+                  />
+                </form>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            <Messages
               chatId={id}
-              input={input}
-              setInput={setInput}
-              handleSubmit={handleSubmit}
               isLoading={isLoading}
-              stop={stop}
-              attachments={attachments}
-              setAttachments={setAttachments}
+              votes={votes}
               messages={messages}
               setMessages={setMessages}
-              append={append}
+              reload={reload}
+              isReadonly={isReadonly}
+              isArtifactVisible={isArtifactVisible}
             />
-          )}
-        </form>
+
+            <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+              {!isReadonly && (
+                <MultimodalInput
+                  chatId={id}
+                  input={input}
+                  setInput={setInput}
+                  handleSubmit={handleSubmit}
+                  isLoading={isLoading}
+                  stop={stop}
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  messages={messages}
+                  setMessages={setMessages}
+                  append={append}
+                />
+              )}
+            </form>
+          </>
+        )}
       </div>
 
       <Artifact

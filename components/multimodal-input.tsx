@@ -26,7 +26,6 @@ import { ArrowUpIcon, PaperclipIcon, StopIcon, WebSearchIcon } from './icons'
 import { PreviewAttachment } from './preview-attachment'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
-import { SuggestedActions } from './suggested-actions'
 import equal from 'fast-deep-equal'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Label } from './ui/label'
@@ -48,9 +47,7 @@ function PureMultimodalInput({
   stop,
   attachments,
   setAttachments,
-  messages,
   setMessages,
-  append,
   handleSubmit,
   className,
 }: {
@@ -223,12 +220,6 @@ function PureMultimodalInput({
 
   return (
     <div className="relative w-full flex flex-col gap-4">
-      {messages.length === 0 &&
-        attachments.length === 0 &&
-        uploadQueue.length === 0 && (
-        <SuggestedActions append={append} chatId={chatId} />
-      )}
-
       <input
         type="file"
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
@@ -260,7 +251,7 @@ function PureMultimodalInput({
 
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Digite sua mensagem aqui..."
         value={input}
         onChange={handleInput}
         className={cx(
