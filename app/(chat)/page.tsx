@@ -11,8 +11,7 @@ export default async function Page() {
 
   const [session, cookieStore] = await Promise.all([auth(), cookies()])
   const modelIdFromCookie = cookieStore.get('chat-model')
-  const userName = session?.user?.email ?? undefined
-  console.log(session)
+  const userName = session?.user?.name ?? undefined
 
   if (!modelIdFromCookie) {
     return (
@@ -20,6 +19,7 @@ export default async function Page() {
         <Chat
           key={id}
           id={id}
+          userName={userName}
           initialMessages={[]}
           selectedChatModel={DEFAULT_CHAT_MODEL}
           selectedVisibilityType="private"
