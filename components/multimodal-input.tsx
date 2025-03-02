@@ -255,7 +255,7 @@ function PureMultimodalInput({
         value={input}
         onChange={handleInput}
         className={cx(
-          'min-h-[36px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10',
+          'min-h-[36px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base dark:bg-[#303030] pb-10',
           className,
         )}
         rows={3}
@@ -366,7 +366,7 @@ function PureSendButton({
 }) {
   return (
     <Button
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      className="rounded-full p-2 h-fit border dark:border-gray-600"
       onClick={(event) => {
         event.preventDefault()
         submitForm()
