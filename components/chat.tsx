@@ -82,7 +82,7 @@ export function Chat({
         {isEmptyChat ? (
           <div className="flex-grow flex flex-col items-center justify-center -mt-16">
             <div className="w-full max-w-3xl px-4 flex flex-col items-center">
-              <h2 className="text-xl font-medium text-center mb-8 text-muted-foreground">
+              <h2 className="text-2xl font-medium text-center mb-8">
                 {userName ? `Olá, ${userName}! Como posso te ajudar hoje?` : 'Como posso te ajudar hoje?'}
               </h2>
               
