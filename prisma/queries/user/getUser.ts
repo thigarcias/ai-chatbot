@@ -6,7 +6,5 @@ export async function getUser(email: string): Promise<User | null> {
     where: { email }
   })
 
-  console.log(data?.name)
-
   return data
 }

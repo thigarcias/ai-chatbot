@@ -46,6 +46,7 @@ export const {
     }) {
       if (session.user) {
         const user = await getUser(session.user.email ?? '')
+        session.user.image = user?.profilePicture
         session.user.name = user?.name
         session.user.id = token.id as string
       }
