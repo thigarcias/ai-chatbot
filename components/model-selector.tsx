@@ -65,7 +65,7 @@ export function ModelSelector({
       {/* Provider Selector */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-1 flex-shrink-0">
+          <Button variant="outline" className="flex items-center gap-1 flex-shrink-0 md:px-2 md:h-[34px]">
             <div className="w-5 h-5 relative flex items-center justify-center">
               <SelectedProviderIcon />
             </div>
@@ -120,8 +120,7 @@ export function ModelSelector({
           className={cn(
             'flex-1 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
             className,
-          )}
-        >
+          )}>
           <Button variant="outline" className="truncate md:px-2 md:h-[34px]">
             <span className="truncate">{selectedChatModel?.name}</span>
             <ChevronDownIcon />
