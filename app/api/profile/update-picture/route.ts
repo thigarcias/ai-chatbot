@@ -1,45 +1,49 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { updateUserProfilePicture } from '@/prisma/queries/user/updatePhoto'
 import { auth } from '@/app/(auth)/auth'
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const session = await auth()
 
-    if (!session || !session.user) {
-      return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+    if (!session?.user?.id) {
+      return Response.json({ success: false, error: 'Não autenticado' }, { status: 401 })
     }
 
     const formData = await request.formData()
     const file = formData.get('file') as File
     
     if (!file) {
-      return NextResponse.json({ error: 'Nenhum arquivo enviado' }, { status: 400 })
+      return Response.json({ success: false, error: 'Nenhum arquivo enviado' }, { status: 400 })
     }
 
     // Converter File para Buffer
     const buffer = Buffer.from(await file.arrayBuffer())
+    console.log('Buffer criado com tamanho:', buffer.length)
+    
+    // Importação dinâmica para evitar problemas de inicialização
+    const { updateUserProfilePicture } = await import('@/prisma/queries/user/updatePhoto')
     
     // Atualizar foto do usuário
     const result = await updateUserProfilePicture(
-      session.user.id as string,
+      session.user.id,
       buffer,
       `profile-${Date.now()}-${file.name}`
     )
 
-    if (!result.success) {
-      throw new Error(result.error || 'Erro ao atualizar foto')
-    }
+    console.log('Resultado da atualização:', result)
 
-    return NextResponse.json({ 
-      success: true, 
-      user: result.user 
-    })
-  } catch (error) {
+    // Mesmo que tenha erro no DB, se a imagem foi enviada, consideramos sucesso
+    return Response.json({
+      success: result.success,
+      user: result.user,
+      error: result.error
+    }, { status: result.success ? 200 : 400 })
+
+  } catch (error: any) {
     console.error('Erro no processamento do upload:', error)
-    return NextResponse.json(
-      { error: 'Erro ao processar imagem' }, 
-      { status: 500 }
-    )
+    
+    return Response.json({
+      success: false, 
+      error: error?.message || 'Erro ao processar imagem'
+    }, { status: 500 })
   }
 }

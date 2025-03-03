@@ -24,7 +24,7 @@ model User {
   email    String       @unique @db.VarChar(64)
   name     String?      @db.VarChar(64)
   password String?      @db.VarChar(64)
-  profilePicture String?      @db.Text
+  profilePicture String? @db.VarChar(256)
   chats    Chat[]
   documents Document[]
   suggestions Suggestion[]
