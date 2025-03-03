@@ -4,20 +4,18 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Camera, Loader2, Upload, X, Save, User as UserIcon } from 'lucide-react'
 import { User } from 'next-auth'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export function ProfileEditor({ user }: { user: User }) {
   const router = useRouter()
-  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [userName, setUserName] = useState(user.name || '')
@@ -46,20 +44,18 @@ export function ProfileEditor({ user }: { user: User }) {
     const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
     if (!validTypes.includes(file.type)) {
       setError('Por favor, selecione uma imagem (JPEG, PNG, WEBP ou GIF).')
-      toast({
-        variant: 'destructive',
-        title: 'Formato inválido',
-        description: 'Por favor, selecione uma imagem (JPEG, PNG, WEBP ou GIF).'
+      toast('Formato inválido', {
+        description: 'Por favor, selecione uma imagem (JPEG, PNG, WEBP ou GIF).',
+        className: 'bg-destructive text-destructive-foreground'
       })
       return
     }
 
     if (file.size > 5 * 1024 * 1024) {
       setError('A imagem deve ter menos de 5MB.')
-      toast({
-        variant: 'destructive',
-        title: 'Arquivo muito grande',
-        description: 'A imagem deve ter menos de 5MB.'
+      toast('Arquivo muito grande', {
+        description: 'A imagem deve ter menos de 5MB.',
+        className: 'bg-destructive text-destructive-foreground'
       })
       return
     }
@@ -73,8 +69,7 @@ export function ProfileEditor({ user }: { user: User }) {
     }
     reader.readAsDataURL(file)
     
-    toast({
-      title: 'Imagem selecionada',
+    toast('Imagem selecionada', {
       description: 'Clique em "Atualizar Foto" para salvar.'
     })
   }
@@ -105,10 +100,8 @@ export function ProfileEditor({ user }: { user: User }) {
         throw new Error('Falha ao atualizar imagem')
       }
       
-      toast({
-        title: 'Sucesso!',
-        description: 'Sua foto de perfil foi atualizada.',
-        variant: 'default'
+      toast('Sucesso!', {
+        description: 'Sua foto de perfil foi atualizada.'
       })
       
       setImageFile(null)
@@ -117,10 +110,9 @@ export function ProfileEditor({ user }: { user: User }) {
     } catch (error) {
       console.error('Erro ao atualizar foto:', error)
       setError('Não foi possível atualizar sua foto. Tente novamente.')
-      toast({
-        variant: 'destructive',
-        title: 'Erro ao atualizar foto',
-        description: 'Não foi possível atualizar sua foto. Tente novamente.'
+      toast('Erro ao atualizar foto', {
+        description: 'Não foi possível atualizar sua foto. Tente novamente.',
+        className: 'bg-destructive text-destructive-foreground'
       })
     } finally {
       setIsLoading(false)
@@ -160,15 +152,14 @@ export function ProfileEditor({ user }: { user: User }) {
       //   body: JSON.stringify({ name: userName })
       // })
 
-      toast({
-        title: 'Perfil atualizado',
-        description: 'Suas informações foram salvas com sucesso!',
+      toast('Perfil atualizado', {
+        description: 'Suas informações foram salvas com sucesso!'
       })
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Falha ao atualizar',
-        description: 'Não foi possível atualizar seu perfil. Tente novamente.'
+      console.error('Erro ao atualizar perfil:', error)
+      toast('Falha ao atualizar', {
+        description: 'Não foi possível atualizar seu perfil. Tente novamente.',
+        className: 'bg-destructive text-destructive-foreground'
       })
     } finally {
       setIsSaving(false)
