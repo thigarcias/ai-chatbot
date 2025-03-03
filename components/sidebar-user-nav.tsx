@@ -4,6 +4,7 @@ import Image from 'next/image'
 import type { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import { useTheme } from 'next-themes'
+import Link from 'next/link'
 
 import {
   DropdownMenu,
@@ -28,7 +29,7 @@ export function SidebarUserNav({ user }: { user: User }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
               <Image
-                src={`https://avatar.vercel.sh/${user.name}`}
+                src={user.image || `https://avatar.vercel.sh/${user.name}`}
                 alt={user.email ?? 'User Avatar'}
                 width={24}
                 height={24}
@@ -42,6 +43,11 @@ export function SidebarUserNav({ user }: { user: User }) {
             side="top"
             className="w-[--radix-popper-anchor-width]"
           >
+            <DropdownMenuItem asChild>
+              <Link href="/profile/edit" className="cursor-pointer">
+                Edit profile
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
