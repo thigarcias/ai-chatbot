@@ -10,7 +10,8 @@
     "lint": "next lint",
     "lint:unsafe": "next lint && biome lint --write --unsafe",
     "lint:fix": "eslint . --ext ts,tsx --fix",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "update-lock": "pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
     "@ai-sdk/fireworks": "^0.1.8",
