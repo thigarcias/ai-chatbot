@@ -17,16 +17,19 @@ import {
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { useTheme } from 'next-themes'
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter()
   const { setOpenMobile } = useSidebar()
+  const { resolvedTheme } = useTheme()
+  const logoPath = resolvedTheme === 'light' ? '/logo-title/light.svg' : '/logo-title/dark.svg'
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center py-6">
             <Link
               href="/"
               onClick={() => {
@@ -34,9 +37,11 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               }}
               className="flex flex-row gap-3 items-center"
             >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
-              </span>
+              <img 
+                src={logoPath} 
+                alt="logo" 
+                className='w-32'
+              />
             </Link>
             <Tooltip>
               <TooltipTrigger asChild>
