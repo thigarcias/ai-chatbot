@@ -16,7 +16,6 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { useTheme } from 'next-themes'
 
 export function AppSidebar({ user }: { user: User | undefined }) {
@@ -43,23 +42,18 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 className='w-32'
               />
             </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit"
-                  onClick={() => {
-                    setOpenMobile(false)
-                    router.push('/')
-                    router.refresh()
-                  }}
-                >
-                  <PlusIcon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent align="end">New Chat</TooltipContent>
-            </Tooltip>
+            <Button
+              variant="ghost"
+              type="button"
+              className="p-2 h-fit"
+              onClick={() => {
+                setOpenMobile(false)
+                router.push('/')
+                router.refresh()
+              }}
+            >
+              <PlusIcon />
+            </Button>
           </div>
         </SidebarMenu>
       </SidebarHeader>
