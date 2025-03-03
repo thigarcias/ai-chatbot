@@ -15,23 +15,17 @@ export async function POST(request: Request) {
       return Response.json({ success: false, error: 'Nenhum arquivo enviado' }, { status: 400 })
     }
 
-    // Converter File para Buffer
     const buffer = Buffer.from(await file.arrayBuffer())
     console.log('Buffer criado com tamanho:', buffer.length)
     
-    // Importação dinâmica para evitar problemas de inicialização
     const { updateUserProfilePicture } = await import('@/prisma/queries/user/updatePhoto')
     
-    // Atualizar foto do usuário
     const result = await updateUserProfilePicture(
       session.user.id,
       buffer,
       `profile-${Date.now()}-${file.name}`
     )
-
-    console.log('Resultado da atualização:', result)
-
-    // Mesmo que tenha erro no DB, se a imagem foi enviada, consideramos sucesso
+    
     return Response.json({
       success: result.success,
       user: result.user,
