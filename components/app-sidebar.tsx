@@ -29,7 +29,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center py-6">
+          <div className="flex flex-row justify-between items-center py-6 px-2">
             <Link
               href="/"
               onClick={() => {

@@ -22,7 +22,7 @@ import { useLocalStorage, useWindowSize } from 'usehooks-ts'
 
 import { sanitizeUIMessages } from '@/lib/utils'
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon, WebSearchIcon } from './icons'
+import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons'
 import { PreviewAttachment } from './preview-attachment'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
@@ -31,6 +31,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Label } from './ui/label'
 import { Switch } from './ui/switch'
 import { Input } from './ui/input' // Add Input import
+import { Globe } from 'lucide-react'
 
 // Search option types
 interface SearchOptions {
@@ -406,7 +407,7 @@ function WebSearchButton({
           variant="ghost"
           disabled={isLoading}
         >
-          <WebSearchIcon size={20} />
+          <Globe />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-3">

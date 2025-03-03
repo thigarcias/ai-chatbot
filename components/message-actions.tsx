@@ -31,10 +31,10 @@ export function PureMessageActions({
     return null
 
   return (
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row">
             <Button
               className="py-1 px-2 h-fit text-muted-foreground"
-              variant="outline"
+              variant="ghost"
               onClick={async () => {
                 await copyToClipboard(message.content as string)
                 toast.success('Copied to clipboard!')
@@ -45,7 +45,7 @@ export function PureMessageActions({
             <Button
               className="py-1 px-2 h-fit text-muted-foreground !pointer-events-auto"
               disabled={vote?.isUpvoted}
-              variant="outline"
+              variant="ghost"
               onClick={async () => {
                 const upvote = fetch('/api/vote', {
                   method: 'PATCH',
@@ -90,7 +90,7 @@ export function PureMessageActions({
             </Button>
             <Button
               className="py-1 px-2 h-fit text-muted-foreground !pointer-events-auto"
-              variant="outline"
+              variant="ghost"
               disabled={vote && !vote.isUpvoted}
               onClick={async () => {
                 const downvote = fetch('/api/vote', {
