@@ -6,14 +6,8 @@ import { useCopyToClipboard } from 'usehooks-ts'
 
 import type { Vote } from '@prisma/client'
 
-import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from './icons'
+import { ThumbsUp, ThumbsDown, Copy } from 'lucide-react'
 import { Button } from './ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip'
 import { memo } from 'react'
 import equal from 'fast-deep-equal'
 
@@ -37,10 +31,7 @@ export function PureMessageActions({
     return null
 
   return (
-    <TooltipProvider delayDuration={0}>
       <div className="flex flex-row gap-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
             <Button
               className="py-1 px-2 h-fit text-muted-foreground"
               variant="outline"
@@ -49,14 +40,8 @@ export function PureMessageActions({
                 toast.success('Copied to clipboard!')
               }}
             >
-              <CopyIcon />
+              <Copy />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>Copy</TooltipContent>
-        </Tooltip>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
             <Button
               className="py-1 px-2 h-fit text-muted-foreground !pointer-events-auto"
               disabled={vote?.isUpvoted}
@@ -101,14 +86,8 @@ export function PureMessageActions({
                 })
               }}
             >
-              <ThumbUpIcon />
+              <ThumbsUp />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>Upvote Response</TooltipContent>
-        </Tooltip>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
             <Button
               className="py-1 px-2 h-fit text-muted-foreground !pointer-events-auto"
               variant="outline"
@@ -153,13 +132,9 @@ export function PureMessageActions({
                 })
               }}
             >
-              <ThumbDownIcon />
+              <ThumbsDown />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>Downvote Response</TooltipContent>
-        </Tooltip>
       </div>
-    </TooltipProvider>
   )
 }
 
