@@ -6,9 +6,9 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Next.js Chatbot Template',
-  description: 'Next.js chatbot template using the AI SDK.',
+  metadataBase: new URL('https://ai-chatbot-psi-lime.vercel.app/'),
+  title: 'OmniChat',
+  description: 'A universal chat interface for all AI models',
 }
 
 export const viewport = {
@@ -49,6 +49,7 @@ export default async function RootLayout({
       // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
       suppressHydrationWarning
     >
+      <link rel="icon" href="/favicon.ico" />
       <head>
         <script
           dangerouslySetInnerHTML={{
