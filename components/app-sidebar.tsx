@@ -16,17 +16,19 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { useTheme } from 'next-themes'
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter()
   const { setOpenMobile } = useSidebar()
+  const { resolvedTheme } = useTheme()
+  const logoPath = resolvedTheme === 'light' ? '/logo-title/light.svg' : '/logo-title/dark.svg'
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center py-6 px-2">
             <Link
               href="/"
               onClick={() => {
@@ -34,27 +36,24 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               }}
               className="flex flex-row gap-3 items-center"
             >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
-              </span>
+              <img 
+                src={logoPath} 
+                alt="logo" 
+                className='w-32'
+              />
             </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit"
-                  onClick={() => {
-                    setOpenMobile(false)
-                    router.push('/')
-                    router.refresh()
-                  }}
-                >
-                  <PlusIcon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent align="end">New Chat</TooltipContent>
-            </Tooltip>
+            <Button
+              variant="ghost"
+              type="button"
+              className="p-2 h-fit"
+              onClick={() => {
+                setOpenMobile(false)
+                router.push('/')
+                router.refresh()
+              }}
+            >
+              <PlusIcon />
+            </Button>
           </div>
         </SidebarMenu>
       </SidebarHeader>

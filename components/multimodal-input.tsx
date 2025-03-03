@@ -22,16 +22,16 @@ import { useLocalStorage, useWindowSize } from 'usehooks-ts'
 
 import { sanitizeUIMessages } from '@/lib/utils'
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon, WebSearchIcon } from './icons'
+import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons'
 import { PreviewAttachment } from './preview-attachment'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
-import { SuggestedActions } from './suggested-actions'
 import equal from 'fast-deep-equal'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Label } from './ui/label'
 import { Switch } from './ui/switch'
 import { Input } from './ui/input' // Add Input import
+import { Globe } from 'lucide-react'
 
 // Search option types
 interface SearchOptions {
@@ -48,9 +48,7 @@ function PureMultimodalInput({
   stop,
   attachments,
   setAttachments,
-  messages,
   setMessages,
-  append,
   handleSubmit,
   className,
 }: {
@@ -223,12 +221,6 @@ function PureMultimodalInput({
 
   return (
     <div className="relative w-full flex flex-col gap-4">
-      {messages.length === 0 &&
-        attachments.length === 0 &&
-        uploadQueue.length === 0 && (
-        <SuggestedActions append={append} chatId={chatId} />
-      )}
-
       <input
         type="file"
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
@@ -260,14 +252,14 @@ function PureMultimodalInput({
 
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Como podemos te ajudar hoje?"
         value={input}
         onChange={handleInput}
         className={cx(
-          'min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10 dark:border-zinc-700',
+          'min-h-[36px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base dark:bg-[#303030] pb-10',
           className,
         )}
-        rows={2}
+        rows={3}
         autoFocus
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) {
@@ -375,7 +367,7 @@ function PureSendButton({
 }) {
   return (
     <Button
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      className="rounded-full p-2 h-fit border dark:border-gray-600"
       onClick={(event) => {
         event.preventDefault()
         submitForm()
@@ -415,7 +407,7 @@ function WebSearchButton({
           variant="ghost"
           disabled={isLoading}
         >
-          <WebSearchIcon size={20} />
+          <Globe />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-3">

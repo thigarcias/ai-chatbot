@@ -18,6 +18,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   }
 
   const session = await auth()
+  const userName = session?.user?.name ?? undefined
 
   if (chat.visibility === 'private') {
     if (!session || !session.user) {
@@ -41,6 +42,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <>
         <Chat
           id={chat.id}
+          userName={userName}
           initialMessages={convertToUIMessages(messagesFromDb)}
           selectedChatModel={DEFAULT_CHAT_MODEL}
           selectedVisibilityType={chat.visibility}
@@ -55,6 +57,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <>
       <Chat
         id={chat.id}
+        userName={userName}
         initialMessages={convertToUIMessages(messagesFromDb)}
         selectedChatModel={chatModelFromCookie.value}
         selectedVisibilityType={chat.visibility}
