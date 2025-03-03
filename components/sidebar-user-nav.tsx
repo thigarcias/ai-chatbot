@@ -44,7 +44,7 @@ export function SidebarUserNav({ user }: { user: User }) {
             className="w-[--radix-popper-anchor-width]"
           >
             <DropdownMenuItem asChild>
-              <Link href="/profile/edit" className="cursor-pointer">
+              <Link href="/profile" className="cursor-pointer">
                 Edit profile
               </Link>
             </DropdownMenuItem>
