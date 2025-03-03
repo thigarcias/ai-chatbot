@@ -11,7 +11,6 @@ import { fetcher, generateUUID } from '@/lib/utils'
 import { Artifact } from './artifact'
 import { MultimodalInput } from './multimodal-input'
 import { Messages } from './messages'
-import { VisibilityType } from './visibility-selector'
 import { useArtifactSelector } from '@/hooks/use-artifact'
 import { toast } from 'sonner'
 import { Vote } from '@prisma/client'
@@ -20,14 +19,13 @@ export function Chat({
   id,
   initialMessages,
   selectedChatModel,
-  selectedVisibilityType,
   isReadonly,
   userName
 }: {
   id: string
   initialMessages: Array<Message>
   selectedChatModel: string
-  selectedVisibilityType: VisibilityType
+  selectedVisibilityType?: string  // Mantido para compatibilidade
   isReadonly: boolean
   userName?: string
 }) {
@@ -75,7 +73,6 @@ export function Chat({
         <ChatHeader
           chatId={id}
           selectedModelId={selectedChatModel}
-          selectedVisibilityType={selectedVisibilityType}
           isReadonly={isReadonly}
         />
 

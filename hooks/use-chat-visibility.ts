@@ -3,8 +3,8 @@
 import { updateChatVisibility } from '@/app/(chat)/actions'
 import { VisibilityType } from '@/components/visibility-selector'
 import { Chat } from '@prisma/client'
-import { useMemo } from 'react'
-import useSWR, { useSWRConfig } from 'swr'
+import { useEffect } from 'react'
+import { useSWRConfig } from 'swr'
 
 export function useChatVisibility({
   chatId,
@@ -13,28 +13,15 @@ export function useChatVisibility({
   chatId: string
   initialVisibility: VisibilityType
 }) {
-  const { mutate, cache } = useSWRConfig()
-  const history: Array<Chat> = cache.get('/api/history')?.data
+  const { mutate } = useSWRConfig()
 
-  const { data: localVisibility, mutate: setLocalVisibility } = useSWR(
-    `${chatId}-visibility`,
-    null,
-    {
-      fallbackData: initialVisibility,
-    },
-  )
+  useEffect(() => {
+    if (initialVisibility !== 'public') {
+      updateVisibilityToPublic()
+    }
+  }, [])
 
-  const visibilityType = useMemo(() => {
-    if (!history) return localVisibility
-    const chat = history.find((chat) => chat.id === chatId)
-    if (!chat) return 'private'
-
-    return chat.visibility
-  }, [history, chatId, localVisibility])
-
-  const setVisibilityType = (updatedVisibilityType: VisibilityType) => {
-    setLocalVisibility(updatedVisibilityType)
-
+  const updateVisibilityToPublic = () => {
     mutate<Array<Chat>>(
       '/api/history',
       (history) => {
@@ -43,7 +30,7 @@ export function useChatVisibility({
             if (chat.id === chatId) {
               return {
                 ...chat,
-                visibility: updatedVisibilityType,
+                visibility: 'public',
               }
             }
 
@@ -51,14 +38,17 @@ export function useChatVisibility({
           })
           : []
       },
-      { revalidate: false },
+      { revalidate: false }
     )
 
     updateChatVisibility({
       chatId: chatId,
-      visibility: updatedVisibilityType,
+      visibility: 'public',
     })
   }
 
-  return { visibilityType, setVisibilityType }
+  return { 
+    visibilityType: 'public', 
+    setVisibilityType: () => {} 
+  }
 }
