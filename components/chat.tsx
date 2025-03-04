@@ -25,7 +25,7 @@ export function Chat({
   id: string
   initialMessages: Array<Message>
   selectedChatModel: string
-  selectedVisibilityType?: string  // Mantido para compatibilidade
+  selectedVisibilityType?: string
   isReadonly: boolean
   userName?: string
 }) {

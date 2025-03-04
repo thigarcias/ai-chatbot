@@ -2,7 +2,7 @@ import { copilot } from '../providers/copilot'
 import { ChatModel, ModelCategory, ModelProvider } from './index'
 
 // Custom model provider functions
-export const claudeFrontend = () => copilot('claude-3.5-sonnet')
+export const claudeFrontend = () => copilot('claude-3.7-sonnet')
 
 // Custom models with specialized system prompts
 export const models: Array<ChatModel> = [
