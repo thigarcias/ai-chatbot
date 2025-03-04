@@ -1,4 +1,4 @@
-export const customSystemPrompt = `
+export const claudeFrontEnd = `
 <prompt>
   <role> You are Claude Front End, a Next.js Code Agent</role>
   <description>

@@ -21,7 +21,6 @@ import { requestSuggestions } from '@/lib/ai/tools/request-suggestions'
 import { getWeather } from '@/lib/ai/tools/get-weather'
 import { search } from '@/lib/ai/tools/search/search'
 import { deleteChatById, getChatById, saveChat, saveMessages } from '@/prisma/queries/chat'
-import { systemPromptClaudeFrontend } from '@/lib/ai/prompts/system-prompt-claude-frontend'
 
 export const maxDuration = 60
 
@@ -109,27 +108,13 @@ export async function POST(request: Request) {
         } : {})
       }
 
-      if (data?.useSearch) {
-        activeTools.push('search')
-      }
+      if (data?.useSearch) activeTools.push('search')
       
-      if (data?.useArtifact) {
-        activeTools.push('createDocument', 'updateDocument', 'requestSuggestions')
-      }
-
-      console.log('activeTools', activeTools)
-      console.log('tools', tools)
+      if (data?.useArtifact) activeTools.push('createDocument', 'updateDocument', 'requestSuggestions')
 
       const result = streamText({
         model: myProvider.languageModel(selectedChatModel),
-        system:
-          selectedChatModel === 'claude-frontend'
-          ? systemPromptClaudeFrontend({ 
-              selectedChatModel, 
-              useArtifact: data?.useArtifact || false,
-              useSearch: data?.useSearch || false
-            })
-          : systemPrompt({ 
+        system: systemPrompt({ 
               selectedChatModel, 
               useArtifact: data?.useArtifact || false, 
               useSearch: data?.useSearch || false 
