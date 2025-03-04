@@ -9,7 +9,7 @@ import { ChatHeader } from '@/components/chat-header'
 import { fetcher, generateUUID } from '@/lib/utils'
 
 import { Artifact } from './artifact'
-import { MultimodalInput } from './multimodal-input'
+import { MultimodalInput } from './multimodal-input/multimodal-input'
 import { Messages } from './messages'
 import { useArtifactSelector } from '@/hooks/use-artifact'
 import { toast } from 'sonner'

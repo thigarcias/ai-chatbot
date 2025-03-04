@@ -7,7 +7,7 @@ import {
 
 import { auth } from '@/app/(auth)/auth'
 import { myProvider } from '@/lib/ai/models'
-import { systemPrompt, systemPromptClaudeFrontend } from '@/lib/ai/prompts'
+import { systemPrompt } from '@/lib/ai/prompts/system-prompt'
 import {
   generateUUID,
   getMostRecentUserMessage,
@@ -21,6 +21,7 @@ import { requestSuggestions } from '@/lib/ai/tools/request-suggestions'
 import { getWeather } from '@/lib/ai/tools/get-weather'
 import { search } from '@/lib/ai/tools/search/search'
 import { deleteChatById, getChatById, saveChat, saveMessages } from '@/prisma/queries/chat'
+import { systemPromptClaudeFrontend } from '@/lib/ai/prompts/system-prompt-claude-frontend'
 
 export const maxDuration = 60
 
@@ -38,6 +39,7 @@ export async function POST(request: Request) {
       useSearch: boolean
       useScrape: boolean
       numberOfResults: number
+      useArtifact: boolean
     }
   } = await request.json()
 
@@ -93,36 +95,54 @@ export async function POST(request: Request) {
 
   return createDataStreamResponse({
     execute: (dataStream) => {
+      const activeTools: Array<'getWeather' | 'search' | 'createDocument' | 'updateDocument' | 'requestSuggestions'> = [
+        'getWeather',
+      ]
+      
+      const tools = {
+        getWeather,
+        ...(data?.useSearch ? { search } : {}),
+        ...(data?.useArtifact ? { 
+          createDocument: createDocument({ session, dataStream }),
+          updateDocument: updateDocument({ session, dataStream }),
+          requestSuggestions: requestSuggestions({ session, dataStream })
+        } : {})
+      }
+
+      if (data?.useSearch) {
+        activeTools.push('search')
+      }
+      
+      if (data?.useArtifact) {
+        activeTools.push('createDocument', 'updateDocument', 'requestSuggestions')
+      }
+
+      console.log('activeTools', activeTools)
+      console.log('tools', tools)
+
       const result = streamText({
         model: myProvider.languageModel(selectedChatModel),
         system:
           selectedChatModel === 'claude-frontend'
-          ? systemPromptClaudeFrontend({ selectedChatModel })
-          : systemPrompt({ selectedChatModel }),
+          ? systemPromptClaudeFrontend({ 
+              selectedChatModel, 
+              useArtifact: data?.useArtifact || false,
+              useSearch: data?.useSearch || false
+            })
+          : systemPrompt({ 
+              selectedChatModel, 
+              useArtifact: data?.useArtifact || false, 
+              useSearch: data?.useSearch || false 
+            }),
         messages: modifiedMessages,
         maxSteps: 5,
         experimental_activeTools:
           selectedChatModel === 'chat-model-reasoning'
             ? []
-            : [
-              'getWeather',
-              'search',
-              'createDocument',
-              'updateDocument',
-              'requestSuggestions',
-            ],
+            : activeTools,
         experimental_transform: smoothStream({ chunking: 'word' }),
         experimental_generateMessageId: generateUUID,
-        tools: {
-          getWeather,
-          search,
-          createDocument: createDocument({ session, dataStream }),
-          updateDocument: updateDocument({ session, dataStream }),
-          requestSuggestions: requestSuggestions({
-            session,
-            dataStream,
-          }),
-        },
+        tools,
         onFinish: async ({ response, reasoning }) => {
           if (session.user?.id) {
             try {
@@ -136,7 +156,6 @@ export async function POST(request: Request) {
                   id: message.id,
                   chatId: id,
                   role: message.role,
-                  // Transform content to match InputJsonValue type
                   content: JSON.parse(JSON.stringify(message.content)),
                   createdAt: new Date(),
                 })),
@@ -156,7 +175,8 @@ export async function POST(request: Request) {
         sendReasoning: true,
       })
     },
-    onError: () => {
+    onError: (error) => {
+      console.error(error)
       return 'Oops, an error occured!'
     },
   })
