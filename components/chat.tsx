@@ -9,7 +9,7 @@ import { ChatHeader } from '@/components/chat-header'
 import { fetcher, generateUUID } from '@/lib/utils'
 
 import { Artifact } from './artifact'
-import { MultimodalInput } from './multimodal-input'
+import { MultimodalInput } from './multimodal-input/multimodal-input'
 import { Messages } from './messages'
 import { useArtifactSelector } from '@/hooks/use-artifact'
 import { toast } from 'sonner'
@@ -25,7 +25,7 @@ export function Chat({
   id: string
   initialMessages: Array<Message>
   selectedChatModel: string
-  selectedVisibilityType?: string  // Mantido para compatibilidade
+  selectedVisibilityType?: string
   isReadonly: boolean
   userName?: string
 }) {

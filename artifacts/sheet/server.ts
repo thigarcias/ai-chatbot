@@ -1,5 +1,6 @@
 import { myProvider } from '@/lib/ai/models'
-import { sheetPrompt, updateDocumentPrompt } from '@/lib/ai/prompts'
+import { sheetPrompt } from '@/lib/ai/prompts/sheet-prompt'
+import { updateDocumentPrompt } from '@/lib/ai/prompts/update-document-prompt'
 import { createDocumentHandler } from '@/lib/artifacts/server'
 import { streamObject } from 'ai'
 import { z } from 'zod'

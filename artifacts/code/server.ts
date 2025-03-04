@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import { streamObject } from 'ai'
 import { myProvider } from '@/lib/ai/models'
-import { codePrompt, updateDocumentPrompt } from '@/lib/ai/prompts'
 import { createDocumentHandler } from '@/lib/artifacts/server'
+import { codeArtifactPrompt } from '@/lib/ai/prompts/code-artifact-prompt'
+import { updateDocumentPrompt } from '@/lib/ai/prompts/update-document-prompt'
 
 export const codeDocumentHandler = createDocumentHandler<'code'>({
   kind: 'code',
@@ -11,7 +12,7 @@ export const codeDocumentHandler = createDocumentHandler<'code'>({
 
     const { fullStream } = streamObject({
       model: myProvider.languageModel('artifact-model'),
-      system: codePrompt,
+      system: codeArtifactPrompt,
       prompt: title,
       schema: z.object({
         code: z.string(),

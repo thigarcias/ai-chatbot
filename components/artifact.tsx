@@ -17,7 +17,7 @@ import {
 import useSWR, { useSWRConfig } from 'swr'
 import { useDebounceCallback, useWindowSize } from 'usehooks-ts'
 import { fetcher } from '@/lib/utils'
-import { MultimodalInput } from './multimodal-input'
+import { MultimodalInput } from './multimodal-input/multimodal-input'
 import { Toolbar } from './toolbar'
 import { VersionFooter } from './version-footer'
 import { ArtifactActions } from './artifact-actions'

@@ -35,7 +35,7 @@ export const myProvider = customProvider({
     
     // Utility Models
     'title-model': githubModels.openai('gpt-4o-mini'),
-    'artifact-model': githubModels.openai('gpt-4o-mini'),
+    'artifact-model': copilotModels.copilot('claude-3.7-sonnet'),
     
     // Custom Models
     'claude-frontend': customModels.claudeFrontend(),
