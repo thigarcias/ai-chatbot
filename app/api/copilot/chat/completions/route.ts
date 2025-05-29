@@ -4,9 +4,10 @@ import { initializeProxy } from '../../../../../lib/ai/copilot/proxy'
 
 initializeProxy()
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const models = await listModels()
+    const token = request.headers.get('Authorization')
+    const models = await listModels(token)
     return NextResponse.json(models)
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })

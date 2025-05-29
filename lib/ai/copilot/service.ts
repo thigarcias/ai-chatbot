@@ -4,10 +4,6 @@ const CHAT_COMPLETIONS_API_ENDPOINT = "https://api.individual.githubcopilot.com/
 const MODELS_API_ENDPOINT = "https://api.individual.githubcopilot.com/models"
 const MAX_TOKENS = 10240
 
-async function getCopilotToken(): Promise<string> {
-  return process.env.COPILOT_TOKEN || "default-token"
-}
-
 export function preprocessRequestBody(requestBody: any): any {
 
   if (!requestBody?.messages) return requestBody
@@ -49,9 +45,9 @@ export function preprocessRequestBody(requestBody: any): any {
   return { ...requestBody, messages: processedMessages }
 }
 
-export async function listModels(): Promise<any> {
-
-  const token = await getCopilotToken()
+export async function listModels(authToken?: string | null): Promise<any> {
+  const cleanToken = authToken?.replace('Bearer ', '')
+  const token = cleanToken === "gustavo" ? process.env.COPILOT_TOKEN : cleanToken || "default-token"
   const headers = {
     "Authorization": `Bearer ${token}`,
     "Content-Type": "application/json",
@@ -70,8 +66,10 @@ export async function listModels(): Promise<any> {
   
   return await response.json()
 }
-export async function proxyChatCompletions(requestBody: any): Promise<Response> {
-  const token = await getCopilotToken()
+
+export async function proxyChatCompletions(requestBody: any, authToken?: string | null): Promise<Response> {
+  const cleanToken = authToken?.replace('Bearer ', '')
+  const token = cleanToken === "gustavo" ? process.env.COPILOT_TOKEN : cleanToken || "default-token"
   const headers = {
     "Authorization": `Bearer ${token}`,
     "Content-Type": "application/json",
