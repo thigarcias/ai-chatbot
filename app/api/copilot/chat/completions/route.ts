@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const response = await proxyChatCompletions(body)
+    const token = request.headers.get('Authorization')
+    const response = await proxyChatCompletions(body, token)
     if (body.stream) {
       return new NextResponse(response.body, {
         headers: { "Content-Type": "text/event-stream" }
